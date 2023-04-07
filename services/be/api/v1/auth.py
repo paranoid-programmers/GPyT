@@ -1,9 +1,10 @@
 import logging
 
 from typing import Any
+
+from be.api.common.supabase_extra import get_supabase_client
 from fastapi import APIRouter, Depends
 from be.api.hahabusiness.supabase_client import SupabaseWrapper
-from be.api.main import get_supabase_client
 from typing_extensions import Annotated
 
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
