@@ -7,13 +7,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Question } from '@/types';
+import { CodeQuestion } from '@/types';
 
 export default defineComponent({
     name: 'TutorialQuestion',
     props: {
         question: {
-            type: Object as () => Question,
+            type: Object as () => CodeQuestion,
             required: true
         }
     }

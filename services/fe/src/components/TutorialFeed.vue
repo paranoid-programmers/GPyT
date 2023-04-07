@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <GenerateTutorialInput @generate="generateTutorial" />
-        <v-row v-for="question in questions" :key="question.uuid" class="mt-4">
+        <v-row v-for="(question, key) in questions" :key="key" class="mt-4">
             <v-col cols="12">
                 <TutorialQuestion :question="question" />
             </v-col>
@@ -13,7 +13,7 @@
 import { defineComponent, inject } from 'vue';
 import TutorialQuestion from './TutorialQuestion.vue';
 import GenerateTutorialInput from './GenerateTutorialInput.vue';
-import { NewTutorialResponse, Question } from '@/types';
+import { NewTutorialResponse, CodeQuestion } from '@/types';
 import { ApiWrapper } from '../apiWrapper'
 
 
@@ -23,9 +23,9 @@ export default defineComponent({
         TutorialQuestion,
         GenerateTutorialInput
     },
-    data(): { questions: Question[], uuid: string } {
+    data(): { questions: Record<string, CodeQuestion>, uuid: string } {
         return {
-            questions: [],
+            questions: {},
             uuid: ""
         }
     },
@@ -39,11 +39,8 @@ export default defineComponent({
                 concept: topic
             }).then((response: NewTutorialResponse) => {
                 this.uuid = response.uuid;
-                // Extend questions with response.questions
-                this.questions = [
-                    ...this.questions,
-                    ...response.questions
-                ];
+                this.questions = response.tutorial.questions;
+
             });
         }
     },

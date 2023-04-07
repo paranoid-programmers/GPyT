@@ -14,7 +14,7 @@ export interface CodeQuestion {
 }
 
 export interface Tutorial {
-    questions: CodeQuestion[];
+    questions: Record<string, CodeQuestion>;
 }
 
 export interface QuestionContext {
