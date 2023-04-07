@@ -1,4 +1,4 @@
-from be.api.common.settings import ContentGenSettings
+from be.api.internal.settings import ContentGenSettings
 from be.shared.models import QuestionContext, CodeBlock
 from pydantic.tools import lru_cache
 import httpx

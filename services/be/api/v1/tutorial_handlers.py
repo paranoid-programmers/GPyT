@@ -1,8 +1,9 @@
 import logging
 
-from be.api.v1.models import NewTutorialRequest, NewTutorialResponse, HintResponse, HintRequest, \
-    PositiveAffirmationRequest, PositiveAffirmationResponse, GiveUpResponse, GiveUpRequest, MoreQuestionsResponse, \
-    MoreQuestionsRequest, ReportQuestionRequest, ReportQuestionResponse
+from be.api.v1.response_models import NewTutorialResponse, PositiveAffirmationResponse, HintResponse, GiveUpResponse, \
+    MoreQuestionsResponse, ReportQuestionResponse
+from be.api.v1.request_models import NewTutorialRequest, PositiveAffirmationRequest, HintRequest, GiveUpRequest, \
+    MoreQuestionsRequest, ReportQuestionRequest
 from be.api.hahabusiness.tutorial_service import TutorialService, get_tutorial_service
 from fastapi import APIRouter, Depends
 from typing_extensions import Annotated

@@ -1,4 +1,4 @@
-from be.api.common.settings import SupabaseSettings
+from be.api.internal.settings import SupabaseSettings
 from be.shared.models import CodeQuestion, QuestionContext
 from pydantic.tools import lru_cache
 
