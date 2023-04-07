@@ -1,5 +1,4 @@
 from typing import Any
-from uuid import UUID
 
 from pydantic import BaseModel
 
@@ -14,7 +13,6 @@ class CodeQuestion(BaseModel):
     description: str
     skeleton_code: CodeBlock
     solution_code: CodeBlock
-    expected_output: str
     test_cases: list[list[Any] | tuple[Any]]
 
 
