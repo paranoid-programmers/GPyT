@@ -4,11 +4,16 @@ from uuid import UUID
 from pydantic import BaseModel
 
 
+class CodeBlock(BaseModel):
+    code: str
+    language: str
+
+
 class Question(BaseModel):
     uuid: UUID
     title: str
     description: str
-    partial_code: str
+    partial_code: CodeBlock
     expected_output: str
 
 
@@ -32,7 +37,7 @@ class NewTutorialResponse(BaseModel):
 
 class PositiveAffirmationRequest(BaseModel):
     context: QuestionContext
-    full_code: str
+    full_code: CodeBlock
 
 
 class PositiveAffirmationResponse(BaseModel):
@@ -41,7 +46,7 @@ class PositiveAffirmationResponse(BaseModel):
 
 class HintRequest(BaseModel):
     context: QuestionContext
-    full_code: str
+    full_code: CodeBlock
 
 
 class HintResponse(BaseModel):
@@ -50,7 +55,7 @@ class HintResponse(BaseModel):
 
 class GiveUpRequest(BaseModel):
     context: QuestionContext
-    full_code: str
+    full_code: CodeBlock
 
 
 class GiveUpResponse(BaseModel):
