@@ -4,8 +4,16 @@ from be.shared.models import CodeBlock, QuestionContext, CodeQuestion
 from pydantic import BaseModel
 
 
+class UUIDModel(BaseModel):
+    uuid: UUID
+
+
+class UniqueCodeQuestion(UUIDModel):
+    question: CodeQuestion
+
+
 class Tutorial(BaseModel):
-    questions: dict[UUID, CodeQuestion]
+    questions: list[UniqueCodeQuestion]
 
 
 class NewTutorialRequest(BaseModel):
@@ -13,13 +21,11 @@ class NewTutorialRequest(BaseModel):
     concept: str
 
 
-class NewTutorialResponse(BaseModel):
-    uuid: UUID
+class NewTutorialResponse(UUIDModel):
     tutorial: Tutorial
 
 
-class PositiveAffirmationRequest(BaseModel):
-    uuid: UUID
+class PositiveAffirmationRequest(UUIDModel):
     full_code: CodeBlock
 
 
@@ -52,11 +58,10 @@ class MoreQuestionsRequest(BaseModel):
 
 
 class MoreQuestionsResponse(BaseModel):
-    questions: dict[UUID, CodeQuestion]
+    questions: list[UniqueCodeQuestion]
 
 
-class ReportQuestionRequest(BaseModel):
-    question_uuid: UUID
+class ReportQuestionRequest(UUIDModel):
     category: str
     details: str
     should_regenerate: bool

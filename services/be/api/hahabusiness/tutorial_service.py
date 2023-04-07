@@ -18,17 +18,17 @@ class TutorialService:
 
     async def create_new_tutorial(self, context: QuestionContext, concept: str) -> NewTutorialResponse:
         # ask content client for a new tutorial
-        tutorial_uuid, questions = self.content_client.generate_tutorial(
+        tutorial_uuid, questions = await self.content_client.generate_tutorial(
             context, concept, self.num_questions_per_tutorial)
 
         # push results to supabase
         tutorial_uuid = await self.supabase_client.insert_tutorial(context, concept, questions)
 
-        return NewTutorialResponse(uuid=tutorial_uuid, questions=questions)
+        return NewTutorialResponse(uuid=tutorial_uuid, tutorial=questions)
 
     async def get_hint(self, context: QuestionContext, full_code: CodeBlock) -> HintResponse:
         # ask content client for a hint
-        hint_text = self.content_client.get_hint(context, full_code)
+        hint_text = await self.content_client.get_hint(context, full_code)
         return HintResponse(hint_text=hint_text)
 
     async def get_affirmation(self, uuid: UUID, full_code: CodeBlock) -> PositiveAffirmationResponse:
@@ -36,7 +36,7 @@ class TutorialService:
         context = await self.supabase_client.get_context(uuid)
 
         # ask content client for a hint
-        affirmation_text = self.content_client.get_affirmation(context, full_code)
+        affirmation_text = await self.content_client.get_affirmation(context, full_code)
         return PositiveAffirmationResponse(affirmation_text=affirmation_text)
 
     async def give_up(self, context, full_code) -> GiveUpResponse:
