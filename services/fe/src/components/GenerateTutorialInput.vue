@@ -9,7 +9,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-    name: 'UserInputForm',
+    name: 'GenerateTutorialInput',
     data(): { topic: string } {
         return {
             topic: ''

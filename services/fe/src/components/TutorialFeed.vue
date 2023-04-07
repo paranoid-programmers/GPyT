@@ -12,14 +12,14 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import TutorialCard from './TutorialCard.vue';
-import UserInputForm from './UserInputForm.vue';
+import GenerateTutorialInput from './GenerateTutorialInput.vue';
 import { Tutorial } from '@/types';
 
 export default defineComponent({
     name: 'TutorialFeed',
     components: {
         TutorialCard,
-        UserInputForm
+        GenerateTutorialInput
     },
     data(): { tutorials: Tutorial[] } {
         return {
