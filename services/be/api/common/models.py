@@ -4,13 +4,13 @@ from be.shared.models import CodeBlock, QuestionContext, CodeQuestion
 from pydantic import BaseModel
 
 
+class Tutorial(BaseModel):
+    questions: dict[UUID, CodeQuestion]
+
+
 class NewTutorialRequest(BaseModel):
     context: QuestionContext
     concept: str
-
-
-class Tutorial(BaseModel):
-    questions: dict[UUID, CodeQuestion]
 
 
 class NewTutorialResponse(BaseModel):

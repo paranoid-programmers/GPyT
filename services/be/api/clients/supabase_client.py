@@ -43,3 +43,6 @@ class SupabaseWrapper:
 
     def insert_tutorial(self, context: QuestionContext, concept: str, questions: list[CodeQuestion]):
         pass
+
+    def get_context(self, uuid):
+        pass

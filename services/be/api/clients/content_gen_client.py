@@ -46,3 +46,6 @@ class ContentGenClient:
             )
             response.raise_for_status()
             return response.json()
+
+    def get_affirmation(self, context, full_code):
+        pass
