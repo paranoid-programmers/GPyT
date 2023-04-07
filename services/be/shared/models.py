@@ -22,4 +22,3 @@ class Tutorial(BaseModel):
 
 class QuestionContext(BaseModel):
     theme: str
-

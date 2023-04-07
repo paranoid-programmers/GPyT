@@ -15,28 +15,36 @@ export class mockApiWrapper implements ApiWrapper {
     getNewTutorial(request: NewTutorialRequest): Promise<NewTutorialResponse> {
         return Promise.resolve({
             uuid: "12",
-            questions: [
-                {
-                    uuid: "123",
-                    title: "Question 1",
-                    description: "Description 1",
-                    partial_code: {
-                        code: "print('Hello World')",
-                        language: "python",
+            tutorial: {
+                questions: [
+                    {
+                        title: "Question 1",
+                        description: "Description 1",
+                        skeleton_code: {
+                            code: "print('Hello World')",
+                            language: "python",
+                        },
+                        solution_code: {
+                            code: "print('Hello World')",
+                            language: "python",
+                        },
+                        test_cases: [],
                     },
-                    expected_output: "Hello World",
-                },
-                {
-                    uuid: "1234",
-                    title: "Question 2",
-                    description: "Description 2",
-                    partial_code: {
-                        code: "print('Hello World')",
-                        language: "python",
+                    {
+                        title: "Question 2",
+                        description: "Description 2",
+                        skeleton_code: {
+                            code: "print('Hello World')",
+                            language: "python",
+                        },
+                        solution_code: {
+                            code: "print('Hello World')",
+                            language: "python",
+                        },
+                        test_cases: [],
                     },
-                    expected_output: "Hello World",
-                },
-            ],
+                ],
+            },
         });
     }
 }

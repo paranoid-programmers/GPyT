@@ -1,74 +1,34 @@
+// Core stuff
+
 export interface CodeBlock {
     code: string;
     language: string;
 }
 
-export interface Question {
-    uuid: string; // Assuming UUID is in string format
+export interface CodeQuestion {
     title: string;
     description: string;
-    partial_code: CodeBlock;
-    expected_output: string;
+    skeleton_code: CodeBlock;
+    solution_code: CodeBlock;
+    test_cases: any[][];
+}
+
+export interface Tutorial {
+    questions: CodeQuestion[];
 }
 
 export interface QuestionContext {
     theme: string;
 }
 
+
+// API stuff
 export interface NewTutorialRequest {
     context: QuestionContext;
     concept: string;
 }
 
 export interface NewTutorialResponse {
-    uuid: string; // Assuming UUID is in string format
-    questions: Question[];
-}
-
-export interface PositiveAffirmationRequest {
-    context: QuestionContext;
-    full_code: CodeBlock;
-}
-
-export interface PositiveAffirmationResponse {
-    happy_text: string;
-}
-
-export interface HintRequest {
-    context: QuestionContext;
-    full_code: CodeBlock;
-}
-
-export interface HintResponse {
-    hint_text: string;
-}
-
-export interface GiveUpRequest {
-    context: QuestionContext;
-    full_code: CodeBlock;
-}
-
-export interface GiveUpResponse {
-    example_solution: string;
-    explanation: string;
-    additional_info: string;
-}
-
-export interface MoreQuestionsRequest {
-    tutorial_uuid: string; // Assuming UUID is in string format
-}
-
-export interface MoreQuestionsResponse {
-    questions: Question[];
-}
-
-export interface ReportQuestionRequest {
-    question_uuid: string; // Assuming UUID is in string format
-    category: string;
-    details: string;
-    should_regenerate: boolean;
-}
-
-export interface ReportQuestionResponse {
-    question: Question;
+    uuid: string;
+    tutorial: Tutorial;
 }
