@@ -20,7 +20,7 @@ async def new_tutorial(request: NewTutorialRequest, tutorial_service: TutorialSe
 
 @tutorial_router.post("/affirmation", response_model=PositiveAffirmationResponse)
 async def hint(request: PositiveAffirmationRequest, tutorial_service: TutorialServiceType) -> PositiveAffirmationResponse:
-    return await tutorial_service.get_affirmation(request.context, request.full_code)
+    return await tutorial_service.get_affirmation(request.uuid, request.full_code)
 
 
 @tutorial_router.post("/hint", response_model=HintResponse)
