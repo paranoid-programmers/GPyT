@@ -1,6 +1,6 @@
 import logging
 
-from be.api.common.models import NewTutorialRequest, NewTutorialResponse, HintResponse, HintRequest, \
+from be.api.v1.models import NewTutorialRequest, NewTutorialResponse, HintResponse, HintRequest, \
     PositiveAffirmationRequest, PositiveAffirmationResponse, GiveUpResponse, GiveUpRequest, MoreQuestionsResponse, \
     MoreQuestionsRequest, ReportQuestionRequest, ReportQuestionResponse
 from be.api.hahabusiness.tutorial_service import TutorialService, get_tutorial_service

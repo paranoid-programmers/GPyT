@@ -2,7 +2,7 @@ from uuid import UUID
 
 from be.api.clients.content_gen_client import ContentGenClient, get_content_gen_client
 from be.api.clients.supabase_client import SupabaseWrapper, get_supabase_client
-from be.api.common.models import NewTutorialResponse, HintResponse, PositiveAffirmationResponse, GiveUpResponse
+from be.api.v1.models import NewTutorialResponse, HintResponse, PositiveAffirmationResponse, GiveUpResponse
 from be.shared.models import QuestionContext, CodeBlock
 
 
