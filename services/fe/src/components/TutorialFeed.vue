@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <user-input-form @generate="generateTutorial" />
-        <v-row v-for="tutorial in tutorials" :key="tutorial.id" class="mt-4">
+        <v-row v-for="tutorialSection in tutorialSections" :key="tutorialSections.uuid" class="mt-4">
             <v-col cols="12">
                 <tutorial-card :tutorial="tutorial" />
             </v-col>
@@ -13,7 +13,10 @@
 import { defineComponent, ref } from 'vue';
 import TutorialCard from './TutorialCard.vue';
 import GenerateTutorialInput from './GenerateTutorialInput.vue';
-import { Tutorial } from '@/types';
+import { TutorialSection } from '@/types';
+
+
+
 
 export default defineComponent({
     name: 'TutorialFeed',
@@ -21,9 +24,9 @@ export default defineComponent({
         TutorialCard,
         GenerateTutorialInput
     },
-    data(): { tutorials: Tutorial[] } {
+    data(): { tutorialSections: TutorialSection[] } {
         return {
-            tutorials: []
+            tutorialSections: []
         }
     },
     methods: {
@@ -34,11 +37,13 @@ export default defineComponent({
             // tutorials.value.push(response.data);
 
             console.log("hello", topic)
-            this.tutorials.push({
-                id: Math.random(),
-                title: topic,
-                content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec ultricies lacinia, nisl nisl aliquet nisl, eget aliquet nisl nisl eget nisl. Sed euismod, nisl nec ultricies lacinia, nisl nisl aliquet nisl, eget aliquet nisl nisl eget nisl.'
-            });
+            // this.tutorialSection.push({
+            //     uuid: "", // Assuming UUID is in string format
+            //     title: string;
+            //     description: string;
+            //     partial_code: CodeBlock;
+            //     expected_output: string;
+            // });
         }
     }
 });
