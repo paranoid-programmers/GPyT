@@ -19,7 +19,8 @@ async def new_tutorial(request: NewTutorialRequest, tutorial_service: TutorialSe
 
 
 @tutorial_router.post("/affirmation", response_model=PositiveAffirmationResponse)
-async def hint(request: PositiveAffirmationRequest, tutorial_service: TutorialServiceType) -> PositiveAffirmationResponse:
+async def hint(request: PositiveAffirmationRequest,
+               tutorial_service: TutorialServiceType) -> PositiveAffirmationResponse:
     return await tutorial_service.get_affirmation(request.uuid, request.full_code)
 
 
@@ -40,4 +41,5 @@ async def give_up(request: MoreQuestionsRequest, tutorial_service: TutorialServi
 
 @tutorial_router.post("/report-question", response_model=ReportQuestionResponse)
 async def give_up(request: ReportQuestionRequest, tutorial_service: TutorialServiceType) -> ReportQuestionResponse:
-    return await tutorial_service.report_question(request.question_uuid, request.category, request.details, request.should_regenerate)
+    return await tutorial_service.report_question(request.question_uuid, request.category, request.details,
+                                                  request.should_regenerate)
