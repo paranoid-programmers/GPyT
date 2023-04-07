@@ -6,22 +6,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
     name: 'UserInputForm',
-    setup(_, { emit }) {
-        const topic = ref('');
-
-        const submitForm = () => {
-            emit('submit', topic.value);
-            topic.value = '';
-        };
-
+    data(): { topic: string } {
         return {
-            topic,
-            submitForm
-        };
+            topic: ''
+        }
+    },
+    methods: {
+        submitForm(event: any) {
+            console.log(this.topic);
+            this.$emit('submit', this.topic);
+            this.topic = '';
+        }
     }
 });
 </script>
