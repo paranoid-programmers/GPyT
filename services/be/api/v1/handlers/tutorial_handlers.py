@@ -1,8 +1,8 @@
 import logging
 
-from be.api.v1.response_models import NewTutorialResponse, PositiveAffirmationResponse, HintResponse, GiveUpResponse, \
+from be.api.v1.models.response_models import NewTutorialResponse, PositiveAffirmationResponse, HintResponse, GiveUpResponse, \
     MoreQuestionsResponse, ReportQuestionResponse
-from be.api.v1.request_models import NewTutorialRequest, PositiveAffirmationRequest, HintRequest, GiveUpRequest, \
+from be.api.v1.models.request_models import NewTutorialRequest, PositiveAffirmationRequest, HintRequest, GiveUpRequest, \
     MoreQuestionsRequest, ReportQuestionRequest
 from be.api.hahabusiness.tutorial_service import TutorialService, get_tutorial_service
 from fastapi import APIRouter, Depends
@@ -14,7 +14,7 @@ _logger = logging.getLogger(__name__)
 TutorialServiceType = Annotated[TutorialService, Depends(get_tutorial_service)]
 
 
-@tutorial_router.post("/new_tutorial", response_model=NewTutorialResponse)
+@tutorial_router.post("/new-tutorial", response_model=NewTutorialResponse)
 async def new_tutorial(request: NewTutorialRequest, tutorial_service: TutorialServiceType) -> NewTutorialResponse:
     return await tutorial_service.create_new_tutorial(request.context, request.concept)
 
@@ -42,5 +42,5 @@ async def give_up(request: MoreQuestionsRequest, tutorial_service: TutorialServi
 
 @tutorial_router.post("/report-question", response_model=ReportQuestionResponse)
 async def give_up(request: ReportQuestionRequest, tutorial_service: TutorialServiceType) -> ReportQuestionResponse:
-    return await tutorial_service.report_question(request.question_uuid, request.category, request.details,
+    return await tutorial_service.report_question(request.uuid, request.category, request.details,
                                                   request.should_regenerate)
