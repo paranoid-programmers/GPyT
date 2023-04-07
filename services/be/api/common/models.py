@@ -1,7 +1,6 @@
-from typing import List
 from uuid import UUID
 
-from be.shared.models import CodeBlock, QuestionContext, Tutorial, CodeQuestion
+from be.shared.models import CodeBlock, QuestionContext, CodeQuestion
 from pydantic import BaseModel
 
 
@@ -10,13 +9,17 @@ class NewTutorialRequest(BaseModel):
     concept: str
 
 
+class Tutorial(BaseModel):
+    questions: dict[UUID, CodeQuestion]
+
+
 class NewTutorialResponse(BaseModel):
     uuid: UUID
     tutorial: Tutorial
 
 
 class PositiveAffirmationRequest(BaseModel):
-    context: QuestionContext
+    uuid: UUID
     full_code: CodeBlock
 
 
@@ -49,7 +52,7 @@ class MoreQuestionsRequest(BaseModel):
 
 
 class MoreQuestionsResponse(BaseModel):
-    questions: List[CodeQuestion]
+    questions: dict[UUID, CodeQuestion]
 
 
 class ReportQuestionRequest(BaseModel):

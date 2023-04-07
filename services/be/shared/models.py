@@ -16,9 +16,6 @@ class CodeQuestion(BaseModel):
     test_cases: list[list[Any] | tuple[Any]]
 
 
-class Tutorial(BaseModel):
-    questions: list[CodeQuestion]
-
-
 class QuestionContext(BaseModel):
-    theme: str
+    tone: str
+    interests: list[str]
