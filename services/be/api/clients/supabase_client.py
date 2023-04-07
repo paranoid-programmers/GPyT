@@ -1,10 +1,24 @@
-import supabase
+from be.api.common.settings import SupabaseSettings
+from pydantic.tools import lru_cache
+
+from supabase import create_client
+
+
+@lru_cache()
+def get_supabase_settings():
+    return SupabaseSettings()
+
+
+def get_supabase_client():
+    url: str = get_supabase_settings().SUPABASE_URL
+    key: str = get_supabase_settings().SUPABASE_KEY
+    return SupabaseWrapper(url, key)
 
 
 class SupabaseWrapper:
 
     def __init__(self, url: str, key: str):
-        self.supabase_client = supabase.create_client(url, key)
+        self.supabase_client = create_client(url, key)
 
     def login(self, email: str, password: str):
         return self.supabase_client.auth.sign_in_with_password({
@@ -22,3 +36,6 @@ class SupabaseWrapper:
                 }
             }
         })
+
+    def ok(self):
+        return self.supabase_client.auth_url is not None
