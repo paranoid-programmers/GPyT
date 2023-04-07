@@ -59,7 +59,6 @@ starlette==0.26.1
 storage3==0.5.2
 StrEnum==0.4.10
 supabase==1.0.3
-supabase-py==0.0.2
 supafunc==0.2.2
 toml==0.10.2
 tomlkit==0.11.7
