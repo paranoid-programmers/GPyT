@@ -1,4 +1,5 @@
 from be.api.common.settings import SupabaseSettings
+from be.shared.models import CodeQuestion, QuestionContext
 from pydantic.tools import lru_cache
 
 from supabase import create_client
@@ -39,3 +40,6 @@ class SupabaseWrapper:
 
     def ok(self):
         return self.supabase_client.auth_url is not None
+
+    def insert_tutorial(self, context: QuestionContext, concept: str, questions: list[CodeQuestion]):
+        pass

@@ -1,4 +1,5 @@
 from be.api.common.settings import ContentGenSettings
+from be.shared.models import QuestionContext, CodeBlock
 from pydantic.tools import lru_cache
 import httpx
 
@@ -20,33 +21,28 @@ class ContentGenClient:
         self.url = url
         self.key = key
 
-    async def generate_tutorial(self, num_questions: int, token_count: int = 1000):
+    async def generate_tutorial(self, context: QuestionContext, concept: str, num_questions: int, max_token_count: int = 1000):
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{self.url}/tutorial",
                 json={
+                    "context": context,
+                    "concept": concept,
                     "num_questions": num_questions,
-                    "token_count": token_count
+                    "max_token_count": max_token_count
                 }
             )
             response.raise_for_status()
             return response.json()
 
-    async def get_hint(self, code_task: dict, conversation: dict):
+    async def get_hint(self, context: QuestionContext, full_code: CodeBlock):
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{self.url}/hint",
-                json=code_task,
-                params=conversation
-            )
-            response.raise_for_status()
-            return response.json()
-
-    async def get_token_count_estimate(self, user_interests: list[str], concept: str):
-        async with httpx.AsyncClient() as client:
-            response = await client.get(
-                f"{self.url}/token_count_estimate",
-                params={"user_interests": user_interests, "concept": concept}
+                json={
+                    "context": context,
+                    "full_code": full_code,
+                },
             )
             response.raise_for_status()
             return response.json()
