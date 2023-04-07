@@ -1,38 +1,18 @@
 from typing import List
 from uuid import UUID
 
+from be.shared.models import CodeBlock, QuestionContext, Tutorial, CodeQuestion
 from pydantic import BaseModel
-
-
-class CodeBlock(BaseModel):
-    code: str
-    language: str
-
-
-class Question(BaseModel):
-    uuid: UUID
-    title: str
-    description: str
-    partial_code: CodeBlock
-    expected_output: str
-
-
-class PythonConcept(BaseModel):
-    name: str
-
-
-class QuestionContext(BaseModel):
-    theme: str
 
 
 class NewTutorialRequest(BaseModel):
     context: QuestionContext
-    concepts_to_learn: List[PythonConcept]
+    concept: str
 
 
 class NewTutorialResponse(BaseModel):
     uuid: UUID
-    questions: List[Question]
+    tutorial: Tutorial
 
 
 class PositiveAffirmationRequest(BaseModel):
@@ -69,7 +49,7 @@ class MoreQuestionsRequest(BaseModel):
 
 
 class MoreQuestionsResponse(BaseModel):
-    questions: List[Question]
+    questions: List[CodeQuestion]
 
 
 class ReportQuestionRequest(BaseModel):
@@ -80,4 +60,4 @@ class ReportQuestionRequest(BaseModel):
 
 
 class ReportQuestionResponse(BaseModel):
-    question: Question
+    question: CodeQuestion

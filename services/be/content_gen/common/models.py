@@ -1,7 +1,7 @@
 import enum
-from typing import Any
 from uuid import UUID
 
+from be.shared.models import CodeQuestion
 from pydantic import BaseModel
 
 
@@ -11,20 +11,12 @@ class UserTaskRequest(BaseModel):
     concept: str
 
 
-class CodeTask(BaseModel):
-    title: str
-    description: str
-    skeleton_code: str
-    solution_code: str
-    test_cases: list[list[Any] | tuple[Any]]
-
-
 class OpenAiQuery(BaseModel):
     token_count: int
 
 
 class CodeTaskCreated(OpenAiQuery):
-    code_task: CodeTask
+    code_task: CodeQuestion
 
 
 class Hint(BaseModel):
