@@ -11,17 +11,13 @@ export interface Question {
     expected_output: string;
 }
 
-export interface PythonConcept {
-    name: string;
-}
-
 export interface QuestionContext {
     theme: string;
 }
 
 export interface NewTutorialRequest {
     context: QuestionContext;
-    concepts_to_learn: PythonConcept[];
+    concept: string;
 }
 
 export interface NewTutorialResponse {

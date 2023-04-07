@@ -1,50 +1,56 @@
 <template>
     <v-container>
-        <user-input-form @generate="generateTutorial" />
-        <v-row v-for="tutorialSection in tutorialSections" :key="tutorialSections.uuid" class="mt-4">
+        <GenerateTutorialInput @generate="generateTutorial" />
+        <v-row v-for="question in questions" :key="question.uuid" class="mt-4">
             <v-col cols="12">
-                <tutorial-card :tutorial="tutorial" />
+                <TutorialQuestion :question="question" />
             </v-col>
         </v-row>
     </v-container>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import TutorialCard from './TutorialCard.vue';
+import { defineComponent, inject } from 'vue';
+import TutorialQuestion from './TutorialQuestion.vue';
 import GenerateTutorialInput from './GenerateTutorialInput.vue';
-import { TutorialSection } from '@/types';
-
-
+import { NewTutorialResponse, Question } from '@/types';
+import { ApiWrapper } from '../apiWrapper'
 
 
 export default defineComponent({
     name: 'TutorialFeed',
     components: {
-        TutorialCard,
+        TutorialQuestion,
         GenerateTutorialInput
     },
-    data(): { tutorialSections: TutorialSection[] } {
+    data(): { questions: Question[], uuid: string } {
         return {
-            tutorialSections: []
+            questions: [],
+            uuid: ""
         }
     },
     methods: {
         generateTutorial(topic: string) {
-            // Call your backend API to generate the tutorial content.
-            // For example:
-            // const response = await axios.post('/api/generate-tutorial', { topic });
-            // tutorials.value.push(response.data);
-
-            console.log("hello", topic)
-            // this.tutorialSection.push({
-            //     uuid: "", // Assuming UUID is in string format
-            //     title: string;
-            //     description: string;
-            //     partial_code: CodeBlock;
-            //     expected_output: string;
-            // });
+            // check if api is defined
+            this.api?.getNewTutorial({
+                context: {
+                    theme: "test theme",
+                },
+                concept: topic
+            }).then((response: NewTutorialResponse) => {
+                this.uuid = response.uuid;
+                // Extend questions with response.questions
+                this.questions = [
+                    ...this.questions,
+                    ...response.questions
+                ];
+            });
         }
+    },
+    setup() {
+        var api = inject<ApiWrapper>('$api');
+        // make api available elsewhere
+        return { api };
     }
 });
 </script>
