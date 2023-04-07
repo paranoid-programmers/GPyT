@@ -16,9 +16,12 @@ export default defineComponent({
         }
     },
     methods: {
-        submitForm(event: any) {
-            console.log(this.topic);
-            this.$emit('submit', this.topic);
+        submitForm() {
+            // ensure it's not empty
+            if (!this.topic) {
+                return;
+            }
+            this.$emit('generate', this.topic);
             this.topic = '';
         }
     }

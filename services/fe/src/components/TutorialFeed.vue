@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <user-input-form @submit="generateTutorial" />
+        <user-input-form @generate="generateTutorial" />
         <v-row v-for="tutorial in tutorials" :key="tutorial.id" class="mt-4">
             <v-col cols="12">
                 <tutorial-card :tutorial="tutorial" />
