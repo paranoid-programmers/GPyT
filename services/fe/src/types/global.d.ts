@@ -1,7 +1,7 @@
-import { Pyodide } from "@/types/pyodide";
+import { Pyodide, CreatePyodideOptions } from "@/types/pyodide";
 
 declare global {
     interface Window {
-        loadPyodide: (options: { indexURL: string }) => Promise<Pyodide>;
+        loadPyodide: (options: CreatePyodideOptions) => Promise<Pyodide>;
     }
 }
