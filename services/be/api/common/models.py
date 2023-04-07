@@ -1,10 +1,11 @@
 from typing import List
+from uuid import UUID
 
 from pydantic import BaseModel
 
 
 class Question(BaseModel):
-    guid: str
+    uuid: UUID
     title: str
     description: str
     partial_code: str
@@ -25,7 +26,7 @@ class NewTutorialRequest(BaseModel):
 
 
 class NewTutorialResponse(BaseModel):
-    uuid: str
+    uuid: UUID
     questions: List[Question]
 
 
@@ -59,7 +60,7 @@ class GiveUpResponse(BaseModel):
 
 
 class MoreQuestionsRequest(BaseModel):
-    tutorial_uuid: str
+    tutorial_uuid: UUID
 
 
 class MoreQuestionsResponse(BaseModel):
@@ -67,7 +68,7 @@ class MoreQuestionsResponse(BaseModel):
 
 
 class ReportQuestionRequest(BaseModel):
-    question_uuid: str
+    question_uuid: UUID
     category: str
     details: str
     should_regenerate: bool
