@@ -8,6 +8,8 @@ import { createApp } from 'vue'
 import { registerPlugins } from '@/plugins'
 import { mockApiWrapper } from './apiWrapper'
 
+import LoadScript from 'vue-plugin-load-script';
+
 const api = new mockApiWrapper()
 
 const app = createApp(App)
@@ -15,4 +17,4 @@ app.provide("$api", api)
 
 registerPlugins(app)
 
-app.mount('#app')
+app.use(LoadScript).mount('#app')

@@ -1,6 +1,6 @@
 // client that wraps the API
 
-import { NewTutorialRequest, NewTutorialResponse } from "./types";
+import { NewTutorialRequest, NewTutorialResponse } from "./models";
 
 export interface ApiWrapper {
     getNewTutorial(request: NewTutorialRequest): Promise<NewTutorialResponse>;

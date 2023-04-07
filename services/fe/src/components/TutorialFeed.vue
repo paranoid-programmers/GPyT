@@ -9,12 +9,21 @@
     </v-container>
 </template>
 
+
+
 <script lang="ts">
+declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+        $loadScript: (url: string) => Promise<void>;
+    }
+}
+
 import { defineComponent, inject } from 'vue';
 import TutorialQuestion from './TutorialQuestion.vue';
 import GenerateTutorialInput from './GenerateTutorialInput.vue';
-import { NewTutorialResponse, CodeQuestion } from '@/types';
+import { NewTutorialResponse, CodeQuestion } from '@/models';
 import { ApiWrapper } from '../apiWrapper'
+import { Pyodide } from '@/types/pyodide';
 
 
 export default defineComponent({
@@ -23,10 +32,11 @@ export default defineComponent({
         TutorialQuestion,
         GenerateTutorialInput
     },
-    data(): { questions: Record<string, CodeQuestion>, uuid: string } {
+    data(): { questions: Record<string, CodeQuestion>, uuid: string, pyodide?: Pyodide } {
         return {
             questions: {},
-            uuid: ""
+            uuid: "",
+            pyodide: undefined
         }
     },
     methods: {
@@ -42,12 +52,26 @@ export default defineComponent({
                 this.questions = response.tutorial.questions;
 
             });
-        }
+        },
+        async loadPyodide() {
+            try {
+                await this.$loadScript('https://cdn.jsdelivr.net/pyodide/v0.23.0/full/pyodide.js');
+                await window.loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.23.0/full/' });
+                this.pyodide = window.pyodide;
+                // Use Pyodide here
+                console.log('Pyodide is ready');
+            } catch (error) {
+                console.error('Failed to load Pyodide:', error);
+            }
+        },
     },
     setup() {
         var api = inject<ApiWrapper>('$api');
-        // make api available elsewhere
+
         return { api };
-    }
+    },
+    mounted() {
+        this.loadPyodide();
+    },
 });
 </script>

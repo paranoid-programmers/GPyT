@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { CodeQuestion } from '@/types';
+import { CodeQuestion } from '@/models';
 import CodeSection from './CodeSection.vue';
 
 export default defineComponent({
