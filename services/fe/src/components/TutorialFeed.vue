@@ -56,10 +56,14 @@ export default defineComponent({
         async loadPyodide() {
             try {
                 await this.$loadScript('https://cdn.jsdelivr.net/pyodide/v0.23.0/full/pyodide.js');
-                await window.loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.23.0/full/' });
-                this.pyodide = window.pyodide;
+                this.pyodide = await window.loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.23.0/full/' });
                 // Use Pyodide here
                 console.log('Pyodide is ready');
+                let test = this.pyodide.runPython(`
+                    import sys
+                    sys.version
+                `);
+                console.log({ "outputs": test })
             } catch (error) {
                 console.error('Failed to load Pyodide:', error);
             }
