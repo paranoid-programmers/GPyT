@@ -1,6 +1,7 @@
 <template>
-  <h1>hey</h1>
+  <TutorialFeed></TutorialFeed>
 </template>
 
 <script lang="ts" setup>
+import TutorialFeed from '@/components/TutorialFeed.vue';
 </script>
