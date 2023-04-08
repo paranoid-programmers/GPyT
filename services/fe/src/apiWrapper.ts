@@ -9,6 +9,8 @@ import {
     GiveUpResponse,
     PositiveAffirmationRequest,
     PositiveAffirmationResponse,
+    ReportQuestionRequest,
+    ReportQuestionResponse,
 } from "./models";
 
 export interface ApiWrapper {
@@ -16,6 +18,7 @@ export interface ApiWrapper {
     getHint(request: HintRequest): Promise<HintResponse>;
     giveUp(request: GiveUpRequest): Promise<GiveUpResponse>;
     getPositiveAffirmation(request: PositiveAffirmationRequest): Promise<PositiveAffirmationResponse>;
+    reportQuestion(request: ReportQuestionRequest): Promise<ReportQuestionResponse>;
 }
 
 export class mockApiWrapper implements ApiWrapper {
@@ -78,6 +81,24 @@ export class mockApiWrapper implements ApiWrapper {
     getPositiveAffirmation(request: PositiveAffirmationRequest): Promise<PositiveAffirmationResponse> {
         return Promise.resolve({
             happy_text: "This is a fake affirmation",
+        });
+    }
+
+    reportQuestion(request: ReportQuestionRequest): Promise<ReportQuestionResponse> {
+        return Promise.resolve({
+            question: {
+                title: "New question 1",
+                description: "Do some list stuff",
+                skeleton_code: {
+                    code: "print('Hello World')",
+                    language: "python",
+                },
+                solution_code: {
+                    code: "print('Hello World')",
+                    language: "python",
+                },
+                test_cases: [],
+            }
         });
     }
 }
