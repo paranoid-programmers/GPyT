@@ -92,11 +92,11 @@ class MockContentGenClient(MagicMock):
             tokens_used=6969
         )
 
-    async def get_hint(self, question: Question, context: TutorialContext, user_code: CodeBlock,
+    async def generate_hint(self, question: Question, context: TutorialContext, user_code: CodeBlock,
                        max_token: int = 1000) -> GenerateTextResponse:
         return GenerateTextResponse(text="This is a hint", tokens_used=6969)
 
-    async def get_give_up(self, question: Question, context: TutorialContext, user_code: CodeBlock,
+    async def generate_give_up(self, question: Question, context: TutorialContext, user_code: CodeBlock,
                           max_token: int = 1000) -> GenerateTextResponse:
         return GenerateTextResponse(text="You are a loser you gave up", tokens_used=6969)
 
