@@ -8,10 +8,10 @@
             <v-btn @click="getHint">Hint</v-btn>
             <v-btn @click="giveUp">Give Up</v-btn>
         </v-btn-group>
-        <h3>Outputs:</h3>
+        <v-card-title>Outputs:</v-card-title>
         <terminal-output :output="output" />
-        <h3>{{ result }}</h3>
-        <h3 v-if="hints.length">Hints:</h3>
+        <v-card-text>{{ result }}</v-card-text>
+        <v-card-title v-if="hints.length">Hints:</v-card-title>
         <v-card-text v-for="hint in hints" :key="hint">{{ hint }}</v-card-text>
         <give-up-explanation v-if="giveUpResponse" :giveUpResponse="giveUpResponse" />
         <v-card-text v-if="affirmation">{{ affirmation.happy_text }}</v-card-text>

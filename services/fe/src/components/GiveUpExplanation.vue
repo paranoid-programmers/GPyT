@@ -1,12 +1,12 @@
 <template>
     <div class="give-up-explanation">
-        <h2>Answer:</h2>
-        <p>
+        <v-card-title>Answer:</v-card-title>
+        <v-card-text>
             {{ giveUpResponse.explanation }}
-        </p>
-        <p>
+        </v-card-text>
+        <v-card-text>
             <b>Example solution:</b>
-        </p>
+        </v-card-text>
         <terminal-output :output="giveUpResponse.example_solution" />
         <v-card-text>{{ giveUpResponse.additional_info }}</v-card-text>
     </div>

@@ -65,6 +65,9 @@ export default defineComponent({
     },
     mounted() {
         this.loadPyodide();
+
+        // TODO(j.swannack): remove this, only for testing
+        this.generateTutorial({ topic: "lists", theme: "cats" });
     },
 });
 </script>
