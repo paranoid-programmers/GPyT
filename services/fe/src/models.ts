@@ -52,3 +52,13 @@ export interface GiveUpResponse {
     explanation: string;
     additional_info: string;
 }
+
+export interface PositiveAffirmationRequest {
+    // Context?
+    full_code: CodeBlock;
+}
+
+
+export interface PositiveAffirmationResponse {
+    happy_text: string;
+}
