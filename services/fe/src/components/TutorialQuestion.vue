@@ -27,7 +27,7 @@ import Affirmation from './Affirmation.vue';
 import { defineComponent, inject } from 'vue';
 import { Pyodide } from '@/types/pyodide';
 import { runPythonIsolated } from '@/pyodideLoader'
-import { CodeApi, CodeQuestion, GiveUpResponse, PositiveAffirmationResponse } from 'gpyt';
+import { CodeTutorialApi, CodeQuestion, GiveUpResponse, PositiveAffirmationResponse } from 'gpyt';
 
 export default defineComponent({
     name: "TutorialQuestion",
@@ -133,12 +133,8 @@ export default defineComponent({
         },
         getPositiveAffirmation() {
             this.api?.affirmationApiV1CodeTutorialAffirmationPost({
-                questionUuid: this.uuid,
+                attemptsTaken: 3,
                 tutorialUuid: this.tutorialUuid,
-                userCode: {
-                    code: this.code,
-                    language: "python",
-                }
             }).then((response) => {
                 this.result = response.happyText;
             })
@@ -146,7 +142,7 @@ export default defineComponent({
     },
     setup() {
         var pyodide = inject<Pyodide>("$pyodide");
-        var api = inject<CodeApi>('$api');
+        var api = inject<CodeTutorialApi>('$api');
         return { pyodide, api }
     },
 });

@@ -13,4 +13,4 @@ const config = apiclient.createConfiguration({
     }
 })
 
-export const api = new apiclient.CodeApi(config)
+export const api = new apiclient.CodeTutorialApi(config)

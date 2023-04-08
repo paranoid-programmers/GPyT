@@ -1,15 +1,15 @@
-# .TutorialApi
+# .CodeTutorialApi
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**affirmationApiV1CodeTutorialAffirmationPost**](TutorialApi.md#affirmationApiV1CodeTutorialAffirmationPost) | **POST** /api/v1/code-tutorial/affirmation | Affirmation
-[**giveUpApiV1CodeTutorialGiveUpPost**](TutorialApi.md#giveUpApiV1CodeTutorialGiveUpPost) | **POST** /api/v1/code-tutorial/give-up | Give Up
-[**giveUpApiV1CodeTutorialMoreQuestionsPost**](TutorialApi.md#giveUpApiV1CodeTutorialMoreQuestionsPost) | **POST** /api/v1/code-tutorial/more-questions | Give Up
-[**giveUpApiV1CodeTutorialReportQuestionPost**](TutorialApi.md#giveUpApiV1CodeTutorialReportQuestionPost) | **POST** /api/v1/code-tutorial/report-question | Give Up
-[**hintApiV1CodeTutorialHintPost**](TutorialApi.md#hintApiV1CodeTutorialHintPost) | **POST** /api/v1/code-tutorial/hint | Hint
-[**newCodeTutorialApiV1CodeTutorialNewCodeTutorialPost**](TutorialApi.md#newCodeTutorialApiV1CodeTutorialNewCodeTutorialPost) | **POST** /api/v1/code-tutorial/new-code-tutorial | New Code Tutorial
+[**affirmationApiV1CodeTutorialAffirmationPost**](CodeTutorialApi.md#affirmationApiV1CodeTutorialAffirmationPost) | **POST** /api/v1/code-tutorial/affirmation | Affirmation
+[**giveUpApiV1CodeTutorialGiveUpPost**](CodeTutorialApi.md#giveUpApiV1CodeTutorialGiveUpPost) | **POST** /api/v1/code-tutorial/give-up | Give Up
+[**giveUpApiV1CodeTutorialMoreQuestionsPost**](CodeTutorialApi.md#giveUpApiV1CodeTutorialMoreQuestionsPost) | **POST** /api/v1/code-tutorial/more-questions | Give Up
+[**giveUpApiV1CodeTutorialReportQuestionPost**](CodeTutorialApi.md#giveUpApiV1CodeTutorialReportQuestionPost) | **POST** /api/v1/code-tutorial/report-question | Give Up
+[**hintApiV1CodeTutorialHintPost**](CodeTutorialApi.md#hintApiV1CodeTutorialHintPost) | **POST** /api/v1/code-tutorial/hint | Hint
+[**newCodeTutorialApiV1CodeTutorialNewCodeTutorialPost**](CodeTutorialApi.md#newCodeTutorialApiV1CodeTutorialNewCodeTutorialPost) | **POST** /api/v1/code-tutorial/new-code-tutorial | New Code Tutorial
 
 
 # **affirmationApiV1CodeTutorialAffirmationPost**
@@ -24,17 +24,13 @@ import {  } from '';
 import * as fs from 'fs';
 
 const configuration = .createConfiguration();
-const apiInstance = new .TutorialApi(configuration);
+const apiInstance = new .CodeTutorialApi(configuration);
 
-let body:.TutorialApiAffirmationApiV1CodeTutorialAffirmationPostRequest = {
+let body:.CodeTutorialApiAffirmationApiV1CodeTutorialAffirmationPostRequest = {
   // PositiveAffirmationRequest
   positiveAffirmationRequest: {
     tutorialUuid: "tutorialUuid_example",
-    questionUuid: "questionUuid_example",
-    userCode: {
-      code: "code_example",
-      language: "language_example",
-    },
+    attemptsTaken: 1,
   },
 };
 
@@ -85,9 +81,9 @@ import {  } from '';
 import * as fs from 'fs';
 
 const configuration = .createConfiguration();
-const apiInstance = new .TutorialApi(configuration);
+const apiInstance = new .CodeTutorialApi(configuration);
 
-let body:.TutorialApiGiveUpApiV1CodeTutorialGiveUpPostRequest = {
+let body:.CodeTutorialApiGiveUpApiV1CodeTutorialGiveUpPostRequest = {
   // GiveUpRequest
   giveUpRequest: {
     tutorialUuid: "tutorialUuid_example",
@@ -146,9 +142,9 @@ import {  } from '';
 import * as fs from 'fs';
 
 const configuration = .createConfiguration();
-const apiInstance = new .TutorialApi(configuration);
+const apiInstance = new .CodeTutorialApi(configuration);
 
-let body:.TutorialApiGiveUpApiV1CodeTutorialMoreQuestionsPostRequest = {
+let body:.CodeTutorialApiGiveUpApiV1CodeTutorialMoreQuestionsPostRequest = {
   // MoreQuestionsRequest
   moreQuestionsRequest: {
     tutorialUuid: "tutorialUuid_example",
@@ -202,12 +198,13 @@ import {  } from '';
 import * as fs from 'fs';
 
 const configuration = .createConfiguration();
-const apiInstance = new .TutorialApi(configuration);
+const apiInstance = new .CodeTutorialApi(configuration);
 
-let body:.TutorialApiGiveUpApiV1CodeTutorialReportQuestionPostRequest = {
+let body:.CodeTutorialApiGiveUpApiV1CodeTutorialReportQuestionPostRequest = {
   // ReportQuestionRequest
   reportQuestionRequest: {
-    uuid: "uuid_example",
+    tutorialUuid: "tutorialUuid_example",
+    questionUuid: "questionUuid_example",
     category: "category_example",
     details: "details_example",
     shouldRegenerate: true,
@@ -261,9 +258,9 @@ import {  } from '';
 import * as fs from 'fs';
 
 const configuration = .createConfiguration();
-const apiInstance = new .TutorialApi(configuration);
+const apiInstance = new .CodeTutorialApi(configuration);
 
-let body:.TutorialApiHintApiV1CodeTutorialHintPostRequest = {
+let body:.CodeTutorialApiHintApiV1CodeTutorialHintPostRequest = {
   // HintRequest
   hintRequest: {
     tutorialUuid: "tutorialUuid_example",
@@ -322,9 +319,9 @@ import {  } from '';
 import * as fs from 'fs';
 
 const configuration = .createConfiguration();
-const apiInstance = new .TutorialApi(configuration);
+const apiInstance = new .CodeTutorialApi(configuration);
 
-let body:.TutorialApiNewCodeTutorialApiV1CodeTutorialNewCodeTutorialPostRequest = {
+let body:.CodeTutorialApiNewCodeTutorialApiV1CodeTutorialNewCodeTutorialPostRequest = {
   // NewTutorialRequest
   newTutorialRequest: {
     context: {

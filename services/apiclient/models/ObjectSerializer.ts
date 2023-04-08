@@ -15,7 +15,6 @@ export * from '../models/PositiveAffirmationRequest';
 export * from '../models/PositiveAffirmationResponse';
 export * from '../models/ReportQuestionRequest';
 export * from '../models/ReportQuestionResponse';
-export * from '../models/TestCasesInner';
 export * from '../models/TutorialContext';
 export * from '../models/UniqueCodeQuestion';
 export * from '../models/ValidationError';
@@ -37,7 +36,6 @@ import { PositiveAffirmationRequest } from '../models/PositiveAffirmationRequest
 import { PositiveAffirmationResponse } from '../models/PositiveAffirmationResponse';
 import { ReportQuestionRequest } from '../models/ReportQuestionRequest';
 import { ReportQuestionResponse } from '../models/ReportQuestionResponse';
-import { TestCasesInner } from '../models/TestCasesInner';
 import { TutorialContext } from '../models/TutorialContext';
 import { UniqueCodeQuestion } from '../models/UniqueCodeQuestion';
 import { ValidationError } from '../models/ValidationError';
@@ -82,7 +80,6 @@ let typeMap: {[index: string]: any} = {
     "PositiveAffirmationResponse": PositiveAffirmationResponse,
     "ReportQuestionRequest": ReportQuestionRequest,
     "ReportQuestionResponse": ReportQuestionResponse,
-    "TestCasesInner": TestCasesInner,
     "TutorialContext": TutorialContext,
     "UniqueCodeQuestion": UniqueCodeQuestion,
     "ValidationError": ValidationError,

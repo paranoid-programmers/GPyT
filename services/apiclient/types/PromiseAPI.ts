@@ -18,7 +18,6 @@ import { PositiveAffirmationRequest } from '../models/PositiveAffirmationRequest
 import { PositiveAffirmationResponse } from '../models/PositiveAffirmationResponse';
 import { ReportQuestionRequest } from '../models/ReportQuestionRequest';
 import { ReportQuestionResponse } from '../models/ReportQuestionResponse';
-import { TestCasesInner } from '../models/TestCasesInner';
 import { TutorialContext } from '../models/TutorialContext';
 import { UniqueCodeQuestion } from '../models/UniqueCodeQuestion';
 import { ValidationError } from '../models/ValidationError';
@@ -58,18 +57,18 @@ export class PromiseAuthApi {
 
 
 
-import { ObservableCodeApi } from './ObservableAPI';
+import { ObservableCodeTutorialApi } from './ObservableAPI';
 
-import { CodeApiRequestFactory, CodeApiResponseProcessor} from "../apis/CodeApi";
-export class PromiseCodeApi {
-    private api: ObservableCodeApi
+import { CodeTutorialApiRequestFactory, CodeTutorialApiResponseProcessor} from "../apis/CodeTutorialApi";
+export class PromiseCodeTutorialApi {
+    private api: ObservableCodeTutorialApi
 
     public constructor(
         configuration: Configuration,
-        requestFactory?: CodeApiRequestFactory,
-        responseProcessor?: CodeApiResponseProcessor
+        requestFactory?: CodeTutorialApiRequestFactory,
+        responseProcessor?: CodeTutorialApiResponseProcessor
     ) {
-        this.api = new ObservableCodeApi(configuration, requestFactory, responseProcessor);
+        this.api = new ObservableCodeTutorialApi(configuration, requestFactory, responseProcessor);
     }
 
     /**
@@ -151,79 +150,6 @@ export class PromiseDefaultApi {
      */
     public aliveApiV1AliveGet(_options?: Configuration): Promise<boolean> {
         const result = this.api.aliveApiV1AliveGet(_options);
-        return result.toPromise();
-    }
-
-
-}
-
-
-
-import { ObservableTutorialApi } from './ObservableAPI';
-
-import { TutorialApiRequestFactory, TutorialApiResponseProcessor} from "../apis/TutorialApi";
-export class PromiseTutorialApi {
-    private api: ObservableTutorialApi
-
-    public constructor(
-        configuration: Configuration,
-        requestFactory?: TutorialApiRequestFactory,
-        responseProcessor?: TutorialApiResponseProcessor
-    ) {
-        this.api = new ObservableTutorialApi(configuration, requestFactory, responseProcessor);
-    }
-
-    /**
-     * Affirmation
-     * @param positiveAffirmationRequest 
-     */
-    public affirmationApiV1CodeTutorialAffirmationPost(positiveAffirmationRequest: PositiveAffirmationRequest, _options?: Configuration): Promise<PositiveAffirmationResponse> {
-        const result = this.api.affirmationApiV1CodeTutorialAffirmationPost(positiveAffirmationRequest, _options);
-        return result.toPromise();
-    }
-
-    /**
-     * Give Up
-     * @param giveUpRequest 
-     */
-    public giveUpApiV1CodeTutorialGiveUpPost(giveUpRequest: GiveUpRequest, _options?: Configuration): Promise<GiveUpResponse> {
-        const result = this.api.giveUpApiV1CodeTutorialGiveUpPost(giveUpRequest, _options);
-        return result.toPromise();
-    }
-
-    /**
-     * Give Up
-     * @param moreQuestionsRequest 
-     */
-    public giveUpApiV1CodeTutorialMoreQuestionsPost(moreQuestionsRequest: MoreQuestionsRequest, _options?: Configuration): Promise<MoreQuestionsResponse> {
-        const result = this.api.giveUpApiV1CodeTutorialMoreQuestionsPost(moreQuestionsRequest, _options);
-        return result.toPromise();
-    }
-
-    /**
-     * Give Up
-     * @param reportQuestionRequest 
-     */
-    public giveUpApiV1CodeTutorialReportQuestionPost(reportQuestionRequest: ReportQuestionRequest, _options?: Configuration): Promise<ReportQuestionResponse> {
-        const result = this.api.giveUpApiV1CodeTutorialReportQuestionPost(reportQuestionRequest, _options);
-        return result.toPromise();
-    }
-
-    /**
-     * Hint
-     * @param hintRequest 
-     */
-    public hintApiV1CodeTutorialHintPost(hintRequest: HintRequest, _options?: Configuration): Promise<HintResponse> {
-        const result = this.api.hintApiV1CodeTutorialHintPost(hintRequest, _options);
-        return result.toPromise();
-    }
-
-    /**
-     * New Code Tutorial
-     * @param newTutorialRequest 
-     */
-    public newCodeTutorialApiV1CodeTutorialNewCodeTutorialPost(newTutorialRequest: NewTutorialRequest, _options?: Configuration): Promise<NewCodeTutorialResponse> {
-        const result = this.api.newCodeTutorialApiV1CodeTutorialNewCodeTutorialPost(newTutorialRequest, _options);
         return result.toPromise();
     }
 

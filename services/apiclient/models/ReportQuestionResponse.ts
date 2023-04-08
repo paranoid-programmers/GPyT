@@ -14,14 +14,14 @@ import { CodeQuestion } from '../models/CodeQuestion';
 import { HttpFile } from '../http/http';
 
 export class ReportQuestionResponse {
-    'question': CodeQuestion;
+    'newQuestion'?: CodeQuestion;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "question",
-            "baseName": "question",
+            "name": "newQuestion",
+            "baseName": "new_question",
             "type": "CodeQuestion",
             "format": ""
         }    ];

@@ -25,7 +25,7 @@ import { ReportQuestionResponse } from '../models/ReportQuestionResponse';
 /**
  * no description
  */
-export class TutorialApiRequestFactory extends BaseAPIRequestFactory {
+export class CodeTutorialApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      * Affirmation
@@ -36,7 +36,7 @@ export class TutorialApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'positiveAffirmationRequest' is not null or undefined
         if (positiveAffirmationRequest === null || positiveAffirmationRequest === undefined) {
-            throw new RequiredError("TutorialApi", "affirmationApiV1CodeTutorialAffirmationPost", "positiveAffirmationRequest");
+            throw new RequiredError("CodeTutorialApi", "affirmationApiV1CodeTutorialAffirmationPost", "positiveAffirmationRequest");
         }
 
 
@@ -77,7 +77,7 @@ export class TutorialApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'giveUpRequest' is not null or undefined
         if (giveUpRequest === null || giveUpRequest === undefined) {
-            throw new RequiredError("TutorialApi", "giveUpApiV1CodeTutorialGiveUpPost", "giveUpRequest");
+            throw new RequiredError("CodeTutorialApi", "giveUpApiV1CodeTutorialGiveUpPost", "giveUpRequest");
         }
 
 
@@ -118,7 +118,7 @@ export class TutorialApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'moreQuestionsRequest' is not null or undefined
         if (moreQuestionsRequest === null || moreQuestionsRequest === undefined) {
-            throw new RequiredError("TutorialApi", "giveUpApiV1CodeTutorialMoreQuestionsPost", "moreQuestionsRequest");
+            throw new RequiredError("CodeTutorialApi", "giveUpApiV1CodeTutorialMoreQuestionsPost", "moreQuestionsRequest");
         }
 
 
@@ -159,7 +159,7 @@ export class TutorialApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'reportQuestionRequest' is not null or undefined
         if (reportQuestionRequest === null || reportQuestionRequest === undefined) {
-            throw new RequiredError("TutorialApi", "giveUpApiV1CodeTutorialReportQuestionPost", "reportQuestionRequest");
+            throw new RequiredError("CodeTutorialApi", "giveUpApiV1CodeTutorialReportQuestionPost", "reportQuestionRequest");
         }
 
 
@@ -200,7 +200,7 @@ export class TutorialApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'hintRequest' is not null or undefined
         if (hintRequest === null || hintRequest === undefined) {
-            throw new RequiredError("TutorialApi", "hintApiV1CodeTutorialHintPost", "hintRequest");
+            throw new RequiredError("CodeTutorialApi", "hintApiV1CodeTutorialHintPost", "hintRequest");
         }
 
 
@@ -241,7 +241,7 @@ export class TutorialApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'newTutorialRequest' is not null or undefined
         if (newTutorialRequest === null || newTutorialRequest === undefined) {
-            throw new RequiredError("TutorialApi", "newCodeTutorialApiV1CodeTutorialNewCodeTutorialPost", "newTutorialRequest");
+            throw new RequiredError("CodeTutorialApi", "newCodeTutorialApiV1CodeTutorialNewCodeTutorialPost", "newTutorialRequest");
         }
 
 
@@ -275,7 +275,7 @@ export class TutorialApiRequestFactory extends BaseAPIRequestFactory {
 
 }
 
-export class TutorialApiResponseProcessor {
+export class CodeTutorialApiResponseProcessor {
 
     /**
      * Unwraps the actual response sent by the server from the response context and deserializes the response content

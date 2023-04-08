@@ -13,7 +13,8 @@
 import { HttpFile } from '../http/http';
 
 export class ReportQuestionRequest {
-    'uuid'?: string;
+    'tutorialUuid': string;
+    'questionUuid': string;
     'category': string;
     'details': string;
     'shouldRegenerate': boolean;
@@ -22,8 +23,14 @@ export class ReportQuestionRequest {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "uuid",
-            "baseName": "uuid",
+            "name": "tutorialUuid",
+            "baseName": "tutorial_uuid",
+            "type": "string",
+            "format": "uuid"
+        },
+        {
+            "name": "questionUuid",
+            "baseName": "question_uuid",
             "type": "string",
             "format": "uuid"
         },

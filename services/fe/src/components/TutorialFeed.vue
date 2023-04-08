@@ -20,7 +20,7 @@ import { defineComponent, inject, provide, shallowRef, Ref } from 'vue';
 import TutorialQuestion from './TutorialQuestion.vue';
 import GenerateTutorialInput from './GenerateTutorialInput.vue';
 
-import { CodeApi, NewCodeTutorialResponse, UniqueCodeQuestion } from 'gpyt';
+import { CodeTutorialApi, NewCodeTutorialResponse, UniqueCodeQuestion } from 'gpyt';
 import { Pyodide } from '@/types/pyodide';
 import { loadPyodide } from '@/pyodideLoader';
 
@@ -58,7 +58,7 @@ export default defineComponent({
         },
     },
     setup() {
-        var api = inject<CodeApi>('$api');
+        var api = inject<CodeTutorialApi>('$api');
         var pyodide = shallowRef<Pyodide>();
         provide<Ref<Pyodide | undefined>>("$pyodide", pyodide);
         return { api, pyodide }

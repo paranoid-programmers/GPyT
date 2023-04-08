@@ -1,14 +1,12 @@
 .gitignore
 .openapi-generator-ignore
 AuthApi.md
-CodeApi.md
+CodeTutorialApi.md
 DefaultApi.md
 README.md
-TutorialApi.md
 apis/AuthApi.ts
-apis/CodeApi.ts
+apis/CodeTutorialApi.ts
 apis/DefaultApi.ts
-apis/TutorialApi.ts
 apis/baseapi.ts
 apis/exception.ts
 auth/auth.ts
@@ -36,7 +34,6 @@ models/PositiveAffirmationRequest.ts
 models/PositiveAffirmationResponse.ts
 models/ReportQuestionRequest.ts
 models/ReportQuestionResponse.ts
-models/TestCasesInner.ts
 models/TutorialContext.ts
 models/UniqueCodeQuestion.ts
 models/ValidationError.ts

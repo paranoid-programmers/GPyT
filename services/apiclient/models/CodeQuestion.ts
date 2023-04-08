@@ -11,16 +11,16 @@
  */
 
 import { CodeBlock } from '../models/CodeBlock';
-import { TestCasesInner } from '../models/TestCasesInner';
 import { HttpFile } from '../http/http';
 
 export class CodeQuestion {
     'title': string;
     'description': string;
     'concept': string;
+    'isFlagged'?: boolean;
     'skeletonCode': CodeBlock;
     'solutionCode': CodeBlock;
-    'testCases': Array<TestCasesInner>;
+    'testCases': string;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -44,6 +44,12 @@ export class CodeQuestion {
             "format": ""
         },
         {
+            "name": "isFlagged",
+            "baseName": "is_flagged",
+            "type": "boolean",
+            "format": ""
+        },
+        {
             "name": "skeletonCode",
             "baseName": "skeleton_code",
             "type": "CodeBlock",
@@ -58,7 +64,7 @@ export class CodeQuestion {
         {
             "name": "testCases",
             "baseName": "test_cases",
-            "type": "Array<TestCasesInner>",
+            "type": "string",
             "format": ""
         }    ];
 

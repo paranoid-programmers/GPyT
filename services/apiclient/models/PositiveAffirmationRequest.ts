@@ -10,13 +10,11 @@
  * Do not edit the class manually.
  */
 
-import { CodeBlock } from '../models/CodeBlock';
 import { HttpFile } from '../http/http';
 
 export class PositiveAffirmationRequest {
     'tutorialUuid': string;
-    'questionUuid': string;
-    'userCode': CodeBlock;
+    'attemptsTaken': number;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -28,15 +26,9 @@ export class PositiveAffirmationRequest {
             "format": "uuid"
         },
         {
-            "name": "questionUuid",
-            "baseName": "question_uuid",
-            "type": "string",
-            "format": "uuid"
-        },
-        {
-            "name": "userCode",
-            "baseName": "user_code",
-            "type": "CodeBlock",
+            "name": "attemptsTaken",
+            "baseName": "attempts_taken",
+            "type": "number",
             "format": ""
         }    ];
 
