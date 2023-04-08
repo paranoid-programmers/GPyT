@@ -1,9 +1,9 @@
-from be.api.internal.models import UUIDModel, CodeTutorial, UniqueCodeQuestion
+from be.api.internal.models import CodeTutorial, UniqueCodeQuestion
 from be.shared.models import CodeQuestion
 from pydantic import BaseModel
 
 
-class NewCodeTutorialResponse(UUIDModel):
+class NewCodeTutorialResponse(BaseModel):
     tutorial: CodeTutorial
 
 

@@ -1,26 +1,27 @@
+from typing import Annotated
 from uuid import UUID
 
-from be.api.clients.content_gen_client import ContentGenClient, get_content_gen_client
+from be.api.clients.content_gen_client import ContentGenClient, get_content_gen_client, get_mock_content_gen_client
 from be.api.clients.supabase_client import SupabaseWrapper, get_supabase_client
 from be.api.internal.models import CodeTutorial, UniqueCodeQuestion
 from be.api.v1.models.response_models import NewCodeTutorialResponse, PositiveAffirmationResponse, HintResponse, GiveUpResponse
 from be.shared.models import TutorialContext, CodeBlock, Question
+from fastapi import Depends
 
 
-def get_tutorial_service():
-    return TutorialService(get_content_gen_client(), get_supabase_client())
+def get_code_tutorial_service():
+    return CodeTutorialService(get_content_gen_client(), get_supabase_client())
 
 
-class TutorialService:
+class CodeTutorialService:
     def __init__(self, content_client: ContentGenClient, supabase_client: SupabaseWrapper):
         self.content_client = content_client
         self.supabase_client = supabase_client
 
-    async def create_new_code_tutorial(self, tutorial_context: TutorialContext, concept: str) -> NewCodeTutorialResponse:
+    async def create_new_tutorial(self, tutorial_context: TutorialContext, concept: str) -> NewCodeTutorialResponse:
         # create a tutorial and persist it in supabase
         tutorial = CodeTutorial(questions=[], context=tutorial_context)
-        tutorial_uuid = await self.supabase_client.add_to_document_store(tutorial.json())
-        tutorial.uuid = tutorial_uuid
+        tutorial.uuid = await self.supabase_client.add_to_document_store(tutorial.json())
 
         # ask content client for a single question
         question_response = await self.content_client.generate_question(tutorial_context, concept)
