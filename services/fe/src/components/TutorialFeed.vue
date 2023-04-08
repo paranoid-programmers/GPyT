@@ -1,9 +1,9 @@
 <template>
     <v-container>
         <GenerateTutorialInput @generate="generateTutorial" />
-        <v-row v-for="question, key in questions" :key="key" class="mt-4">
+        <v-row v-for="question in questions" :key="question.uuid" class="mt-4">
             <v-col cols="12">
-                <TutorialQuestion :question="question" :uuid="key" />
+                <TutorialQuestion :question="question" :uuid="question.uuid ?? 'NO-UUID'" />
             </v-col>
         </v-row>
     </v-container>
@@ -19,8 +19,8 @@ declare module '@vue/runtime-core' {
 import { defineComponent, inject, provide, shallowRef, Ref } from 'vue';
 import TutorialQuestion from './TutorialQuestion.vue';
 import GenerateTutorialInput from './GenerateTutorialInput.vue';
-import { NewTutorialResponse, CodeQuestion } from '@/models';
-import { ApiWrapper } from '../apiWrapper'
+
+import { CodeApi, NewCodeTutorialResponse, UniqueCodeQuestion } from 'gpyt';
 import { Pyodide } from '@/types/pyodide';
 import { loadPyodide } from '@/pyodideLoader';
 
@@ -31,23 +31,24 @@ export default defineComponent({
         TutorialQuestion,
         GenerateTutorialInput
     },
-    data(): { questions: Record<string, CodeQuestion>, uuid: string } {
+    data(): { questions: UniqueCodeQuestion[], uuid: string } {
         return {
-            questions: {},
+            questions: [],
             uuid: "",
         }
     },
     methods: {
         generateTutorial(input: { topic: string, theme: string }) {
             // check if api is defined
-            this.api?.getNewTutorial({
+            this.api?.newCodeTutorialApiV1CodeTutorialNewCodeTutorialPost({
+                concept: input.topic,
                 context: {
-                    theme: input.theme,
-                },
-                concept: input.topic
-            }).then((response: NewTutorialResponse) => {
-                this.uuid = response.uuid;
-                this.questions = response.tutorial.questions;
+                    interests: [input.theme],
+                    tone: "cowboy"
+                }
+            }).then((response: NewCodeTutorialResponse) => {
+                this.uuid = response.tutorial.uuid ?? "NO-UUID";
+                this.questions = response.tutorial.questions ?? [];
 
             });
         },
@@ -58,7 +59,7 @@ export default defineComponent({
         },
     },
     setup() {
-        var api = inject<ApiWrapper>('$api');
+        var api = inject<CodeApi>('$api');
         var pyodide = shallowRef<Pyodide>();
         provide<Ref<Pyodide | undefined>>("$pyodide", pyodide);
         return { api, pyodide }

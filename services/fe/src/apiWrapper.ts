@@ -26,17 +26,7 @@ const config = apiclient.createConfiguration({
     }
 })
 
-const api = new apiclient.CodeApi(config)
-const resp = api.giveUpApiV1CodeTutorialGiveUpPost({
-    questionUuid: "0d498d08-abfe-46f0-9021-91071039c405",
-    tutorialUuid: "4d16e0d1-ce8c-4c1b-b25b-e877509b7eca",
-    userCode: {
-        code: "print('jerome loves windows')",
-        language: "python",
-    }
-}).then((resp) => {
-    console.log(resp)
-})
+export const api = new apiclient.CodeApi(config)
 
 export interface ApiWrapper {
     getNewTutorial(request: NewTutorialRequest): Promise<NewTutorialResponse>;
@@ -131,6 +121,3 @@ export class mockApiWrapper implements ApiWrapper {
         }
     }
 }
-
-// TODO: Replace this with a real API wrapper
-export { mockApiWrapper as api }
