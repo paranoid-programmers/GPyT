@@ -56,7 +56,7 @@ export class mockApiWrapper implements ApiWrapper {
 
     getHint(request: HintRequest): Promise<HintResponse> {
         return Promise.resolve({
-            hint_text: "This is a fake hint",
+            hint_text: `This is a fake hint, but it's about ${request.question.title}`,
         });
     }
 }

@@ -3,7 +3,7 @@
         <GenerateTutorialInput @generate="generateTutorial" />
         <v-row v-for="question, key in questions" :key="key" class="mt-4">
             <v-col cols="12">
-                <TutorialQuestion :question="question" />
+                <TutorialQuestion :question="question" :uuid="key" />
             </v-col>
         </v-row>
     </v-container>

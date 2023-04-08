@@ -8,10 +8,11 @@
         <h3>{{ result }}</h3>
         <v-btn-group>
             <v-btn @click="runCode">Run Code</v-btn>
-            <v-btn>Hint</v-btn>
+            <v-btn @click="getHint">Hint</v-btn>
             <v-btn>Give Up</v-btn>
         </v-btn-group>
-
+        <h3>Hints:</h3>
+        <v-card-text v-for="hint in hints" :key="hint">{{ hint }}</v-card-text>
     </v-card>
 </template>
 
@@ -23,6 +24,7 @@ import { defineComponent, inject } from 'vue';
 import { CodeQuestion } from '@/models';
 import { Pyodide } from '@/types/pyodide';
 import { runPythonIsolated } from '@/pyodideLoader'
+import { ApiWrapper } from '@/apiWrapper';
 
 
 export default defineComponent({
@@ -31,6 +33,10 @@ export default defineComponent({
         question: {
             type: Object as () => CodeQuestion,
             required: true
+        },
+        uuid: {
+            type: String,
+            required: true,
         }
     },
     components: {
@@ -85,11 +91,26 @@ export default defineComponent({
             } else {
                 this.result = `Incorrect: expected ${this.expected_output} but got: ${this.output}`
             }
+        },
+        getHint() {
+            // unlimited hints
+            // question: CodeQuestion;
+            // context: QuestionContext;
+
+            this.api?.getHint({
+                question: this.$props.question,
+                context: {
+                    theme: "todo",
+                },
+            }).then((response) => {
+                this.hints.push(response.hint_text);
+            })
         }
     },
     setup() {
         var pyodide = inject<Pyodide>("$pyodide");
-        return { pyodide }
+        var api = inject<ApiWrapper>('$api');
+        return { pyodide, api }
     },
 });
 </script>
