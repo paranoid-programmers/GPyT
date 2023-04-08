@@ -8,25 +8,33 @@ if [ -z "$1" ]; then
 fi
 
 # check if the apiclient directory exists, if it does, delete it
-if [ -d "./services/apiclient/" ]; then
-    rm -rf ./services/apiclient/
+if [ -d "./src/apiclient/" ]; then
+    rm -rf ./src/apiclient/
 fi
 
 # todo: add this to apiclient tsconfig.json
 #    "module": "ESNext",
 
 npx @openapitools/openapi-generator-cli generate \
-    -i ./scratch/openapi.json \
+    -i $1 \
     -g typescript \
     --package-name gpyt \
-    -o ./services/apiclient/
+    -p --npmName=gpyt \
+    -p --supportsES6=true \
+    -o ./src/apiclient/
+
+
+# Fix the module type
+input_file="./src/apiclient/tsconfig.json"
+temp_file="./src/apiclient/tsconfig.json.tmp"
+awk 'NR==4{print $0; print "    \"module\": \"ESNext\","} NR!=4{print}' $input_file > $temp_file && mv $temp_file $input_file
 
 (
-    cd ./services/apiclient/
+    cd ./src/apiclient/
     npm install
     npm run build
 )
 (
-    cd ./services/fe/
+    cd ./src/fe/
     npm install
 )
