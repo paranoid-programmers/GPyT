@@ -9,11 +9,11 @@
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "apiclient": "file:../apiclient",
     "@codemirror/lang-python": "^6.1.2",
     "@mdi/font": "7.0.96",
     "codemirror": "^6.0.1",
     "core-js": "^3.8.3",
+    "gpyt": "file:../apiclient",
     "pyodide": "^0.23.0",
     "roboto-fontface": "*",
     "vue": "^3.2.13",

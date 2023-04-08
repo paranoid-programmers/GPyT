@@ -13,7 +13,53 @@ import {
     ReportQuestionResponse,
 } from "./models";
 
-import * as apiclient from "apiwrapper";
+import * as apiclient from "gpyt";
+
+
+// export interface ConfigurationParameters {
+//     baseServer?: BaseServerConfiguration;
+//     httpApi?: HttpLibrary;
+//     middleware?: Middleware[];
+//     promiseMiddleware?: PromiseMiddleware[];
+//     authMethods?: AuthMethodsConfiguration;
+// }
+// export interface BaseServerConfiguration {
+//     makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext;
+// }
+// export declare class ServerConfiguration<T extends {
+//     [key: string]: string;
+// }> implements BaseServerConfiguration {
+//     private url;
+//     private variableConfiguration;
+//     constructor(url: string, variableConfiguration: T);
+//     setVariables(variableConfiguration: Partial<T>): void;
+//     getConfiguration(): T;
+//     private getUrl;
+//     makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext;
+// }
+
+const config = apiclient.createConfiguration({
+    baseServer: {
+        makeRequestContext: (endpoint: string, httpMethod: apiclient.HttpMethod) => {
+            return new apiclient.RequestContext(
+                `http://localhost:8000/${endpoint}`,
+                httpMethod,
+            );
+        }
+    }
+})
+
+const api = new apiclient.CodeApi(config)
+const resp = api.affirmationApiV1CodeTutorialAffirmationPost({
+    questionUuid: "123",
+    tutorialUuid: "123",
+    userCode: {
+        code: "print('Hello World')",
+        language: "python",
+    }
+})
+console.log(resp)
+
 
 export interface ApiWrapper {
     getNewTutorial(request: NewTutorialRequest): Promise<NewTutorialResponse>;
