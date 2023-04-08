@@ -6,7 +6,12 @@
         <h3>Outputs:</h3>
         <terminal-output :output="output" />
         <h3>{{ result }}</h3>
-        <v-btn @click="runCode">Run Code</v-btn>
+        <v-btn-group>
+            <v-btn @click="runCode">Run Code</v-btn>
+            <v-btn @click="runCode">Hint</v-btn>
+            <v-btn @click="runCode">Give Up</v-btn>
+        </v-btn-group>
+
     </v-card>
 </template>
 
@@ -32,12 +37,22 @@ export default defineComponent({
         CodeSection,
         TerminalOutput,
     },
-    data(): { pyodide?: Pyodide, output: string, code: string, expected_output: string, result: string } {
+    data(): {
+        pyodide?: Pyodide,
+        output: string,
+        code: string,
+        expected_output: string,
+        result: string,
+        has_run: boolean,
+        hints: string[],
+    } {
         return {
             output: "",
             code: this.$props.question.skeleton_code.code,
             expected_output: "",
-            result: "Run code to see result"
+            result: "Run code to see result",
+            has_run: false,
+            hints: [],
         }
     },
     methods: {
@@ -52,15 +67,13 @@ export default defineComponent({
                     this.question.solution_code.code, this.pyodide
                 );
             }
-
             this.output = "";
             runPythonIsolated(this.code, this.pyodide).then((output) => {
                 this.output = output;
+                this.has_run = true;
             }).then(() => {
                 this.checkOutput();
             })
-
-
         },
         codeUpdated(code: string) {
             this.code = code;
@@ -70,10 +83,9 @@ export default defineComponent({
             if (this.output == this.expected_output) {
                 this.result = "Correct!"
             } else {
-                this.result = `Incorrect: expected ${this.expected_output} but got ${this.output}`
+                this.result = `Incorrect: expected ${this.expected_output} but got: ${this.output}`
             }
         }
-
     },
     setup() {
         var pyodide = inject<Pyodide>("$pyodide");

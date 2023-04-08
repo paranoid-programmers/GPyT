@@ -32,3 +32,12 @@ export interface NewTutorialResponse {
     uuid: string;
     tutorial: Tutorial;
 }
+
+export interface HintRequest {
+    question: CodeQuestion;
+    context: QuestionContext;
+}
+
+export interface HintResponse {
+    hint_text: string;
+}
