@@ -14,7 +14,7 @@
         <v-card-title v-if="hints.length">Hints:</v-card-title>
         <v-card-text v-for="hint in hints" :key="hint">{{ hint }}</v-card-text>
         <give-up-explanation v-if="giveUpResponse" :giveUpResponse="giveUpResponse" />
-        <v-card-text v-if="affirmation">{{ affirmation.happyText }}</v-card-text>
+        <affirmation v-if="affirmation" :affirmationResponse="affirmation" />
     </v-card>
 </template>
 
@@ -22,6 +22,7 @@
 import CodeSection from './CodeSection.vue';
 import TerminalOutput from './TerminalOutput.vue';
 import GiveUpExplanation from './GiveUpExplanation.vue';
+import Affirmation from './Affirmation.vue';
 
 import { defineComponent, inject } from 'vue';
 import { Pyodide } from '@/types/pyodide';
@@ -48,6 +49,7 @@ export default defineComponent({
         CodeSection,
         TerminalOutput,
         GiveUpExplanation,
+        Affirmation,
     },
     data(): {
         pyodide?: Pyodide,
