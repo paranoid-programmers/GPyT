@@ -21,7 +21,8 @@ question_prompt = Prompt[BasicQuestionPromptArguments, BasicQuestionTask](
     regex=re.compile(
         r"[\s\S]*Title: *(?P<title>.*)\n+"
         r"Description: *(?P<description>[\s\S]*)\n"
-        r"Python solution:[ \n]*(?:```(?:python)?)?(?P<solution_code>[^`]+)[\s\S]*"
+        r"Python solution:[ \n]*(?:```(?:python)?)?(?P<solution_code>[^`]+)[\s\S]*",
+        re.IGNORECASE,
     ),
     prompt_text="""\
 - I want you to act as an Python programming tutoring tool
@@ -87,7 +88,8 @@ question_validation_prompt = Prompt[BasicQuestionTask, BasicQuestionValidation](
         r"[\s\S]*(?P<deterministic>Yes|No)"
         r"[\s\S]*(?P<uses_current_time> Yes|No)"
         r"[\s\S]*(?P<outputs_anything>Yes|No)"
-        r"[\s\S]*(?P<uses_hard_coded_strings>Yes|No)[\s\S]*"
+        r"[\s\S]*(?P<uses_hard_coded_strings>Yes|No)[\s\S]*",
+        re.IGNORECASE,
     ),
     prompt_text="""\
 A student has been given the following programming task:
@@ -123,7 +125,8 @@ question_example_input_prompt = Prompt[BasicQuestionTask, TextResponse](
     regex=re.compile(
         # should match any list of tuples in the shape of: [(...), (...), (...), ...]
         # including any whitespaces or new lines or random text surrounding the list of tuples
-        r"[\s\S]*(?P<response_text>\[[^(]*\([\s\S]*[^)]*\)[^()\]]*])[\s\S]*"
+        r"[\s\S]*(?P<response_text>\[[^(]*\([\s\S]*[^)]*\)[^()\]]*])[\s\S]*",
+        re.IGNORECASE,
     ),
     prompt_text="""\
 Create some example input to this function. Respond with a python list of tuples, each tuple being a different example of arguments to the function.
@@ -142,7 +145,7 @@ class CodeHintPromptArguments(BaseModel):
 
 
 code_hint_prompt = Prompt[CodeHintPromptArguments, TextResponse](
-    regex=re.compile(r"(?P<response_text>[\s\S]*)"),
+    regex=re.compile(r"[\s\S]*Hint: *(?P<response_text>[\s\S]*)", re.IGNORECASE),
     prompt_text="""\
 - I want you to act as a Python programming tutoring tool
 - You have given a student a programming assignment for a topic they are wanting to learn about
@@ -159,16 +162,23 @@ The student has been given the following programming assignment:
 
 ===
 Title: {title}
+
 Description: {description}
 ===
 
 Here is their current code:
 
+```python
 {user_code}
+```
 
-The student would like the tone of your response to be: "{tone}"
+The student would like tone of the hint to be: "{tone}"
 
-Their question, which you will respond to, is as follows (reminder, do not give any example code or solutions): "My code isn't working, help"
+From looking at their current code, respond with a single hint to help them arrive closer at the solution (reminder, do not give any example code or solutions).
+
+Respond in the format:
+
+hint: [the hint]
 """,
     parsed_class=TextResponse,
 )

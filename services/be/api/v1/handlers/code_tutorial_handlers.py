@@ -7,7 +7,7 @@ from be.api.v1.models.request_models import NewTutorialRequest, PositiveAffirmat
     MoreQuestionsRequest, ReportQuestionRequest
 from be.api.hahabusiness.code_tutorial_service import CodeTutorialService, get_code_tutorial_service
 from fastapi import APIRouter, Depends
-from typing_extensions import Annotated
+from typing import Annotated
 
 tutorial_router = APIRouter(prefix="/code-tutorial", tags=["code", "tutorial"])
 _logger = logging.getLogger(__name__)

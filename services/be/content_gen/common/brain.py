@@ -4,7 +4,7 @@ import logging
 import time
 
 import openai
-from typing_extensions import TypeVar
+from typing import TypeVar
 
 from be.content_gen.common.prompts import (
     BasicQuestionPromptArguments,
@@ -51,6 +51,11 @@ _K = TypeVar("_K")
 
 
 async def interact_gpt(prompt: Prompt[_T, _K], prompt_argument: _T = None) -> (_K, int):
+    """
+    Creates the prompt and sends it to ChatGPT, then parses the response.
+
+    :raises: ValueError if the response is unable to be parsed
+    """
     prompt_string = prompt.create_prompt(prompt_argument)
     gpt_response, tokens_used = await ask_chatgpt(prompt_string)
     parsed_response = prompt.parse(gpt_response)

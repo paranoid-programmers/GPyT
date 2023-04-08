@@ -1,9 +1,8 @@
 import logging
-from jwt import JWT
 
-from fastapi import APIRouter, Depends, Header, HTTPException
+from fastapi import APIRouter, Depends, Header
 from be.api.clients.supabase_client import SupabaseWrapper, get_supabase_client
-from typing_extensions import Annotated
+from typing import Annotated
 
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
 _logger = logging.getLogger(__name__)
