@@ -14,6 +14,7 @@
         <h3 v-if="hints.length">Hints:</h3>
         <v-card-text v-for="hint in hints" :key="hint">{{ hint }}</v-card-text>
         <give-up-explanation v-if="giveUpResponse" :giveUpResponse="giveUpResponse" />
+        <v-card-text v-if="affirmation">{{ affirmation.happy_text }}</v-card-text>
     </v-card>
 </template>
 
@@ -23,7 +24,7 @@ import TerminalOutput from './TerminalOutput.vue';
 import GiveUpExplanation from './GiveUpExplanation.vue';
 
 import { defineComponent, inject } from 'vue';
-import { CodeQuestion, GiveUpResponse } from '@/models';
+import { CodeQuestion, GiveUpResponse, PositiveAffirmationResponse } from '@/models';
 import { Pyodide } from '@/types/pyodide';
 import { runPythonIsolated } from '@/pyodideLoader'
 import { ApiWrapper } from '@/apiWrapper';
@@ -55,6 +56,7 @@ export default defineComponent({
         has_run: boolean,
         hints: string[],
         giveUpResponse?: GiveUpResponse,
+        affirmation?: PositiveAffirmationResponse,
     } {
         return {
             output: "",
@@ -93,15 +95,12 @@ export default defineComponent({
             // check if output is equal to expected output
             if (this.output == this.expected_output) {
                 this.result = "Correct!"
+                this.getPositiveAffirmation();
             } else {
                 this.result = `Incorrect: expected ${this.expected_output} but got: ${this.output}`
             }
         },
         getHint() {
-            // unlimited hints
-            // question: CodeQuestion;
-            // context: QuestionContext;
-
             this.api?.getHint({
                 question: this.$props.question,
                 context: {
@@ -124,6 +123,16 @@ export default defineComponent({
                 this.giveUpResponse = response;
             })
         },
+        getPositiveAffirmation() {
+            this.api?.getPositiveAffirmation({
+                full_code: {
+                    code: this.code,
+                    language: "python",
+                },
+            }).then((response) => {
+                this.result = response.happy_text;
+            })
+        }
     },
     setup() {
         var pyodide = inject<Pyodide>("$pyodide");
