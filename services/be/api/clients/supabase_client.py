@@ -1,6 +1,7 @@
 from be.api.internal.models import CodeTutorial
 from be.api.internal.settings import SupabaseSettings
 from be.shared.models import CodeQuestion, TutorialContext
+from pydantic import json
 from pydantic.tools import lru_cache
 
 from supabase import create_client
@@ -36,14 +37,14 @@ class SupabaseWrapper:
         })
         oauth_token = data.session.provider_token  # use to access provider API
 
-    async def create_bucket(self, bucket_name: str):
-        return await self.supabase_client.storage.create_bucket(bucket_name)
+    async def add_to_document_store(self, document: json):
+        # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
+        data, count = self.supabase_client.table('documents').insert(document).execute()
+        return data
 
-    async def fetch_bucket(self, bucket_name: str):
-        return await self.supabase_client.storage().get_bucket(bucket_name)
-
-    async def all_buckets(self):
-        return await self.supabase_client.storage().list_buckets()
+    async def update_stored_document(self, document: json):
+        # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
+        data, count = self.supabase_client.table('documents').update(document).execute()
 
     async def insert_tutorial(self, tutorial: CodeTutorial):
         pass

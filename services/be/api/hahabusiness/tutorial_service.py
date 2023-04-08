@@ -19,17 +19,22 @@ class TutorialService:
     async def create_new_code_tutorial(self, tutorial_context: TutorialContext, concept: str) -> NewCodeTutorialResponse:
         # create a tutorial and persist it in supabase
         tutorial = CodeTutorial(questions=[], context=tutorial_context)
-        tutorial_uuid = await self.supabase_client.insert_tutorial(tutorial)
+        tutorial_uuid = await self.supabase_client.add_to_document_store(tutorial.json())
+        tutorial.uuid = tutorial_uuid
 
         # ask content client for a single question
         question_response = await self.content_client.generate_question(tutorial_context, concept)
         question_response.code_question.concept = concept
 
         # persist question in supabase
-        question_uuid = await self.supabase_client.insert_question(tutorial_uuid, question_response.code_question)
+        question_uuid = await self.supabase_client.add_to_document_store(question_response.code_question)
 
+        # add question to tutorial
         unique_code_question = UniqueCodeQuestion(uuid=question_uuid, code_question=question_response.code_question)
         tutorial.questions.append(unique_code_question)
+
+        # update tutorial in supabase with question
+        await self.supabase_client.update_stored_document(tutorial.json())
 
         return NewCodeTutorialResponse(tutorial=tutorial)
 

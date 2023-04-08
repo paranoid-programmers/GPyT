@@ -12,7 +12,7 @@ class UniqueCodeQuestion(UUIDModel):
     question: CodeQuestion
 
 
-class Tutorial(BaseModel):
+class Tutorial(UUIDModel):
     context: TutorialContext
 
 
