@@ -5,11 +5,14 @@ import {
     NewTutorialResponse,
     HintRequest,
     HintResponse,
+    GiveUpRequest,
+    GiveUpResponse,
 } from "./models";
 
 export interface ApiWrapper {
     getNewTutorial(request: NewTutorialRequest): Promise<NewTutorialResponse>;
     getHint(request: HintRequest): Promise<HintResponse>;
+    giveUp(request: GiveUpRequest): Promise<GiveUpResponse>;
 }
 
 
@@ -57,6 +60,14 @@ export class mockApiWrapper implements ApiWrapper {
     getHint(request: HintRequest): Promise<HintResponse> {
         return Promise.resolve({
             hint_text: `This is a fake hint, but it's about ${request.question.title}`,
+        });
+    }
+
+    giveUp(request: GiveUpRequest): Promise<GiveUpResponse> {
+        return Promise.resolve({
+            example_solution: "print('Hello World')",
+            explanation: "This is a fake explanation",
+            additional_info: "This is fake additional info",
         });
     }
 }
