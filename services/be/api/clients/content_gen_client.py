@@ -1,4 +1,4 @@
-from be.api.internal.settings import ContentGenSettings
+from be.api.internal.settings import ContentGenSettings, get_environment_settings
 from be.content_gen.v1.request_models import GenerateQuestionRequest, GenerateGiveUpRequest, GenerateCodeHintRequest, \
     GenerateAffirmationRequest
 from be.content_gen.v1.response_models import GenerateTextResponse, GenerateCodeQuestionResponse
@@ -6,7 +6,6 @@ from be.shared.models import TutorialContext, Question, CodeBlock
 # noinspection PyProtectedMember
 from pydantic.tools import lru_cache
 from unittest.mock import MagicMock
-
 import httpx
 
 
@@ -17,15 +16,15 @@ def get_content_gen_settings():
 
 def get_content_gen_client():
     # dependency injection isn't playing ball, so we're just going to return the mock client for now
-    return MockContentGenClient()
-
-    # url: str = get_content_gen_settings().CONTENT_GEN_URL
-    # key: str = get_content_gen_settings().CONTENT_GEN_KEY
-    # return ContentGenClient(url, key)
+    if get_environment_settings().ENV_IS_DEV:
+        return MockContentGenClient()
+    else:
+        url: str = get_content_gen_settings().CONTENT_GEN_URL
+        key: str = get_content_gen_settings().CONTENT_GEN_KEY
+        return ContentGenClient(url, key)
 
 
 class ContentGenClient:
-
     def __init__(self, url: str, key: str):
         self.url = url
         self.key = key
@@ -62,7 +61,8 @@ class ContentGenClient:
             response.raise_for_status()
             return response.json()
 
-    async def generate_affirmation(self, context: TutorialContext, attempts_taken: int, max_token: int = 1000) -> GenerateTextResponse:
+    async def generate_affirmation(self, context: TutorialContext, attempts_taken: int,
+                                   max_token: int = 1000) -> GenerateTextResponse:
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{self.url}/generate-affirmation",
@@ -77,7 +77,6 @@ def get_mock_content_gen_client():
 
 
 class MockContentGenClient(MagicMock):
-
     async def generate_question(self, context: TutorialContext, concept: str,
                                 max_token: int = 1000) -> GenerateCodeQuestionResponse:
         mock_code_block = CodeBlock(code="print('Hello World!')", language="python")
@@ -94,11 +93,11 @@ class MockContentGenClient(MagicMock):
         )
 
     async def generate_hint(self, question: Question, context: TutorialContext, user_code: CodeBlock,
-                       max_token: int = 1000) -> GenerateTextResponse:
+                            max_token: int = 1000) -> GenerateTextResponse:
         return GenerateTextResponse(text="This is a hint", tokens_used=6969)
 
     async def generate_give_up(self, question: Question, context: TutorialContext, user_code: CodeBlock,
-                          max_token: int = 1000) -> GenerateTextResponse:
+                               max_token: int = 1000) -> GenerateTextResponse:
         return GenerateTextResponse(text="You are a loser you gave up", tokens_used=6969)
 
     async def generate_affirmation(self, context: TutorialContext, max_token: int = 1000) -> GenerateTextResponse:

@@ -1,9 +1,8 @@
 import asyncio
-
 from be.api.internal.models import CodeTutorial, UniqueCodeQuestion, ReportedQuestion
 from be.api.internal.settings import SupabaseSettings
+# noinspection PyProtectedMember
 from pydantic.tools import lru_cache
-
 from supabase import create_client
 import json
 
