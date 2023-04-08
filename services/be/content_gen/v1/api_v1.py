@@ -1,8 +1,14 @@
 from fastapi import APIRouter
 
-from be.content_gen.v1.response_models import GenerateCodeQuestionResponse, GenerateTextResponse
-from be.content_gen.v1.request_models import GenerateCodeHintRequest, GenerateQuestionRequest
-from be.shared.models import CodeBlock, CodeQuestion, Question
+from be.content_gen.v1.response_models import (
+    GenerateCodeQuestionResponse,
+    GenerateTextResponse,
+)
+from be.content_gen.v1.request_models import (
+    GenerateCodeHintRequest,
+    GenerateQuestionRequest,
+)
+from be.shared.models import CodeBlock, CodeQuestion
 
 api_v1_router = APIRouter(prefix="/v1")
 
@@ -11,11 +17,9 @@ api_v1_router = APIRouter(prefix="/v1")
 async def create_question(user_request: GenerateQuestionRequest):
     return GenerateCodeQuestionResponse(
         code_question=CodeQuestion(
-            question=Question(
-                title="Return the string given",
-                description="Make a function which returns the string given in the input argument",
-                concept="functions",
-            ),
+            title="Return the string given",
+            description="Make a function which returns the string given in the input argument",
+            concept="functions",
             skeleton_code=CodeBlock(
                 code="def return_string(string):\n    [your code here]",
                 language="python",
