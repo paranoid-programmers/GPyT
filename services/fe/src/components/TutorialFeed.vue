@@ -24,6 +24,7 @@ import GenerateTutorialInput from './GenerateTutorialInput.vue';
 import { NewTutorialResponse, CodeQuestion } from '@/models';
 import { ApiWrapper } from '../apiWrapper'
 import { Pyodide } from '@/types/pyodide';
+import { loadPyodide } from '@/pyodideLoader';
 
 
 export default defineComponent({
@@ -54,38 +55,13 @@ export default defineComponent({
             });
         },
         async loadPyodide() {
-            try {
-                await this.$loadScript('https://cdn.jsdelivr.net/pyodide/v0.23.0/full/pyodide.js');
+            this.pyodide = await loadPyodide(this.$loadScript);
 
-                let stdout_text: string[] = [];
-
-                let stdout_function = function (text: string) {
-                    stdout_text.push(text);
-                }
-
-                this.pyodide = await window.loadPyodide({
-                    indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.23.0/full/',
-                    stdout: stdout_function,
-                });
-                // Use Pyodide here
-                console.log('Pyodide is ready');
-
-
-                let test = this.pyodide.runPython(`
-                    import sys
-                    print(sys.version)
-                    print("hey")
-                `);
-                console.log({ "outputs": stdout_text })
-            } catch (error) {
-                console.error('Failed to load Pyodide:', error);
-            }
         },
     },
     setup() {
         var api = inject<ApiWrapper>('$api');
-
-        return { api };
+        return { api }
     },
     mounted() {
         this.loadPyodide();
