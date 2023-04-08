@@ -3,14 +3,14 @@
         <v-card-title>{{ question.title }}</v-card-title>
         <v-card-text>{{ question.description }}</v-card-text>
         <code-section :value="question.skeleton_code.code" v-model="code" />
-        <h3>Outputs:</h3>
-        <terminal-output :output="output" />
-        <h3>{{ result }}</h3>
         <v-btn-group>
             <v-btn @click="runCode">Run Code</v-btn>
             <v-btn @click="getHint">Hint</v-btn>
             <v-btn @click="giveUp">Give Up</v-btn>
         </v-btn-group>
+        <h3>Outputs:</h3>
+        <terminal-output :output="output" />
+        <h3>{{ result }}</h3>
         <h3 v-if="hints.length">Hints:</h3>
         <v-card-text v-for="hint in hints" :key="hint">{{ hint }}</v-card-text>
         <give-up-explanation v-if="giveUpResponse" :giveUpResponse="giveUpResponse" />
