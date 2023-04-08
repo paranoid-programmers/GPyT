@@ -87,7 +87,7 @@ class MockContentGenClient(MagicMock):
                 "concept": concept,
                 "skeleton_code": mock_code_block,
                 "solution_code": mock_code_block,
-                "test_cases": [("garbage", 1)]
+                "test_cases": '[("garbage", 1)]'
             },
             tokens_used=6969
         )

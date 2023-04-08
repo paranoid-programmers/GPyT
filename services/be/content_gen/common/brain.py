@@ -85,7 +85,7 @@ async def validate_question(parsed_task: BasicQuestionTask) -> (bool, int):
     return parsed_validation.valid_question(), tokens_used
 
 
-async def get_examples(parsed_task: BasicQuestionTask) -> (list[str], int):
+async def get_examples(parsed_task: BasicQuestionTask) -> (str, int):
     _logger.debug("getting examples")
     parsed_examples, tokens_used = await interact_gpt(
         question_example_input_prompt, parsed_task

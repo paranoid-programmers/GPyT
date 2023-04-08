@@ -18,7 +18,7 @@ class Question(BaseModel):
 class CodeQuestion(Question):
     skeleton_code: CodeBlock
     solution_code: CodeBlock
-    test_cases: list[list[Any] | tuple[Any]]
+    test_cases: str
 
 
 class TutorialContext(BaseModel):

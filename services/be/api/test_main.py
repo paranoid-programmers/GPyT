@@ -25,7 +25,7 @@ def test_new_code_tutorial():
 
     dummy_codeblock = CodeBlock(code="dummy", language="dummy")
     dummy_question = CodeQuestion(title="dummy", description="dummy", concept="dummy", skeleton_code=dummy_codeblock,
-                                  solution_code=dummy_codeblock, test_cases=[("dummy", "dummy")])
+                                  solution_code=dummy_codeblock, test_cases='[("dummy", "dummy")]')
     dummy_unique_question = UniqueCodeQuestion(uuid=uuid.uuid4(), question=dummy_question)
     dummy_tutorial = CodeTutorial(uuid=uuid.uuid4(), context=tutorial_context, questions=[dummy_unique_question])
     expected_response = NewCodeTutorialResponse(tutorial=dummy_tutorial)
