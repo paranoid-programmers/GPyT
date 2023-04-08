@@ -7,8 +7,8 @@
         <v-card-text>
             <b>Example solution:</b>
         </v-card-text>
-        <terminal-output :output="giveUpResponse.example_solution" />
-        <v-card-text>{{ giveUpResponse.additional_info }}</v-card-text>
+        <terminal-output :output="giveUpResponse.exampleSolution" />
+        <v-card-text>{{ giveUpResponse.additionalInfo }}</v-card-text>
     </div>
 </template>
 
@@ -16,7 +16,7 @@
 import TerminalOutput from './TerminalOutput.vue';
 
 import { defineComponent } from 'vue';
-import { GiveUpResponse } from '@/models';
+import { GiveUpResponse } from 'gpyt';
 
 export default defineComponent({
     components: {
