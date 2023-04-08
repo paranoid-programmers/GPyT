@@ -1,8 +1,5 @@
-import uuid
-
 from be.api.internal.settings import ContentGenSettings
-from be.content_gen.v1.request_models import GenerateQuestionRequest, GenerateHintRequest, GenerateGiveUpRequest, \
-    GenerateCodeHintRequest
+from be.content_gen.v1.request_models import GenerateQuestionRequest, GenerateGiveUpRequest, GenerateCodeHintRequest
 from be.content_gen.v1.response_models import GenerateTextResponse, GenerateCodeQuestionResponse
 from be.shared.models import TutorialContext, Question, CodeBlock
 from pydantic.tools import lru_cache
@@ -87,5 +84,10 @@ class MockContentGenClient(MagicMock):
             tokens_used=6969
         )
 
-    async def get_hint(self, question, context, max_token) -> GenerateTextResponse:
+    async def get_hint(self, question: Question, context: TutorialContext, user_code: CodeBlock,
+                       max_token: int = 1000) -> GenerateTextResponse:
         return GenerateTextResponse(text="This is a hint", tokens_used=6969)
+
+    async def get_give_up(self, question: Question, context: TutorialContext, user_code: CodeBlock,
+                          max_token: int = 1000) -> GenerateTextResponse:
+        return GenerateTextResponse(text="This is a give up", tokens_used=6969)

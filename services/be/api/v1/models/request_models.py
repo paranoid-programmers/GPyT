@@ -23,7 +23,8 @@ class HintRequest(BaseModel):
 
 
 class GiveUpRequest(BaseModel):
-    context: TutorialContext
+    tutorial_uuid: UUID
+    question_uuid: UUID
     user_code: CodeBlock
 
 

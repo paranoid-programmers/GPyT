@@ -28,7 +28,7 @@ async def hint(request: HintRequest, tutorial_service: CodeTutorialServiceType) 
 
 @tutorial_router.post("/give-up", response_model=GiveUpResponse)
 async def give_up(request: GiveUpRequest, tutorial_service: CodeTutorialServiceType) -> GiveUpResponse:
-    return await tutorial_service.give_up(request.tutorial_uuid, request.question_uuid, request.full_code)
+    return await tutorial_service.give_up(request.tutorial_uuid, request.question_uuid, request.user_code)
 
 
 @tutorial_router.post("/affirmation", response_model=PositiveAffirmationResponse)
