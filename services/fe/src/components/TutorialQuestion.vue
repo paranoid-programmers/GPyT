@@ -1,8 +1,8 @@
 <template>
     <v-card>
         <v-card-title>{{ question.title }}</v-card-title>
-        <v-card-text>{{ question.description }}</v-card-text>
-        <code-section :value="question.skeleton_code.code" v-model="code" />
+        <v-card-text>{{ question }}</v-card-text>
+        <code-section :value="question.skeletonCode.code" v-model="code" />
         <v-btn-group>
             <v-btn @click="runCode">Run Code</v-btn>
             <v-btn @click="getHint">Hint</v-btn>
@@ -14,7 +14,7 @@
         <v-card-title v-if="hints.length">Hints:</v-card-title>
         <v-card-text v-for="hint in hints" :key="hint">{{ hint }}</v-card-text>
         <give-up-explanation v-if="giveUpResponse" :giveUpResponse="giveUpResponse" />
-        <v-card-text v-if="affirmation">{{ affirmation.happy_text }}</v-card-text>
+        <v-card-text v-if="affirmation">{{ affirmation.happyText }}</v-card-text>
     </v-card>
 </template>
 
@@ -24,11 +24,9 @@ import TerminalOutput from './TerminalOutput.vue';
 import GiveUpExplanation from './GiveUpExplanation.vue';
 
 import { defineComponent, inject } from 'vue';
-import { CodeQuestion, GiveUpResponse, PositiveAffirmationResponse } from '@/models';
 import { Pyodide } from '@/types/pyodide';
 import { runPythonIsolated } from '@/pyodideLoader'
-import { ApiWrapper } from '@/apiWrapper';
-
+import { CodeApi, CodeQuestion, GiveUpResponse, PositiveAffirmationResponse } from 'gpyt';
 
 export default defineComponent({
     name: "TutorialQuestion",
@@ -40,7 +38,11 @@ export default defineComponent({
         uuid: {
             type: String,
             required: true,
-        }
+        },
+        tutorialUuid: {
+            type: String,
+            required: true,
+        },
     },
     components: {
         CodeSection,
@@ -60,7 +62,7 @@ export default defineComponent({
     } {
         return {
             output: "",
-            code: this.$props.question.skeleton_code.code,
+            code: this.$props.question.skeletonCode.code,
             expected_output: "",
             result: "Run code to see result",
             has_run: false,
@@ -77,7 +79,7 @@ export default defineComponent({
             if (this.expected_output == "") {
                 // run the solution code and set the expected output
                 this.expected_output = await runPythonIsolated(
-                    this.question.solution_code.code, this.pyodide
+                    this.question.solutionCode.code, this.pyodide
                 );
             }
             this.output = "";
@@ -104,42 +106,45 @@ export default defineComponent({
             }
         },
         getHint() {
-            this.api?.getHint({
-                question: this.$props.question,
-                context: {
-                    theme: "todo",
-                },
+            this.api?.hintApiV1CodeTutorialHintPost({
+                questionUuid: this.uuid,
+                tutorialUuid: this.tutorialUuid,
+                userCode: {
+                    code: this.code,
+                    language: "python",
+                }
             }).then((response) => {
-                this.hints.push(response.hint_text);
+                this.hints.push(response.hintText);
             })
         },
         giveUp() {
-            this.api?.giveUp({
-                context: {
-                    theme: "todo",
-                },
-                full_code: {
+            this.api?.giveUpApiV1CodeTutorialGiveUpPost({
+                questionUuid: this.uuid,
+                tutorialUuid: this.tutorialUuid,
+                userCode: {
                     code: this.code,
                     language: "python",
-                },
+                }
             }).then((response) => {
                 this.giveUpResponse = response;
             })
         },
         getPositiveAffirmation() {
-            this.api?.getPositiveAffirmation({
-                full_code: {
+            this.api?.affirmationApiV1CodeTutorialAffirmationPost({
+                questionUuid: this.uuid,
+                tutorialUuid: this.tutorialUuid,
+                userCode: {
                     code: this.code,
                     language: "python",
-                },
+                }
             }).then((response) => {
-                this.result = response.happy_text;
+                this.result = response.happyText;
             })
         }
     },
     setup() {
         var pyodide = inject<Pyodide>("$pyodide");
-        var api = inject<ApiWrapper>('$api');
+        var api = inject<CodeApi>('$api');
         return { pyodide, api }
     },
 });
