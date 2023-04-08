@@ -9,7 +9,7 @@
         <v-btn-group>
             <v-btn @click="runCode">Run Code</v-btn>
             <v-btn @click="getHint">Hint</v-btn>
-            <v-btn>Give Up</v-btn>
+            <v-btn @click="giveUp">Give Up</v-btn>
         </v-btn-group>
         <h3>Hints:</h3>
         <v-card-text v-for="hint in hints" :key="hint">{{ hint }}</v-card-text>
@@ -105,7 +105,10 @@ export default defineComponent({
             }).then((response) => {
                 this.hints.push(response.hint_text);
             })
-        }
+        },
+        giveUp() {
+            console.log("weak sauce")
+        },
     },
     setup() {
         var pyodide = inject<Pyodide>("$pyodide");
