@@ -9,8 +9,6 @@
     </v-container>
 </template>
 
-
-
 <script lang="ts">
 declare module '@vue/runtime-core' {
     interface ComponentCustomProperties {
@@ -18,7 +16,7 @@ declare module '@vue/runtime-core' {
     }
 }
 
-import { defineComponent, inject } from 'vue';
+import { defineComponent, inject, provide, shallowRef, Ref } from 'vue';
 import TutorialQuestion from './TutorialQuestion.vue';
 import GenerateTutorialInput from './GenerateTutorialInput.vue';
 import { NewTutorialResponse, CodeQuestion } from '@/models';
@@ -33,11 +31,10 @@ export default defineComponent({
         TutorialQuestion,
         GenerateTutorialInput
     },
-    data(): { questions: Record<string, CodeQuestion>, uuid: string, pyodide?: Pyodide } {
+    data(): { questions: Record<string, CodeQuestion>, uuid: string } {
         return {
             questions: {},
             uuid: "",
-            pyodide: undefined
         }
     },
     methods: {
@@ -55,13 +52,16 @@ export default defineComponent({
             });
         },
         async loadPyodide() {
-            this.pyodide = await loadPyodide(this.$loadScript);
-
+            loadPyodide(this.$loadScript).then((pyodide) => {
+                this.pyodide = pyodide;
+            })
         },
     },
     setup() {
         var api = inject<ApiWrapper>('$api');
-        return { api }
+        var pyodide = shallowRef<Pyodide>();
+        provide<Ref<Pyodide | undefined>>("$pyodide", pyodide);
+        return { api, pyodide }
     },
     mounted() {
         this.loadPyodide();

@@ -13,6 +13,7 @@
     "@mdi/font": "7.0.96",
     "codemirror": "^6.0.1",
     "core-js": "^3.8.3",
+    "pyodide": "^0.23.0",
     "roboto-fontface": "*",
     "vue": "^3.2.13",
     "vue-codemirror": "^6.1.1",
