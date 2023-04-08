@@ -31,7 +31,9 @@ class MoreQuestionsRequest(BaseModel):
     tutorial_uuid: UUID
 
 
-class ReportQuestionRequest(UUIDModel):
+class ReportQuestionRequest(BaseModel):
+    tutorial_uuid: UUID
+    question_uuid: UUID
     category: str
     details: str
     should_regenerate: bool

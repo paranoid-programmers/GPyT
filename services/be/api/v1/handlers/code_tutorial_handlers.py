@@ -44,5 +44,5 @@ async def affirmation(request: PositiveAffirmationRequest,
 
 @tutorial_router.post("/report-question", response_model=ReportQuestionResponse)
 async def give_up(request: ReportQuestionRequest, tutorial_service: CodeTutorialServiceType) -> ReportQuestionResponse:
-    return await tutorial_service.report_question(request.uuid, request.category, request.details,
+    return await tutorial_service.report_question(request.tutorial_uuid, request.question_uuid, request.category, request.details,
                                                   request.should_regenerate)

@@ -12,6 +12,7 @@ class Question(BaseModel):
     title: str
     description: str
     concept: str
+    is_flagged: bool = False
 
 
 class CodeQuestion(Question):

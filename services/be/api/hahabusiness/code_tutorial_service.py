@@ -1,7 +1,7 @@
 import uuid
 from be.api.clients.content_gen_client import ContentGenClient, get_content_gen_client
 from be.api.clients.supabase_client import SupabaseWrapper, get_supabase_client
-from be.api.internal.models import CodeTutorial, UniqueCodeQuestion
+from be.api.internal.models import CodeTutorial, UniqueCodeQuestion, ReportedQuestion
 from be.api.v1.models.response_models import NewCodeTutorialResponse, PositiveAffirmationResponse, HintResponse, \
     GiveUpResponse, MoreQuestionsResponse, ReportQuestionResponse
 from be.shared.models import TutorialContext, CodeBlock
@@ -100,5 +100,47 @@ class CodeTutorialService:
 
         return PositiveAffirmationResponse(happy_text=affirmation_response.text)
 
-    async def report_question(self, question_uuid, category, details, should_regenerate) -> ReportQuestionResponse:
-        pass
+    async def report_question(self, tutorial_uuid: uuid, question_uuid: uuid, category: str, details: str, should_regenerate: bool) -> ReportQuestionResponse:
+        # fetch the tutorial from supabase
+        tutorial = await self.supabase_client.get_tutorial(tutorial_uuid)
+        if tutorial is None:
+            raise HTTPException(status_code=404, detail="Tutorial not found")
+
+        # fetch the question from supabase
+        question = await self.supabase_client.get_question(question_uuid)
+        if question is None:
+            raise HTTPException(status_code=404, detail="Question not found")
+
+        # persist the reported question in supabase
+        reported_question = ReportedQuestion(uuid=uuid.uuid4(), question=question, category=category, details=details, was_regenerated=should_regenerate)
+        await self.supabase_client.insert_reported_question(reported_question)
+
+        # if we should regenerate a new question, then do so
+        new_questions = None
+        if should_regenerate:
+            new_questions = []
+
+            # ask content client for a single question
+            new_question_response = await self.content_client.generate_question(tutorial.context, tutorial.questions[0].question.concept)
+
+            # unique-ify the question and add it to the tutorial and to the response
+            new_unique_code_question = UniqueCodeQuestion(uuid=uuid.uuid4(), question=new_question_response.code_question)
+            tutorial.questions.append(new_unique_code_question)
+            new_questions.append(new_unique_code_question)
+
+            # persist the question in supabase
+            await self.supabase_client.insert_question(new_unique_code_question)
+
+        # update the tutorial in supabase to remove the question that was reported
+        tutorial.questions = [q for q in tutorial.questions if q.uuid != question_uuid]
+
+        # persist the updated code tutorial in supabase
+        await self.supabase_client.update_tutorial(tutorial)
+
+        # mark the question as reported
+        question.reported = True
+
+        # persist the updated question in supabase
+        await self.supabase_client.update_question(question)
+
+        return ReportQuestionResponse(questions=new_questions)

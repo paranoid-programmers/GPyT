@@ -23,3 +23,10 @@ class Tutorial(UUIDModel):
 
 class CodeTutorial(Tutorial):
     questions: list[UniqueCodeQuestion]
+
+
+class ReportedQuestion(UUIDModel):
+    question: UniqueCodeQuestion
+    category: str
+    details: str
+    was_regenerated: bool
