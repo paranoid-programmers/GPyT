@@ -97,7 +97,9 @@ async def create_full_question(
     concept: str, context: TutorialContext
 ) -> (CodeQuestion, int):
     basic_question, total_tokens_used = await create_question_task(concept, context)
-    while True:
+    retries = 0
+    while retries < 3:
+        retries += 1
         (
             (question_is_valid, is_valid_tokens),
             (example_inputs, example_tokens),
@@ -120,6 +122,9 @@ async def create_full_question(
                 ),
                 total_tokens_used,
             )
+        _logger.info("question was not valid, retrying")
+    _logger.error("question was not valid after %d retries", retries)
+    raise ValueError(f"question was not valid after {retries} retries")
 
 
 async def create_code_hint(

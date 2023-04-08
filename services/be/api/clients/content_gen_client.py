@@ -38,7 +38,7 @@ class ContentGenClient:
                 json=GenerateQuestionRequest(context=context, concept=concept, max_token=max_token).dict()
             )
             response.raise_for_status()
-            return response.json()
+            return GenerateCodeQuestionResponse(**response.json())
 
     async def generate_hint(self, question: Question, context: TutorialContext, user_code: CodeBlock,
                             max_token: int = 1000) -> GenerateTextResponse:
@@ -49,7 +49,7 @@ class ContentGenClient:
                                              max_token=max_token).dict()
             )
             response.raise_for_status()
-            return response.json()
+            return GenerateTextResponse(**response.json())
 
     async def generate_give_up(self, question: Question, context: TutorialContext, user_code: CodeBlock,
                                solution_code: CodeBlock, max_token: int = 1000) -> GenerateTextResponse:
@@ -60,7 +60,7 @@ class ContentGenClient:
                                            solution_code=solution_code, max_token=max_token).dict()
             )
             response.raise_for_status()
-            return response.json()
+            return GenerateTextResponse(**response.json())
 
     async def generate_affirmation(self, context: TutorialContext, attempts_taken: int,
                                    max_token: int = 1000) -> GenerateTextResponse:
@@ -70,7 +70,7 @@ class ContentGenClient:
                 json=GenerateAffirmationRequest(context=context, attempts_taken=attempts_taken, max_token=max_token).dict()
             )
             response.raise_for_status()
-            return response.json()
+            return GenerateTextResponse(**response.json())
 
 
 def get_mock_content_gen_client():
