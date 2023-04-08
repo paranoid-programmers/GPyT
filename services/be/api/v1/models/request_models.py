@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from be.api.internal.models import UUIDModel
-from be.shared.models import TutorialContext, CodeBlock
+from be.shared.models import TutorialContext, CodeBlock, Question
 from pydantic import BaseModel
 
 
@@ -15,8 +15,8 @@ class PositiveAffirmationRequest(UUIDModel):
 
 
 class HintRequest(BaseModel):
+    question: Question
     context: TutorialContext
-    full_code: CodeBlock
 
 
 class GiveUpRequest(BaseModel):

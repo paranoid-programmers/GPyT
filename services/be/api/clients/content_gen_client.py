@@ -1,7 +1,7 @@
 from be.api.internal.settings import ContentGenSettings
-from be.content_gen.v1.request_models import GenerateQuestionRequest
+from be.content_gen.v1.request_models import GenerateQuestionRequest, GenerateHintRequest
 from be.content_gen.v1.response_models import GenerateTextResponse, GenerateCodeQuestionResponse
-from be.shared.models import TutorialContext, CodeBlock
+from be.shared.models import TutorialContext, CodeBlock, Question
 from pydantic.tools import lru_cache
 import httpx
 
@@ -32,14 +32,11 @@ class ContentGenClient:
             response.raise_for_status()
             return response.json()
 
-    async def get_hint(self, context: TutorialContext, full_code: CodeBlock) -> GenerateTextResponse:
+    async def get_hint(self, question: Question, context: TutorialContext, max_token: int = 1000) -> GenerateTextResponse:
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{self.url}/hint",
-                json={
-                    "context": context,
-                    "full_code": full_code,
-                },
+                json=GenerateHintRequest(question=question, context=context, max_token=max_token)
             )
             response.raise_for_status()
             return response.json()

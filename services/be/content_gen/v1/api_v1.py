@@ -29,7 +29,7 @@ async def create_question(user_request: GenerateQuestionRequest):
     )
 
 
-@api_v1_router.post("/hint", response_model=GenerateTextResponse)
+@api_v1_router.post("/generate-hint", response_model=GenerateTextResponse)
 async def get_hint(hint_request: GenerateCodeHintRequest) -> GenerateTextResponse:
     return GenerateTextResponse(
         text="You can use the return keyword to return a value",
@@ -37,7 +37,7 @@ async def get_hint(hint_request: GenerateCodeHintRequest) -> GenerateTextRespons
     )
 
 
-@api_v1_router.post("/give-up", response_model=GenerateTextResponse)
+@api_v1_router.post("/generate-give-up", response_model=GenerateTextResponse)
 async def give_up(hint_request: GenerateCodeHintRequest) -> GenerateTextResponse:
     return GenerateTextResponse(
         text="Wow you suck, it was pretty simple my dude",

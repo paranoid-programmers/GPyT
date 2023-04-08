@@ -4,7 +4,7 @@ from be.api.clients.content_gen_client import ContentGenClient, get_content_gen_
 from be.api.clients.supabase_client import SupabaseWrapper, get_supabase_client
 from be.api.internal.models import CodeTutorial, UniqueCodeQuestion
 from be.api.v1.models.response_models import NewCodeTutorialResponse, PositiveAffirmationResponse, HintResponse, GiveUpResponse
-from be.shared.models import TutorialContext, CodeBlock
+from be.shared.models import TutorialContext, CodeBlock, Question
 
 
 def get_tutorial_service():
@@ -33,9 +33,9 @@ class TutorialService:
 
         return NewCodeTutorialResponse(tutorial=tutorial)
 
-    async def get_hint(self, context: TutorialContext, full_code: CodeBlock) -> HintResponse:
+    async def get_hint(self, question: Question, context: TutorialContext) -> HintResponse:
         # ask content client for a hint
-        hint_text = await self.content_client.get_hint(context, full_code)
+        hint_text = await self.content_client.get_hint(question, context)
         return HintResponse(hint_text=hint_text)
 
     async def get_affirmation(self, uuid: UUID, full_code: CodeBlock) -> PositiveAffirmationResponse:
