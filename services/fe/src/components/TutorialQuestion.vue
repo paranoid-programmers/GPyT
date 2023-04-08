@@ -16,6 +16,7 @@ import TerminalOutput from './TerminalOutput.vue';
 import { defineComponent, inject } from 'vue';
 import { CodeQuestion } from '@/models';
 import { Pyodide } from '@/types/pyodide';
+import { runPythonIsolated } from '@/pyodideLoader'
 
 
 export default defineComponent({
@@ -38,27 +39,24 @@ export default defineComponent({
         }
     },
     methods: {
-        runCode() {
+        async runCode() {
             this.output = "";
-            this.pyodide?.runPython("globals().clear()")
-            this.pyodide?.setStdout({
-                batched: (output: string) => {
-                    this.output += `${output}\n`;
-                }
-            });
-
-            try {
-                this.pyodide?.runPython(this.code);
-            } catch (e: any) {
-                this.output += e.toString();
+            if (!this.pyodide) {
+                return
             }
+            runPythonIsolated(this.code, this.pyodide).then((output) => {
+                this.output = output;
+            })
         },
         codeUpdated(code: string) {
             this.code = code;
         }
     },
-    setup() {
+    setup(props) {
         var pyodide = inject<Pyodide>("$pyodide");
+
+        props.question.solution_code.code
+
         return { pyodide }
     },
 });

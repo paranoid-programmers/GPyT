@@ -18,3 +18,24 @@ export async function loadPyodide($loadScript: (url: string) => Promise<void>): 
         throw error;
     }
 }
+
+export async function runPythonIsolated(
+    code: string,
+    pyodide: Pyodide,
+): Promise<string> {
+    pyodide.runPython("globals().clear()")
+    let out: string = ""
+
+    pyodide?.setStdout({
+        batched: (output: string) => {
+            out += `${output}\n`;
+        }
+    });
+
+    try {
+        pyodide?.runPython(code);
+    } catch (e: any) {
+        out += e.toString();
+    }
+    return out
+}
