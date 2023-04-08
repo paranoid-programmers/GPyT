@@ -1,12 +1,9 @@
-from typing import Annotated
-from uuid import UUID
-
-from be.api.clients.content_gen_client import ContentGenClient, get_content_gen_client, get_mock_content_gen_client
+import uuid
+from be.api.clients.content_gen_client import ContentGenClient, get_content_gen_client
 from be.api.clients.supabase_client import SupabaseWrapper, get_supabase_client
 from be.api.internal.models import CodeTutorial, UniqueCodeQuestion
 from be.api.v1.models.response_models import NewCodeTutorialResponse, PositiveAffirmationResponse, HintResponse, GiveUpResponse
 from be.shared.models import TutorialContext, CodeBlock, Question
-from fastapi import Depends
 
 
 def get_code_tutorial_service():
@@ -19,23 +16,23 @@ class CodeTutorialService:
         self.supabase_client = supabase_client
 
     async def create_new_tutorial(self, tutorial_context: TutorialContext, concept: str) -> NewCodeTutorialResponse:
-        # create a tutorial and persist it in supabase
-        tutorial = CodeTutorial(questions=[], context=tutorial_context)
-        tutorial.uuid = await self.supabase_client.add_to_document_store(tutorial.json())
-
         # ask content client for a single question
         question_response = await self.content_client.generate_question(tutorial_context, concept)
         question_response.code_question.concept = concept
 
-        # persist question in supabase
-        question_uuid = await self.supabase_client.add_to_document_store(question_response.code_question)
+        # create a code tutorial
+        tutorial_uuid = uuid.uuid4()
+        tutorial = CodeTutorial(uuid=tutorial_uuid, questions=[], context=tutorial_context)
 
-        # add question to tutorial
-        unique_code_question = UniqueCodeQuestion(uuid=question_uuid, code_question=question_response.code_question)
+        # unique-ify the question and add it to the tutorial
+        unique_code_question = UniqueCodeQuestion(uuid=uuid.uuid4(), question=question_response.code_question)
         tutorial.questions.append(unique_code_question)
 
-        # update tutorial in supabase with question
-        await self.supabase_client.update_stored_document(tutorial.json())
+        # persist the question in supabase
+        await self.supabase_client.insert_question(unique_code_question)
+
+        # persist the code tutorial in supabase
+        await self.supabase_client.insert_tutorial(tutorial)
 
         return NewCodeTutorialResponse(tutorial=tutorial)
 
@@ -44,7 +41,7 @@ class CodeTutorialService:
         hint_text = await self.content_client.get_hint(question, context)
         return HintResponse(hint_text=hint_text)
 
-    async def get_affirmation(self, uuid: UUID, full_code: CodeBlock) -> PositiveAffirmationResponse:
+    async def get_affirmation(self, uuid: uuid, full_code: CodeBlock) -> PositiveAffirmationResponse:
         # fetch context from supabase
         context = await self.supabase_client.get_context(uuid)
 

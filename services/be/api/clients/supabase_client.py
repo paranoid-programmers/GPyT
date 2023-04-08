@@ -1,10 +1,11 @@
-from be.api.internal.models import CodeTutorial
+import asyncio
+
+from be.api.internal.models import CodeTutorial, UniqueCodeQuestion
 from be.api.internal.settings import SupabaseSettings
-from be.shared.models import CodeQuestion, TutorialContext
-from pydantic import json
 from pydantic.tools import lru_cache
 
 from supabase import create_client
+import json
 
 
 @lru_cache()
@@ -37,20 +38,15 @@ class SupabaseWrapper:
         })
         oauth_token = data.session.provider_token  # use to access provider API
 
-    async def add_to_document_store(self, document: json):
+    async def insert_tutorial(self, tutorial: CodeTutorial):
         # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
-        data, count = self.supabase_client.table('documents').insert(document).execute()
+        data, count = await asyncio.to_thread(lambda: self.supabase_client.table('tutorials').insert(json.loads(tutorial.json())).execute())
         return data
 
-    async def update_stored_document(self, document: json):
+    async def insert_question(self, question: UniqueCodeQuestion):
         # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
-        data, count = self.supabase_client.table('documents').update(document).execute()
+        data, count = await asyncio.to_thread(lambda: self.supabase_client.table('questions').insert((json.loads(question.json()))).execute())
+        return data
 
-    async def insert_tutorial(self, tutorial: CodeTutorial):
-        pass
-
-    async def get_context(self, uuid):
-        pass
-
-    async def insert_question(self, tutorial_uuid, question):
+    def get_context(self, uuid):
         pass

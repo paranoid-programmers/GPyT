@@ -1,11 +1,16 @@
+from typing import Optional
 from uuid import UUID
-
 from be.shared.models import CodeQuestion, TutorialContext
 from pydantic import BaseModel
 
 
 class UUIDModel(BaseModel):
-    uuid: UUID
+    uuid: Optional[UUID]
+
+    class Config:
+        json_encoders = {
+            Optional[UUID]: lambda v: str(v) if v else None,
+        }
 
 
 class UniqueCodeQuestion(UUIDModel):
