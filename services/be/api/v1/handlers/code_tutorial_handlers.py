@@ -9,7 +9,7 @@ from be.api.hahabusiness.code_tutorial_service import CodeTutorialService, get_c
 from fastapi import APIRouter, Depends
 from typing import Annotated
 
-tutorial_router = APIRouter(prefix="/code-tutorial", tags=["code", "tutorial"])
+tutorial_router = APIRouter(prefix="/code-tutorial", tags=["code-tutorial"])
 _logger = logging.getLogger(__name__)
 
 CodeTutorialServiceType = Annotated[CodeTutorialService, Depends(get_code_tutorial_service)]
