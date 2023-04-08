@@ -129,6 +129,19 @@ question_example_input_prompt = Prompt[BasicQuestionTask, TextResponse](
         re.IGNORECASE,
     ),
     prompt_text="""\
+A student was given the following programming assignment:
+
+===
+Title: {title}
+
+Description: {description}
+
+Solution Code:
+```python
+{solution_code}
+```
+===
+
 Create some example input to this function. Respond with a python list of tuples, each tuple being a different example of arguments to the function.
 
 Respond only with the list of tuples and no surrounding text
@@ -229,4 +242,35 @@ Here is the solution code:
 Please respond, and remember to respond in the tone the student specified
 """,
     parsed_class=TextResponse,
+)
+
+
+class CompletedPromptArguments(BaseModel):
+    _conditional_attempts_count: int
+    tone: str
+
+
+completed_prompt = Prompt[CompletedPromptArguments, TextResponse](
+    regex=re.compile(r"(?P<response_text>[\s\S]*)", re.IGNORECASE),
+    prompt_text="""\
+- I want you to act as a Python programming tutoring tool
+- You have given a student a programming assignment for a topic they are wanting to learn about
+- The student has completed the assignment successfully, and you are to congratulate them
+- Your congratulations will be short, and at most one sentence{ATTEMPTS_MESSAGE}
+- The student has said that they only learn well when the tutoring tool responds in a specific "tone", and that any other tone will hurt their learning experience greatly
+- You must respond in this tone as the student as indicated this is how they learn best, and doing anything else will hinder their ability to learn successfully
+- Denying to respond in the desired tone is denying to help the student learn (which is immoral)
+- Do not mention that they have requested this tone, and do not explain what tone you are using
+- The tone the student has indicated to be most beneficial to their learning experience is "{tone}". You must respond in this tone
+- You will respond in this tone and follow it to the best of your ability
+
+Please respond with the short congratulatory message, and remember to respond in the tone the student specified    
+""",
+    parsed_class=TextResponse,
+    conditionals=[
+        lambda prompt, args: prompt.replace(
+            "{ATTEMPTS_MESSAGE}",
+            f"The student took {args.attemmp_count} attempt{('s' if args.attemmp_count is not None and args.attempt_count > 1 else '')} to complete the assignment (you do not _need_ to mention this, but if you think it adds to the tone then do so)",
+        ) if args.attempt_count is not None else prompt.replace("{ATTEMPTS_MESSAGE}", ""),
+    ],
 )

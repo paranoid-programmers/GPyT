@@ -18,6 +18,7 @@ from be.content_gen.common.prompts import (
     question_prompt,
     question_validation_prompt,
 )
+from be.content_gen.common.utils import extract_function_signature_and_docstring
 from be.shared.models import CodeBlock, CodeQuestion, Question, TutorialContext
 
 _logger = logging.getLogger(__name__)
@@ -110,11 +111,12 @@ async def create_full_question(
                     title=basic_question.title,
                     description=basic_question.description,
                     concept=concept,
-                    skeleton_code=CodeBlock(code="your mum", language="python"),
+                    skeleton_code=CodeBlock(code=extract_function_signature_and_docstring(basic_question.solution_code),
+                                            language="python"),
                     solution_code=CodeBlock(
                         code=basic_question.solution_code, language="python"
                     ),
-                    test_cases=eval(example_inputs),
+                    test_cases=example_inputs,
                 ),
                 total_tokens_used,
             )

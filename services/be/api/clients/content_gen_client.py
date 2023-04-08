@@ -3,6 +3,7 @@ from be.content_gen.v1.request_models import GenerateQuestionRequest, GenerateGi
     GenerateAffirmationRequest
 from be.content_gen.v1.response_models import GenerateTextResponse, GenerateCodeQuestionResponse
 from be.shared.models import TutorialContext, Question, CodeBlock
+# noinspection PyProtectedMember
 from pydantic.tools import lru_cache
 from unittest.mock import MagicMock
 
