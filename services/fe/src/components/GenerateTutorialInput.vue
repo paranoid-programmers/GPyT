@@ -1,6 +1,7 @@
 <template>
     <v-form @submit.prevent="submitForm">
-        <v-text-field v-model="topic" label="Topic" outlined required></v-text-field>
+        <v-text-field v-model="theme" label="Theme" outlined required placeholder="i.e. Cowboys" />
+        <v-text-field v-model="topic" label="Topic" outlined required placeholder="i.e. Dictionaries"></v-text-field>
         <v-btn type="submit" color="primary">Generate Tutorial</v-btn>
     </v-form>
 </template>
@@ -10,9 +11,10 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
     name: 'GenerateTutorialInput',
-    data(): { topic: string } {
+    data(): { topic: string, theme: string } {
         return {
-            topic: ''
+            topic: '',
+            theme: ''
         }
     },
     methods: {
@@ -21,7 +23,7 @@ export default defineComponent({
             if (!this.topic) {
                 return;
             }
-            this.$emit('generate', this.topic);
+            this.$emit('generate', { topic: this.topic, theme: this.theme });
             this.topic = '';
         }
     }

@@ -1,9 +1,15 @@
 // client that wraps the API
 
-import { NewTutorialRequest, NewTutorialResponse } from "./models";
+import {
+    NewTutorialRequest,
+    NewTutorialResponse,
+    HintRequest,
+    HintResponse,
+} from "./models";
 
 export interface ApiWrapper {
     getNewTutorial(request: NewTutorialRequest): Promise<NewTutorialResponse>;
+    getHint(request: HintRequest): Promise<HintResponse>;
 }
 
 
@@ -19,7 +25,7 @@ export class mockApiWrapper implements ApiWrapper {
                 questions: {
                     "234": {
                         title: `Question 1: Fake question about ${request.concept}`,
-                        description: "Do some list stuff",
+                        description: `Do some list stuff, in the theme of ${request.context.theme}`,
                         skeleton_code: {
                             code: "print('Hello World')",
                             language: "python",
@@ -31,7 +37,7 @@ export class mockApiWrapper implements ApiWrapper {
                         test_cases: [],
                     },
                     "345": {
-                        title: "Question 2: Even more fake question lol",
+                        title: `Question 2: more ${request.context.theme}`,
                         description: `But it's still about ${request.concept}`,
                         skeleton_code: {
                             code: "print('Hello World')",
@@ -45,6 +51,12 @@ export class mockApiWrapper implements ApiWrapper {
                     },
                 },
             },
+        });
+    }
+
+    getHint(request: HintRequest): Promise<HintResponse> {
+        return Promise.resolve({
+            hint_text: "This is a fake hint",
         });
     }
 }
