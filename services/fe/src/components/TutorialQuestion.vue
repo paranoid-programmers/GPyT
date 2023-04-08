@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-card-title>{{ question.title }}</v-card-title>
-        <v-card-text>{{ question }}</v-card-text>
+        <v-card-text>{{ question.description }}</v-card-text>
         <code-section :value="question.skeletonCode.code" v-model="code" />
         <v-btn-group>
             <v-btn @click="runCode">Run Code</v-btn>

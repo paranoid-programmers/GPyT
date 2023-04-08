@@ -49,7 +49,6 @@ export default defineComponent({
             }).then((response: NewCodeTutorialResponse) => {
                 this.uuid = response.tutorial.uuid ?? "NO-UUID";
                 this.questions = response.tutorial.questions ?? [];
-
             });
         },
         async loadPyodide() {
