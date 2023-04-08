@@ -37,3 +37,7 @@ class ReportQuestionRequest(BaseModel):
     category: str
     details: str
     should_regenerate: bool
+
+
+class OAuthRequest(BaseModel):
+    pass

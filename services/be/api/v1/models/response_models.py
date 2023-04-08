@@ -27,3 +27,8 @@ class MoreQuestionsResponse(BaseModel):
 
 class ReportQuestionResponse(BaseModel):
     new_question: CodeQuestion | None
+
+
+class OAuthResponseWrapper(BaseModel):
+    provider: str
+    url: str

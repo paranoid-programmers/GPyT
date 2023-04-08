@@ -1,5 +1,7 @@
 import logging
 
+from be.api.v1.models.request_models import OAuthRequest
+from be.api.v1.models.response_models import OAuthResponseWrapper
 from fastapi import APIRouter, Depends, Header
 from be.api.clients.supabase_client import SupabaseWrapper, get_supabase_client
 from typing import Annotated
@@ -31,5 +33,5 @@ async def protected(user: dict = Depends(get_current_user)):
 
 
 @auth_router.post("/login-via-github")
-async def login_via_github(supabase_client: SupabaseWrapperType):
+async def login_via_github(request: OAuthRequest, supabase_client: SupabaseWrapperType) -> OAuthResponseWrapper:
     return await supabase_client.oauth_sign_in('github')

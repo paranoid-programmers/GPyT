@@ -2,7 +2,7 @@ from be.api.internal.settings import ContentGenSettings, get_environment_setting
 from be.content_gen.v1.request_models import GenerateQuestionRequest, GenerateGiveUpRequest, GenerateCodeHintRequest, \
     GenerateAffirmationRequest
 from be.content_gen.v1.response_models import GenerateTextResponse, GenerateCodeQuestionResponse
-from be.shared.models import TutorialContext, Question, CodeBlock
+from be.shared.models import TutorialContext, Question, CodeBlock, CodeQuestion
 # noinspection PyProtectedMember
 from pydantic.tools import lru_cache
 from unittest.mock import MagicMock
@@ -81,14 +81,14 @@ class MockContentGenClient(MagicMock):
                                 max_token: int = 1000) -> GenerateCodeQuestionResponse:
         mock_code_block = CodeBlock(code="print('Hello World!')", language="python")
         return GenerateCodeQuestionResponse(
-            code_question={
-                "title": "mock title",
-                "description": "mock description",
-                "concept": concept,
-                "skeleton_code": mock_code_block,
-                "solution_code": mock_code_block,
-                "test_cases": '[("garbage", 1)]'
-            },
+            code_question=CodeQuestion(
+                title="mock title",
+                description="mock description",
+                concept=concept,
+                skeleton_code=mock_code_block,
+                solution_code=mock_code_block,
+                test_cases="[('garbage', 1)]"
+            ),
             tokens_used=6969
         )
 
