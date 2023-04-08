@@ -38,8 +38,8 @@ class ContentGenClient:
             response.raise_for_status()
             return response.json()
 
-    async def get_hint(self, question: Question, context: TutorialContext, user_code: CodeBlock,
-                       max_token: int = 1000) -> GenerateTextResponse:
+    async def generate_hint(self, question: Question, context: TutorialContext, user_code: CodeBlock,
+                            max_token: int = 1000) -> GenerateTextResponse:
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{self.url}/generate-hint",
@@ -49,8 +49,8 @@ class ContentGenClient:
             response.raise_for_status()
             return response.json()
 
-    async def get_give_up(self, question: Question, context: TutorialContext, user_code: CodeBlock,
-                          solution_code: CodeBlock, max_token: int = 1000) -> GenerateTextResponse:
+    async def generate_give_up(self, question: Question, context: TutorialContext, user_code: CodeBlock,
+                               solution_code: CodeBlock, max_token: int = 1000) -> GenerateTextResponse:
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{self.url}/generate-give-up",
@@ -60,7 +60,7 @@ class ContentGenClient:
             response.raise_for_status()
             return response.json()
 
-    async def get_affirmation(self, context, full_code) -> GenerateTextResponse:
+    async def generate_affirmation(self, context, concept) -> GenerateTextResponse:
         pass
 
 
