@@ -44,7 +44,7 @@ export default defineComponent({
                 concept: input.topic,
                 context: {
                     interests: [input.theme],
-                    tone: "cowboy"
+                    tone: "angry"
                 }
             }).then((response: NewCodeTutorialResponse) => {
                 this.uuid = response.tutorial.uuid ?? "NO-UUID";
@@ -67,7 +67,7 @@ export default defineComponent({
         this.loadPyodide();
 
         // TODO(j.swannack): remove this, only for testing
-        this.generateTutorial({ topic: "lists", theme: "cats" });
+        this.generateTutorial({ topic: "lists", theme: "skyrim" });
     },
 });
 </script>
