@@ -1,6 +1,7 @@
 import logging
 
-from be.api.v1.models.response_models import NewCodeTutorialResponse, PositiveAffirmationResponse, HintResponse, GiveUpResponse, \
+from be.api.v1.models.response_models import NewCodeTutorialResponse, PositiveAffirmationResponse, HintResponse, \
+    GiveUpResponse, \
     MoreQuestionsResponse, ReportQuestionResponse
 from be.api.v1.models.request_models import NewTutorialRequest, PositiveAffirmationRequest, HintRequest, GiveUpRequest, \
     MoreQuestionsRequest, ReportQuestionRequest
@@ -15,24 +16,25 @@ CodeTutorialServiceType = Annotated[CodeTutorialService, Depends(get_code_tutori
 
 
 @tutorial_router.post("/new-code-tutorial", response_model=NewCodeTutorialResponse)
-async def new_code_tutorial(request: NewTutorialRequest, tutorial_service: CodeTutorialServiceType) -> NewCodeTutorialResponse:
+async def new_code_tutorial(request: NewTutorialRequest,
+                            tutorial_service: CodeTutorialServiceType) -> NewCodeTutorialResponse:
     return await tutorial_service.create_new_tutorial(request.context, request.concept)
-
-
-@tutorial_router.post("/affirmation", response_model=PositiveAffirmationResponse)
-async def hint(request: PositiveAffirmationRequest,
-               tutorial_service: CodeTutorialServiceType) -> PositiveAffirmationResponse:
-    return await tutorial_service.get_affirmation(request.uuid, request.full_code)
 
 
 @tutorial_router.post("/hint", response_model=HintResponse)
 async def hint(request: HintRequest, tutorial_service: CodeTutorialServiceType) -> HintResponse:
-    return await tutorial_service.get_hint(request.incomplete_code, request.tutorial_uuid, request.question_uuid)
+    return await tutorial_service.get_hint(request.tutorial_uuid, request.question_uuid, request.user_code)
 
 
 @tutorial_router.post("/give-up", response_model=GiveUpResponse)
 async def give_up(request: GiveUpRequest, tutorial_service: CodeTutorialServiceType) -> GiveUpResponse:
-    return await tutorial_service.give_up(request.context, request.full_code)
+    return await tutorial_service.give_up(request.tutorial_uuid, request.question_uuid, request.full_code)
+
+
+@tutorial_router.post("/affirmation", response_model=PositiveAffirmationResponse)
+async def affirmation(request: PositiveAffirmationRequest,
+                      tutorial_service: CodeTutorialServiceType) -> PositiveAffirmationResponse:
+    return await tutorial_service.get_affirmation(request.user_code, request.tutorial_uuid, request.question_uuid)
 
 
 @tutorial_router.post("/more-questions", response_model=MoreQuestionsResponse)

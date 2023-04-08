@@ -37,7 +37,7 @@ class CodeTutorialService:
 
         return NewCodeTutorialResponse(tutorial=tutorial)
 
-    async def get_hint(self, partial_code: CodeBlock, tutorial_uuid: uuid, question_uuid: uuid) -> HintResponse:
+    async def get_hint(self, tutorial_uuid: uuid, question_uuid: uuid, user_code: CodeBlock) -> HintResponse:
         # fetch the tutorial from supabase
         tutorial = await self.supabase_client.get_tutorial(tutorial_uuid)
 
@@ -45,17 +45,25 @@ class CodeTutorialService:
         question = await self.supabase_client.get_question(question_uuid)
 
         # ask content client for a hint
-        hint = await self.content_client.get_hint(question.question, tutorial.context, partial_code)
+        hint = await self.content_client.get_hint(question.question, tutorial.context, user_code)
         return HintResponse(hint_text=hint.text)
 
-    async def get_affirmation(self, uuid: uuid, full_code: CodeBlock) -> PositiveAffirmationResponse:
-        pass
+    async def give_up(self, tutorial_uuid: uuid, question_uuid: uuid, user_code: CodeBlock) -> GiveUpResponse:
+        # fetch the tutorial from supabase
+        tutorial = await self.supabase_client.get_tutorial(tutorial_uuid)
 
-    async def give_up(self, context, full_code) -> GiveUpResponse:
+        # fetch the question from supabase
+        question = await self.supabase_client.get_question(question_uuid)
+
+        # ask content client for a hint
+        give_up_message = await self.content_client.get_give_up(question.question, tutorial.context, user_code)
+        return GiveUpResponse(explanation=give_up_message.text, example_solution=None, additional_info=None)
+
+    async def get_affirmation(self, uuid: uuid, full_code: CodeBlock) -> PositiveAffirmationResponse:
         pass
 
     async def more_questions(self, tutorial_uuid) -> MoreQuestionsResponse:
         pass
 
-    def report_question(self, question_uuid, category, details, should_regenerate) -> ReportQuestionResponse:
+    async def report_question(self, question_uuid, category, details, should_regenerate) -> ReportQuestionResponse:
         pass

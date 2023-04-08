@@ -16,9 +16,9 @@ class HintResponse(BaseModel):
 
 
 class GiveUpResponse(BaseModel):
-    example_solution: str
     explanation: str
-    additional_info: str
+    example_solution: str | None
+    additional_info: str | None
 
 
 class MoreQuestionsResponse(BaseModel):

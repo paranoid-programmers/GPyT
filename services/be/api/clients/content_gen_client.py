@@ -1,7 +1,8 @@
 import uuid
 
 from be.api.internal.settings import ContentGenSettings
-from be.content_gen.v1.request_models import GenerateQuestionRequest, GenerateHintRequest, GenerateGiveUpRequest
+from be.content_gen.v1.request_models import GenerateQuestionRequest, GenerateHintRequest, GenerateGiveUpRequest, \
+    GenerateCodeHintRequest
 from be.content_gen.v1.response_models import GenerateTextResponse, GenerateCodeQuestionResponse
 from be.shared.models import TutorialContext, Question, CodeBlock
 from pydantic.tools import lru_cache
@@ -40,22 +41,23 @@ class ContentGenClient:
             response.raise_for_status()
             return response.json()
 
-    async def get_hint(self, question: Question, context: TutorialContext, partial_code: CodeBlock,
+    async def get_hint(self, question: Question, context: TutorialContext, user_code: CodeBlock,
                        max_token: int = 1000) -> GenerateTextResponse:
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{self.url}/generate-hint",
-                json=GenerateHintRequest(question=question, context=context, partial_code=partial_code, max_token=max_token)
+                json=GenerateCodeHintRequest(question=question, context=context, user_code=user_code,
+                                             max_token=max_token)
             )
             response.raise_for_status()
             return response.json()
 
-    async def get_give_up(self, question: Question, context: TutorialContext,
+    async def get_give_up(self, question: Question, context: TutorialContext, user_code: CodeBlock,
                           max_token: int = 1000) -> GenerateTextResponse:
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{self.url}/generate-give-up",
-                json=GenerateGiveUpRequest(question=question, context=context, max_token=max_token)
+                json=GenerateGiveUpRequest(question=question, context=context, user_code=user_code, max_token=max_token)
             )
             response.raise_for_status()
             return response.json()
