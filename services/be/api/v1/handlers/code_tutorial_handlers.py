@@ -31,15 +31,15 @@ async def give_up(request: GiveUpRequest, tutorial_service: CodeTutorialServiceT
     return await tutorial_service.give_up(request.tutorial_uuid, request.question_uuid, request.user_code)
 
 
+@tutorial_router.post("/more-questions", response_model=MoreQuestionsResponse)
+async def give_up(request: MoreQuestionsRequest, tutorial_service: CodeTutorialServiceType) -> MoreQuestionsResponse:
+    return await tutorial_service.more_questions(request.tutorial_uuid)
+
+
 @tutorial_router.post("/affirmation", response_model=PositiveAffirmationResponse)
 async def affirmation(request: PositiveAffirmationRequest,
                       tutorial_service: CodeTutorialServiceType) -> PositiveAffirmationResponse:
     return await tutorial_service.get_affirmation(request.user_code, request.tutorial_uuid, request.question_uuid)
-
-
-@tutorial_router.post("/more-questions", response_model=MoreQuestionsResponse)
-async def give_up(request: MoreQuestionsRequest, tutorial_service: CodeTutorialServiceType) -> MoreQuestionsResponse:
-    return await tutorial_service.more_questions(request.tutorial_uuid)
 
 
 @tutorial_router.post("/report-question", response_model=ReportQuestionResponse)

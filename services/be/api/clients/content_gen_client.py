@@ -50,11 +50,12 @@ class ContentGenClient:
             return response.json()
 
     async def get_give_up(self, question: Question, context: TutorialContext, user_code: CodeBlock,
-                          max_token: int = 1000) -> GenerateTextResponse:
+                          solution_code: CodeBlock, max_token: int = 1000) -> GenerateTextResponse:
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{self.url}/generate-give-up",
-                json=GenerateGiveUpRequest(question=question, context=context, user_code=user_code, max_token=max_token)
+                json=GenerateGiveUpRequest(question=question, context=context, user_code=user_code,
+                                           solution_code=solution_code, max_token=max_token)
             )
             response.raise_for_status()
             return response.json()

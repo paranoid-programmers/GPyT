@@ -45,6 +45,13 @@ class SupabaseWrapper:
             return None
         return CodeTutorial.parse_obj(response.data[0])
 
+    async def update_tutorial(self, tutorial: CodeTutorial):
+        # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
+        response = await asyncio.to_thread(lambda: self.supabase_client.table('tutorials').update(json.loads(tutorial.json())).eq('uuid', tutorial.uuid).execute())
+        if response.data is None or len(response.data) == 0:
+            return None
+        return CodeTutorial.parse_obj(response.data[0])
+
     async def get_tutorial(self, tutorial_uuid) -> CodeTutorial | None:
         # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
         response = await asyncio.to_thread(lambda: self.supabase_client.table('tutorials').select('*').eq('uuid', str(tutorial_uuid)).execute())

@@ -65,13 +65,31 @@ class CodeTutorialService:
             raise HTTPException(status_code=404, detail="Question not found")
 
         # ask content client for a hint
-        give_up_message = await self.content_client.get_give_up(question.question, tutorial.context, user_code)
+        give_up_message = await self.content_client.get_give_up(question.question, tutorial.context, user_code, question.question.solution_code)
         return GiveUpResponse(explanation=give_up_message.text, example_solution=None, additional_info=None)
 
-    async def get_affirmation(self, uuid: uuid, full_code: CodeBlock) -> PositiveAffirmationResponse:
-        pass
-
     async def more_questions(self, tutorial_uuid) -> MoreQuestionsResponse:
+        # fetch the tutorial from supabase
+        tutorial = await self.supabase_client.get_tutorial(tutorial_uuid)
+        if tutorial is None:
+            raise HTTPException(status_code=404, detail="Tutorial not found")
+
+        # ask content client for a single question
+        question_response = await self.content_client.generate_question(tutorial.context, tutorial.questions[0].question.concept)
+
+        # unique-ify the question and add it to the tutorial
+        unique_code_question = UniqueCodeQuestion(uuid=uuid.uuid4(), question=question_response.code_question)
+        tutorial.questions.append(unique_code_question)
+
+        # persist the question in supabase
+        await self.supabase_client.insert_question(unique_code_question)
+
+        # persist the updated code tutorial in supabase
+        await self.supabase_client.update_tutorial(tutorial)
+
+        return MoreQuestionsResponse(questions=[unique_code_question])
+
+    async def get_affirmation(self, uuid: uuid, full_code: CodeBlock) -> PositiveAffirmationResponse:
         pass
 
     async def report_question(self, question_uuid, category, details, should_regenerate) -> ReportQuestionResponse:
