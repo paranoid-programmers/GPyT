@@ -13,6 +13,8 @@ import {
     ReportQuestionResponse,
 } from "./models";
 
+import * as apiclient from "apiwrapper";
+
 export interface ApiWrapper {
     getNewTutorial(request: NewTutorialRequest): Promise<NewTutorialResponse>;
     getHint(request: HintRequest): Promise<HintResponse>;
