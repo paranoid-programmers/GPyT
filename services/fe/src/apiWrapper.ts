@@ -7,14 +7,16 @@ import {
     HintResponse,
     GiveUpRequest,
     GiveUpResponse,
+    PositiveAffirmationRequest,
+    PositiveAffirmationResponse,
 } from "./models";
 
 export interface ApiWrapper {
     getNewTutorial(request: NewTutorialRequest): Promise<NewTutorialResponse>;
     getHint(request: HintRequest): Promise<HintResponse>;
     giveUp(request: GiveUpRequest): Promise<GiveUpResponse>;
+    getPositiveAffirmation(request: PositiveAffirmationRequest): Promise<PositiveAffirmationResponse>;
 }
-
 
 export class mockApiWrapper implements ApiWrapper {
     constructor() {
@@ -68,6 +70,12 @@ export class mockApiWrapper implements ApiWrapper {
             example_solution: "print('Hello World')",
             explanation: "This is a fake explanation",
             additional_info: "This is fake additional info",
+        });
+    }
+
+    getPositiveAffirmation(request: PositiveAffirmationRequest): Promise<PositiveAffirmationResponse> {
+        return Promise.resolve({
+            happy_text: "This is a fake affirmation",
         });
     }
 }
