@@ -62,3 +62,14 @@ export interface PositiveAffirmationRequest {
 export interface PositiveAffirmationResponse {
     happy_text: string;
 }
+
+export interface ReportQuestionRequest {
+    uuid: string;
+    category: string;
+    details: string;
+    should_regenerate: boolean;
+}
+
+export interface ReportQuestionResponse {
+    question?: CodeQuestion;
+}

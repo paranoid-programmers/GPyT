@@ -19,16 +19,18 @@ export interface ApiWrapper {
 }
 
 export class mockApiWrapper implements ApiWrapper {
+    id_counter: number;
     constructor() {
         console.log("API Wrapper initialized");
+        this.id_counter = 0;
     }
 
     getNewTutorial(request: NewTutorialRequest): Promise<NewTutorialResponse> {
         return Promise.resolve({
-            uuid: "12",
+            uuid: `${this.id_counter++}`,
             tutorial: {
                 questions: {
-                    "234": {
+                    [`${this.id_counter++}`]: {
                         title: `Question 1: Fake question about ${request.concept}`,
                         description: `Do some list stuff, in the theme of ${request.context.theme}`,
                         skeleton_code: {
@@ -41,7 +43,7 @@ export class mockApiWrapper implements ApiWrapper {
                         },
                         test_cases: [],
                     },
-                    "345": {
+                    [`${this.id_counter++}`]: {
                         title: `Question 2: more ${request.context.theme}`,
                         description: `But it's still about ${request.concept}`,
                         skeleton_code: {
