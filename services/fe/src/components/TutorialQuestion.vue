@@ -8,8 +8,8 @@
         <h3>{{ result }}</h3>
         <v-btn-group>
             <v-btn @click="runCode">Run Code</v-btn>
-            <v-btn @click="runCode">Hint</v-btn>
-            <v-btn @click="runCode">Give Up</v-btn>
+            <v-btn>Hint</v-btn>
+            <v-btn>Give Up</v-btn>
         </v-btn-group>
 
     </v-card>

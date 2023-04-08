@@ -38,13 +38,13 @@ export default defineComponent({
         }
     },
     methods: {
-        generateTutorial(topic: string) {
+        generateTutorial(input: { topic: string, theme: string }) {
             // check if api is defined
             this.api?.getNewTutorial({
                 context: {
-                    theme: "test theme",
+                    theme: input.theme,
                 },
-                concept: topic
+                concept: input.topic
             }).then((response: NewTutorialResponse) => {
                 this.uuid = response.uuid;
                 this.questions = response.tutorial.questions;
