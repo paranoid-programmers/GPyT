@@ -14,6 +14,7 @@ async def create_question(user_request: GenerateQuestionRequest):
             question=Question(
                 title="Return the string given",
                 description="Make a function which returns the string given in the input argument",
+                concept="functions",
             ),
             skeleton_code=CodeBlock(
                 code="def return_string(string):\n    [your code here]",

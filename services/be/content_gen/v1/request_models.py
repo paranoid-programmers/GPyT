@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from be.shared.models import CodeBlock, Question, QuestionContext
+from be.shared.models import CodeBlock, Question, TutorialContext
 
 
 class GenerateRequest(BaseModel):
@@ -9,12 +9,12 @@ class GenerateRequest(BaseModel):
 
 class GenerateQuestionRequest(GenerateRequest):
     concept: str
-    context: QuestionContext
+    context: TutorialContext
 
 
 class GenerateHintRequest(GenerateRequest):
     question: Question
-    context: QuestionContext
+    context: TutorialContext
 
 
 class GenerateCodeHintRequest(GenerateHintRequest):

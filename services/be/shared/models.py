@@ -11,15 +11,15 @@ class CodeBlock(BaseModel):
 class Question(BaseModel):
     title: str
     description: str
+    concept: str
 
 
-class CodeQuestion(BaseModel):
-    question: Question
+class CodeQuestion(Question):
     skeleton_code: CodeBlock
     solution_code: CodeBlock
     test_cases: list[list[Any] | tuple[Any]]
 
 
-class QuestionContext(BaseModel):
+class TutorialContext(BaseModel):
     tone: str
     interests: list[str]

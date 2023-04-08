@@ -1,5 +1,7 @@
 from be.api.internal.settings import ContentGenSettings
-from be.shared.models import QuestionContext, CodeBlock
+from be.content_gen.v1.request_models import GenerateQuestionRequest
+from be.content_gen.v1.response_models import GenerateTextResponse, GenerateCodeQuestionResponse
+from be.shared.models import TutorialContext, CodeBlock
 from pydantic.tools import lru_cache
 import httpx
 
@@ -21,21 +23,16 @@ class ContentGenClient:
         self.url = url
         self.key = key
 
-    async def generate_tutorial(self, context: QuestionContext, concept: str, num_questions: int, max_token_count: int = 1000):
+    async def generate_question(self, context: TutorialContext, concept: str, max_token: int = 1000) -> GenerateCodeQuestionResponse:
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                f"{self.url}/tutorial",
-                json={
-                    "context": context,
-                    "concept": concept,
-                    "num_questions": num_questions,
-                    "max_token_count": max_token_count
-                }
+                f"{self.url}/generate-question",
+                json=GenerateQuestionRequest(context=context, concept=concept, max_token=max_token)
             )
             response.raise_for_status()
             return response.json()
 
-    async def get_hint(self, context: QuestionContext, full_code: CodeBlock):
+    async def get_hint(self, context: TutorialContext, full_code: CodeBlock) -> GenerateTextResponse:
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{self.url}/hint",
@@ -47,5 +44,5 @@ class ContentGenClient:
             response.raise_for_status()
             return response.json()
 
-    def get_affirmation(self, context, full_code):
+    def get_affirmation(self, context, full_code) -> GenerateTextResponse:
         pass

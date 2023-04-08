@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from be.shared.models import CodeQuestion
+from be.shared.models import CodeQuestion, TutorialContext
 from pydantic import BaseModel
 
 
@@ -13,6 +13,8 @@ class UniqueCodeQuestion(UUIDModel):
 
 
 class Tutorial(BaseModel):
+    context: TutorialContext
+
+
+class CodeTutorial(Tutorial):
     questions: list[UniqueCodeQuestion]
-
-

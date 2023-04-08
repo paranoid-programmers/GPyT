@@ -2,8 +2,9 @@ from uuid import UUID
 
 from be.api.clients.content_gen_client import ContentGenClient, get_content_gen_client
 from be.api.clients.supabase_client import SupabaseWrapper, get_supabase_client
-from be.api.v1.models.response_models import NewTutorialResponse, PositiveAffirmationResponse, HintResponse, GiveUpResponse
-from be.shared.models import QuestionContext, CodeBlock
+from be.api.internal.models import CodeTutorial, UniqueCodeQuestion
+from be.api.v1.models.response_models import NewCodeTutorialResponse, PositiveAffirmationResponse, HintResponse, GiveUpResponse
+from be.shared.models import TutorialContext, CodeBlock
 
 
 def get_tutorial_service():
@@ -14,19 +15,25 @@ class TutorialService:
     def __init__(self, content_client: ContentGenClient, supabase_client: SupabaseWrapper):
         self.content_client = content_client
         self.supabase_client = supabase_client
-        self.num_questions_per_tutorial = 1
 
-    async def create_new_tutorial(self, context: QuestionContext, concept: str) -> NewTutorialResponse:
-        # ask content client for a new tutorial
-        tutorial_uuid, questions = await self.content_client.generate_tutorial(
-            context, concept, self.num_questions_per_tutorial)
+    async def create_new_code_tutorial(self, tutorial_context: TutorialContext, concept: str) -> NewCodeTutorialResponse:
+        # create a tutorial and persist it in supabase
+        tutorial = CodeTutorial(questions=[], context=tutorial_context)
+        tutorial_uuid = await self.supabase_client.insert_tutorial(tutorial)
 
-        # push results to supabase
-        tutorial_uuid = await self.supabase_client.insert_tutorial(context, concept, questions)
+        # ask content client for a single question
+        question_response = await self.content_client.generate_question(tutorial_context, concept)
+        question_response.code_question.concept = concept
 
-        return NewTutorialResponse(uuid=tutorial_uuid, tutorial=questions)
+        # persist question in supabase
+        question_uuid = await self.supabase_client.insert_question(tutorial_uuid, question_response.code_question)
 
-    async def get_hint(self, context: QuestionContext, full_code: CodeBlock) -> HintResponse:
+        unique_code_question = UniqueCodeQuestion(uuid=question_uuid, code_question=question_response.code_question)
+        tutorial.questions.append(unique_code_question)
+
+        return NewCodeTutorialResponse(tutorial=tutorial)
+
+    async def get_hint(self, context: TutorialContext, full_code: CodeBlock) -> HintResponse:
         # ask content client for a hint
         hint_text = await self.content_client.get_hint(context, full_code)
         return HintResponse(hint_text=hint_text)

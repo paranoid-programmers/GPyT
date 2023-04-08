@@ -1,5 +1,6 @@
+from be.api.internal.models import CodeTutorial
 from be.api.internal.settings import SupabaseSettings
-from be.shared.models import CodeQuestion, QuestionContext
+from be.shared.models import CodeQuestion, TutorialContext
 from pydantic.tools import lru_cache
 
 from supabase import create_client
@@ -41,8 +42,11 @@ class SupabaseWrapper:
     def ok(self):
         return self.supabase_client.auth_url is not None
 
-    def insert_tutorial(self, context: QuestionContext, concept: str, questions: list[CodeQuestion]):
+    def insert_tutorial(self, tutorial: CodeTutorial):
         pass
 
     def get_context(self, uuid):
+        pass
+
+    def insert_question(self, tutorial_uuid, question):
         pass

@@ -1,6 +1,6 @@
 import logging
 
-from be.api.v1.models.response_models import NewTutorialResponse, PositiveAffirmationResponse, HintResponse, GiveUpResponse, \
+from be.api.v1.models.response_models import NewCodeTutorialResponse, PositiveAffirmationResponse, HintResponse, GiveUpResponse, \
     MoreQuestionsResponse, ReportQuestionResponse
 from be.api.v1.models.request_models import NewTutorialRequest, PositiveAffirmationRequest, HintRequest, GiveUpRequest, \
     MoreQuestionsRequest, ReportQuestionRequest
@@ -14,9 +14,9 @@ _logger = logging.getLogger(__name__)
 TutorialServiceType = Annotated[TutorialService, Depends(get_tutorial_service)]
 
 
-@tutorial_router.post("/new-tutorial", response_model=NewTutorialResponse)
-async def new_tutorial(request: NewTutorialRequest, tutorial_service: TutorialServiceType) -> NewTutorialResponse:
-    return await tutorial_service.create_new_tutorial(request.context, request.concept)
+@tutorial_router.post("/new-code-tutorial", response_model=NewCodeTutorialResponse)
+async def new_code_tutorial(request: NewTutorialRequest, tutorial_service: TutorialServiceType) -> NewCodeTutorialResponse:
+    return await tutorial_service.create_new_code_tutorial(request.context, request.concept)
 
 
 @tutorial_router.post("/affirmation", response_model=PositiveAffirmationResponse)
