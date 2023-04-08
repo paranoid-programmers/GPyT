@@ -28,10 +28,11 @@ class ContentGenClient:
     def __init__(self, url: str, key: str):
         self.url = url
         self.key = key
+        self.timeout_sec = 30.0
 
     async def generate_question(self, context: TutorialContext, concept: str,
                                 max_token: int = 1000) -> GenerateCodeQuestionResponse:
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=self.timeout_sec) as client:
             response = await client.post(
                 f"{self.url}/generate-question",
                 json=GenerateQuestionRequest(context=context, concept=concept, max_token=max_token).dict()
@@ -41,7 +42,7 @@ class ContentGenClient:
 
     async def generate_hint(self, question: Question, context: TutorialContext, user_code: CodeBlock,
                             max_token: int = 1000) -> GenerateTextResponse:
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=self.timeout_sec) as client:
             response = await client.post(
                 f"{self.url}/generate-hint",
                 json=GenerateCodeHintRequest(question=question, context=context, user_code=user_code,
@@ -52,7 +53,7 @@ class ContentGenClient:
 
     async def generate_give_up(self, question: Question, context: TutorialContext, user_code: CodeBlock,
                                solution_code: CodeBlock, max_token: int = 1000) -> GenerateTextResponse:
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=self.timeout_sec) as client:
             response = await client.post(
                 f"{self.url}/generate-give-up",
                 json=GenerateGiveUpRequest(question=question, context=context, user_code=user_code,
@@ -63,7 +64,7 @@ class ContentGenClient:
 
     async def generate_affirmation(self, context: TutorialContext, attempts_taken: int,
                                    max_token: int = 1000) -> GenerateTextResponse:
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=self.timeout_sec) as client:
             response = await client.post(
                 f"{self.url}/generate-affirmation",
                 json=GenerateAffirmationRequest(context=context, attempts_taken=attempts_taken, max_token=max_token).dict()
