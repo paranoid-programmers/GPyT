@@ -42,7 +42,7 @@ const config = apiclient.createConfiguration({
     baseServer: {
         makeRequestContext: (endpoint: string, httpMethod: apiclient.HttpMethod) => {
             return new apiclient.RequestContext(
-                `http://localhost:8000/${endpoint}`,
+                `http://localhost:3000${endpoint}`,
                 httpMethod,
             );
         }
@@ -50,9 +50,9 @@ const config = apiclient.createConfiguration({
 })
 
 const api = new apiclient.CodeApi(config)
-const resp = api.affirmationApiV1CodeTutorialAffirmationPost({
-    questionUuid: "123",
-    tutorialUuid: "123",
+const resp = api.giveUpApiV1CodeTutorialGiveUpPost({
+    questionUuid: "f0fd0110-4511-4f0a-b9b7-b00664663079",
+    tutorialUuid: "e826ec13-6eb6-433c-a35e-1dc70b021ad7",
     userCode: {
         code: "print('Hello World')",
         language: "python",
