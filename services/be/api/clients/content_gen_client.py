@@ -1,5 +1,6 @@
 from be.api.internal.settings import ContentGenSettings
-from be.content_gen.v1.request_models import GenerateQuestionRequest, GenerateGiveUpRequest, GenerateCodeHintRequest
+from be.content_gen.v1.request_models import GenerateQuestionRequest, GenerateGiveUpRequest, GenerateCodeHintRequest, \
+    GenerateAffirmationRequest
 from be.content_gen.v1.response_models import GenerateTextResponse, GenerateCodeQuestionResponse
 from be.shared.models import TutorialContext, Question, CodeBlock
 from pydantic.tools import lru_cache
@@ -60,8 +61,14 @@ class ContentGenClient:
             response.raise_for_status()
             return response.json()
 
-    async def generate_affirmation(self, context, concept) -> GenerateTextResponse:
-        pass
+    async def generate_affirmation(self, context: TutorialContext, attempts_taken: int, max_token: int = 1000) -> GenerateTextResponse:
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{self.url}/generate-affirmation",
+                json=GenerateAffirmationRequest(context=context, attempts_taken=attempts_taken, max_token=max_token)
+            )
+            response.raise_for_status()
+            return response.json()
 
 
 def get_mock_content_gen_client():
@@ -91,4 +98,7 @@ class MockContentGenClient(MagicMock):
 
     async def get_give_up(self, question: Question, context: TutorialContext, user_code: CodeBlock,
                           max_token: int = 1000) -> GenerateTextResponse:
-        return GenerateTextResponse(text="This is a give up", tokens_used=6969)
+        return GenerateTextResponse(text="You are a loser you gave up", tokens_used=6969)
+
+    async def generate_affirmation(self, context: TutorialContext, max_token: int = 1000) -> GenerateTextResponse:
+        return GenerateTextResponse(text="hell yeah you did it", tokens_used=6969)

@@ -23,3 +23,8 @@ class GenerateCodeHintRequest(GenerateHintRequest):
 
 class GenerateGiveUpRequest(GenerateCodeHintRequest):
     solution_code: CodeBlock
+
+
+class GenerateAffirmationRequest(GenerateRequest):
+    context: TutorialContext
+    attempts_taken: int

@@ -89,19 +89,14 @@ class CodeTutorialService:
 
         return MoreQuestionsResponse(questions=[unique_code_question])
 
-    async def get_affirmation(self, tutorial_uuid: uuid, question_uuid: uuid, user_code: CodeBlock) -> PositiveAffirmationResponse:
+    async def get_affirmation(self, tutorial_uuid: uuid, attempts_taken: int) -> PositiveAffirmationResponse:
         # fetch the tutorial from supabase
         tutorial = await self.supabase_client.get_tutorial(tutorial_uuid)
         if tutorial is None:
             raise HTTPException(status_code=404, detail="Tutorial not found")
 
-        # fetch the question from supabase
-        question = await self.supabase_client.get_question(question_uuid)
-        if question is None:
-            raise HTTPException(status_code=404, detail="Question not found")
-
         # ask content client for a single question
-        affirmation_response = await self.content_client.generate_affirmation(tutorial.context, tutorial.questions[0].question.concept)
+        affirmation_response = await self.content_client.generate_affirmation(tutorial.context, attempts_taken)
 
         return PositiveAffirmationResponse(happy_text=affirmation_response.text)
 

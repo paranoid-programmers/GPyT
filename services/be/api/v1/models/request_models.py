@@ -12,8 +12,7 @@ class NewTutorialRequest(BaseModel):
 
 class PositiveAffirmationRequest(BaseModel):
     tutorial_uuid: UUID
-    question_uuid: UUID
-    user_code: CodeBlock
+    attempts_taken: int
 
 
 class HintRequest(BaseModel):

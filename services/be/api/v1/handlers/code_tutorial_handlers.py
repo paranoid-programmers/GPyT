@@ -39,7 +39,7 @@ async def give_up(request: MoreQuestionsRequest, tutorial_service: CodeTutorialS
 @tutorial_router.post("/affirmation", response_model=PositiveAffirmationResponse)
 async def affirmation(request: PositiveAffirmationRequest,
                       tutorial_service: CodeTutorialServiceType) -> PositiveAffirmationResponse:
-    return await tutorial_service.get_affirmation(request.tutorial_uuid, request.question_uuid, request.user_code)
+    return await tutorial_service.get_affirmation(request.tutorial_uuid, request.attempts_taken)
 
 
 @tutorial_router.post("/report-question", response_model=ReportQuestionResponse)
