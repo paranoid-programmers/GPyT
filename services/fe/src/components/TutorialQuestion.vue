@@ -13,15 +13,17 @@
         </v-btn-group>
         <h3>Hints:</h3>
         <v-card-text v-for="hint in hints" :key="hint">{{ hint }}</v-card-text>
+        <give-up-explanation v-if="giveUpResponse" :giveUpResponse="giveUpResponse" />
     </v-card>
 </template>
 
 <script lang="ts">
 import CodeSection from './CodeSection.vue';
 import TerminalOutput from './TerminalOutput.vue';
+import GiveUpExplanation from './GiveUpExplanation.vue';
 
 import { defineComponent, inject } from 'vue';
-import { CodeQuestion } from '@/models';
+import { CodeQuestion, GiveUpResponse } from '@/models';
 import { Pyodide } from '@/types/pyodide';
 import { runPythonIsolated } from '@/pyodideLoader'
 import { ApiWrapper } from '@/apiWrapper';
@@ -42,6 +44,7 @@ export default defineComponent({
     components: {
         CodeSection,
         TerminalOutput,
+        GiveUpExplanation,
     },
     data(): {
         pyodide?: Pyodide,
@@ -51,6 +54,7 @@ export default defineComponent({
         result: string,
         has_run: boolean,
         hints: string[],
+        giveUpResponse?: GiveUpResponse,
     } {
         return {
             output: "",
@@ -59,6 +63,7 @@ export default defineComponent({
             result: "Run code to see result",
             has_run: false,
             hints: [],
+            giveUpResponse: undefined,
         }
     },
     methods: {
@@ -107,7 +112,17 @@ export default defineComponent({
             })
         },
         giveUp() {
-            console.log("weak sauce")
+            this.api?.giveUp({
+                context: {
+                    theme: "todo",
+                },
+                full_code: {
+                    code: this.code,
+                    language: "python",
+                },
+            }).then((response) => {
+                this.giveUpResponse = response;
+            })
         },
     },
     setup() {

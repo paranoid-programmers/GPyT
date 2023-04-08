@@ -43,7 +43,6 @@ export interface HintResponse {
 }
 
 export interface GiveUpRequest {
-    // context: TutorialContext??;
     context: QuestionContext;
     full_code: CodeBlock;
 }
