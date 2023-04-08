@@ -15,29 +15,6 @@ import {
 
 import * as apiclient from "gpyt";
 
-
-// export interface ConfigurationParameters {
-//     baseServer?: BaseServerConfiguration;
-//     httpApi?: HttpLibrary;
-//     middleware?: Middleware[];
-//     promiseMiddleware?: PromiseMiddleware[];
-//     authMethods?: AuthMethodsConfiguration;
-// }
-// export interface BaseServerConfiguration {
-//     makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext;
-// }
-// export declare class ServerConfiguration<T extends {
-//     [key: string]: string;
-// }> implements BaseServerConfiguration {
-//     private url;
-//     private variableConfiguration;
-//     constructor(url: string, variableConfiguration: T);
-//     setVariables(variableConfiguration: Partial<T>): void;
-//     getConfiguration(): T;
-//     private getUrl;
-//     makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext;
-// }
-
 const config = apiclient.createConfiguration({
     baseServer: {
         makeRequestContext: (endpoint: string, httpMethod: apiclient.HttpMethod) => {
@@ -51,15 +28,15 @@ const config = apiclient.createConfiguration({
 
 const api = new apiclient.CodeApi(config)
 const resp = api.giveUpApiV1CodeTutorialGiveUpPost({
-    questionUuid: "f0fd0110-4511-4f0a-b9b7-b00664663079",
-    tutorialUuid: "e826ec13-6eb6-433c-a35e-1dc70b021ad7",
+    questionUuid: "0d498d08-abfe-46f0-9021-91071039c405",
+    tutorialUuid: "4d16e0d1-ce8c-4c1b-b25b-e877509b7eca",
     userCode: {
-        code: "print('Hello World')",
+        code: "print('jerome loves windows')",
         language: "python",
     }
+}).then((resp) => {
+    console.log(resp)
 })
-console.log(resp)
-
 
 export interface ApiWrapper {
     getNewTutorial(request: NewTutorialRequest): Promise<NewTutorialResponse>;
