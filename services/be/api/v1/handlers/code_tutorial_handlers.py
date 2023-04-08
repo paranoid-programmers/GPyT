@@ -27,7 +27,7 @@ async def hint(request: PositiveAffirmationRequest,
 
 @tutorial_router.post("/hint", response_model=HintResponse)
 async def hint(request: HintRequest, tutorial_service: CodeTutorialServiceType) -> HintResponse:
-    return await tutorial_service.get_hint(request.question, request.context)
+    return await tutorial_service.get_hint(request.incomplete_code, request.tutorial_uuid, request.question_uuid)
 
 
 @tutorial_router.post("/give-up", response_model=GiveUpResponse)

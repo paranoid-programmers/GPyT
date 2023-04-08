@@ -15,6 +15,7 @@ class GenerateQuestionRequest(GenerateRequest):
 class GenerateHintRequest(GenerateRequest):
     question: Question
     context: TutorialContext
+    partial_code: CodeBlock
 
 
 class GenerateCodeHintRequest(GenerateHintRequest):

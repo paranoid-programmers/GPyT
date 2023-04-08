@@ -15,8 +15,9 @@ class PositiveAffirmationRequest(UUIDModel):
 
 
 class HintRequest(BaseModel):
-    question: Question
-    context: TutorialContext
+    incomplete_code: CodeBlock
+    tutorial_uuid: UUID
+    question_uuid: UUID
 
 
 class GiveUpRequest(BaseModel):

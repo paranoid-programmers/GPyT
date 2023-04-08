@@ -2,7 +2,8 @@ import uuid
 from be.api.clients.content_gen_client import ContentGenClient, get_content_gen_client
 from be.api.clients.supabase_client import SupabaseWrapper, get_supabase_client
 from be.api.internal.models import CodeTutorial, UniqueCodeQuestion
-from be.api.v1.models.response_models import NewCodeTutorialResponse, PositiveAffirmationResponse, HintResponse, GiveUpResponse
+from be.api.v1.models.response_models import NewCodeTutorialResponse, PositiveAffirmationResponse, HintResponse, \
+    GiveUpResponse, MoreQuestionsResponse, ReportQuestionResponse
 from be.shared.models import TutorialContext, CodeBlock, Question
 
 
@@ -36,24 +37,25 @@ class CodeTutorialService:
 
         return NewCodeTutorialResponse(tutorial=tutorial)
 
-    async def get_hint(self, question: Question, context: TutorialContext) -> HintResponse:
+    async def get_hint(self, partial_code: CodeBlock, tutorial_uuid: uuid, question_uuid: uuid) -> HintResponse:
+        # fetch the tutorial from supabase
+        tutorial = await self.supabase_client.get_tutorial(tutorial_uuid)
+
+        # fetch the question from supabase
+        question = await self.supabase_client.get_question(question_uuid)
+
         # ask content client for a hint
-        hint_text = await self.content_client.get_hint(question, context)
-        return HintResponse(hint_text=hint_text)
+        hint = await self.content_client.get_hint(question.question, tutorial.context, partial_code)
+        return HintResponse(hint_text=hint.text)
 
     async def get_affirmation(self, uuid: uuid, full_code: CodeBlock) -> PositiveAffirmationResponse:
-        # fetch context from supabase
-        context = await self.supabase_client.get_context(uuid)
-
-        # ask content client for a hint
-        affirmation_text = await self.content_client.get_affirmation(context, full_code)
-        return PositiveAffirmationResponse(affirmation_text=affirmation_text)
+        pass
 
     async def give_up(self, context, full_code) -> GiveUpResponse:
         pass
 
-    async def more_questions(self, tutorial_uuid):
+    async def more_questions(self, tutorial_uuid) -> MoreQuestionsResponse:
         pass
 
-    def report_question(self, question_uuid, category, details, should_regenerate):
+    def report_question(self, question_uuid, category, details, should_regenerate) -> ReportQuestionResponse:
         pass

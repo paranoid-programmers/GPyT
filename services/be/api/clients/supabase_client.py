@@ -41,12 +41,25 @@ class SupabaseWrapper:
     async def insert_tutorial(self, tutorial: CodeTutorial):
         # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
         data, count = await asyncio.to_thread(lambda: self.supabase_client.table('tutorials').insert(json.loads(tutorial.json())).execute())
-        return data
+        return data.data
+
+    async def get_tutorial(self, tutorial_uuid) -> CodeTutorial | None:
+        # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
+        response = await asyncio.to_thread(lambda: self.supabase_client.table('tutorials').select('*').eq('uuid', str(tutorial_uuid)).execute())
+        if response.data is None or len(response.data) == 0:
+            return None
+
+        return CodeTutorial.parse_obj(response.data[0])
 
     async def insert_question(self, question: UniqueCodeQuestion):
         # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
         data, count = await asyncio.to_thread(lambda: self.supabase_client.table('questions').insert((json.loads(question.json()))).execute())
-        return data
+        return data.data
 
-    def get_context(self, uuid):
-        pass
+    async def get_question(self, question_uuid) -> UniqueCodeQuestion | None:
+        # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
+        response = await asyncio.to_thread(lambda: self.supabase_client.table('questions').select('*').eq('uuid', str(question_uuid)).execute())
+        if response.data is None or len(response.data) == 0:
+            return None
+
+        return UniqueCodeQuestion.parse_obj(response.data[0])
