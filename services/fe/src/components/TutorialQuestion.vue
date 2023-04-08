@@ -2,7 +2,10 @@
     <v-card>
         <v-card-title>{{ question.title }}</v-card-title>
         <v-card-text>{{ question.description }}</v-card-text>
-        <code-section :value="question.skeleton_code.code" />
+        <code-section :value="question.skeleton_code.code" v-model="code" />
+        <v-card-text>{{ code }}</v-card-text>
+        <!-- a display string for each string in outputs -->
+        <v-card-text v-for="output in outputs" :key="output">{{ output }}</v-card-text>
         <v-btn @click="runCode">Run Code</v-btn>
     </v-card>
 </template>
@@ -25,15 +28,20 @@ export default defineComponent({
     components: {
         CodeSection
     },
-    data(): { pyodide?: Pyodide } {
+    data(): { pyodide?: Pyodide, outputs: string[], code: string } {
         return {
-            pyodide: undefined
+            pyodide: undefined,
+            outputs: [],
+            code: '',
         }
     },
     methods: {
         runCode() {
             console.log("running code");
             console.log(this.pyodide);
+        },
+        codeUpdated(code: string) {
+            this.code = code;
         }
     },
     setup() {

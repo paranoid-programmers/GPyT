@@ -10,9 +10,7 @@ declare module '@vue/runtime-core' {
 export async function loadPyodide($loadScript: (url: string) => Promise<void>): Promise<Pyodide> {
     try {
         await $loadScript('https://cdn.jsdelivr.net/pyodide/v0.23.0/full/pyodide.js');
-        const pyodide = await window.loadPyodide({
-            indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.23.0/full/'
-        });
+        const pyodide = await window.loadPyodide();
         console.log('Pyodide is ready');
         return pyodide
     } catch (error) {

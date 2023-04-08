@@ -6,7 +6,7 @@ export interface Pyodide {
 }
 
 export interface CreatePyodideOptions {
-    indexURL: string;
+    indexURL?: string;
     stdout?: (text: string) => void;
     stderr?: (text: string) => void;
 }

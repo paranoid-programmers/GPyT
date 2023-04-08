@@ -1,7 +1,8 @@
 <!-- CodeEditor.vue -->
 <template>
     <div>
-        <codemirror v-model="code" :options="editorOptions" @input="onInput" ref="editor" :extensions="extensions" />
+        <codemirror v-model="code" placeholder="Code goes here..." :options="editorOptions" :indent-with-tab="true"
+            :tab-size="2" @change="onInput($event)" ref="editor" :extensions="extensions" />
     </div>
 </template>
 
@@ -30,8 +31,8 @@ export default defineComponent({
             matchBrackets: true,
         };
 
-        function onInput() {
-            emit("update:modelValue", code.value);
+        function onInput(event: string) {
+            emit("update:modelValue", event);
         }
 
         return {
