@@ -26,4 +26,4 @@ class MoreQuestionsResponse(BaseModel):
 
 
 class ReportQuestionResponse(BaseModel):
-    question: CodeQuestion
+    new_question: CodeQuestion | None

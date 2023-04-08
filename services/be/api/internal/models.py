@@ -26,7 +26,7 @@ class CodeTutorial(Tutorial):
 
 
 class ReportedQuestion(UUIDModel):
-    question: UniqueCodeQuestion
+    reported_question: UniqueCodeQuestion
     category: str
     details: str
     was_regenerated: bool

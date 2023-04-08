@@ -38,7 +38,7 @@ class SupabaseWrapper:
         }))
         return data
 
-    async def insert_tutorial(self, tutorial: CodeTutorial):
+    async def insert_tutorial(self, tutorial: CodeTutorial) -> CodeTutorial | None:
         # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
         response = await asyncio.to_thread(
             lambda: self.supabase_client.table('tutorials').insert(json.loads(tutorial.json())).execute())
@@ -46,7 +46,7 @@ class SupabaseWrapper:
             return None
         return CodeTutorial.parse_obj(response.data[0])
 
-    async def update_tutorial(self, tutorial: CodeTutorial):
+    async def update_tutorial(self, tutorial: CodeTutorial) -> CodeTutorial | None:
         # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
         response = await asyncio.to_thread(
             lambda: self.supabase_client.table('tutorials').update(json.loads(tutorial.json())).eq('uuid',
@@ -61,10 +61,9 @@ class SupabaseWrapper:
             lambda: self.supabase_client.table('tutorials').select('*').eq('uuid', str(tutorial_uuid)).execute())
         if response.data is None or len(response.data) == 0:
             return None
-
         return CodeTutorial.parse_obj(response.data[0])
 
-    async def insert_question(self, question: UniqueCodeQuestion):
+    async def insert_question(self, question: UniqueCodeQuestion) -> UniqueCodeQuestion | None:
         # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
         response = await asyncio.to_thread(
             lambda: self.supabase_client.table('questions').insert((json.loads(question.json()))).execute())
@@ -72,13 +71,14 @@ class SupabaseWrapper:
             return None
         return UniqueCodeQuestion.parse_obj(response.data[0])
 
-    async def update_question(self, question: UniqueCodeQuestion):
+    async def update_question(self, question: UniqueCodeQuestion) -> UniqueCodeQuestion | None:
         # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
         response = await asyncio.to_thread(
-            lambda: self.supabase_client.table('questions').update(json.loads(question.json())).eq('uuid', question.uuid).execute())
+            lambda: self.supabase_client.table('questions').update(
+                json.loads(question.json())).eq('uuid',question.uuid).execute())
         if response.data is None or len(response.data) == 0:
             return None
-        return CodeTutorial.parse_obj(response.data[0])
+        return UniqueCodeQuestion.parse_obj(response.data[0])
 
     async def get_question(self, question_uuid) -> UniqueCodeQuestion | None:
         # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
@@ -86,13 +86,12 @@ class SupabaseWrapper:
             lambda: self.supabase_client.table('questions').select('*').eq('uuid', str(question_uuid)).execute())
         if response.data is None or len(response.data) == 0:
             return None
-
         return UniqueCodeQuestion.parse_obj(response.data[0])
 
-    async def insert_reported_question(self, reported_question: ReportedQuestion):
+    async def insert_reported_question(self, reported_question: ReportedQuestion) -> ReportedQuestion | None:
         # no async support without rolling our own: https://github.com/supabase-community/supabase-py/issues/250
         response = await asyncio.to_thread(lambda: self.supabase_client.table('reported_questions').insert(
             (json.loads(reported_question.json()))).execute())
         if response.data is None or len(response.data) == 0:
             return None
-        return UniqueCodeQuestion.parse_obj(response.data[0])
+        return ReportedQuestion.parse_obj(response.data[0])
