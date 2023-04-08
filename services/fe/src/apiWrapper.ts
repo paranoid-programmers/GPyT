@@ -85,21 +85,25 @@ export class mockApiWrapper implements ApiWrapper {
     }
 
     reportQuestion(request: ReportQuestionRequest): Promise<ReportQuestionResponse> {
-        return Promise.resolve({
-            question: {
-                title: "New question 1",
-                description: "Do some list stuff",
-                skeleton_code: {
-                    code: "print('Hello World')",
-                    language: "python",
-                },
-                solution_code: {
-                    code: "print('Hello World')",
-                    language: "python",
-                },
-                test_cases: [],
-            }
-        });
+        if (request.should_regenerate) {
+            return Promise.resolve({
+                question: {
+                    title: "New question 1",
+                    description: "Do some list stuff",
+                    skeleton_code: {
+                        code: "print('Hello World')",
+                        language: "python",
+                    },
+                    solution_code: {
+                        code: "print('Hello World')",
+                        language: "python",
+                    },
+                    test_cases: [],
+                }
+            });
+        } else {
+            return Promise.resolve({});
+        }
     }
 }
 
