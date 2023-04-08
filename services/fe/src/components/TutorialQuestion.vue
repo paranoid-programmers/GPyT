@@ -11,7 +11,7 @@
             <v-btn @click="getHint">Hint</v-btn>
             <v-btn @click="giveUp">Give Up</v-btn>
         </v-btn-group>
-        <h3>Hints:</h3>
+        <h3 v-if="hints.length">Hints:</h3>
         <v-card-text v-for="hint in hints" :key="hint">{{ hint }}</v-card-text>
         <give-up-explanation v-if="giveUpResponse" :giveUpResponse="giveUpResponse" />
     </v-card>
