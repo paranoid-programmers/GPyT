@@ -1,5 +1,6 @@
 # npm install @openapitools/openapi-generator-cli -g
 
+
 # first arg is location of json file, assert
 if [ -z "$1" ]; then
     echo "No json file provided"
@@ -11,8 +12,11 @@ if [ -d "./services/apiclient/" ]; then
     rm -rf ./services/apiclient/
 fi
 
+# todo: add this to apiclient tsconfig.json
+#    "module": "ESNext",
+
 npx @openapitools/openapi-generator-cli generate \
-    -i $1 \
+    -i ./scratch/openapi.json \
     -g typescript \
     --package-name gpyt \
     -o ./services/apiclient/
