@@ -22,31 +22,34 @@ class SupabaseWrapper:
     def __init__(self, url: str, key: str):
         self.supabase_client = create_client(url, key)
 
-    def login(self, email: str, password: str):
-        return self.supabase_client.auth.sign_in_with_password({
-            "email": email,
-            "password": password
-        })
-
-    def sign_up(self, email: str, password: str, account_type: str):
-        return self.supabase_client.auth.sign_up({
-            "email": email,
-            "password": password,
-            "options": {
-                "data": {
-                    "account_type": account_type,
-                }
-            }
-        })
-
-    def ok(self):
+    def alive(self):
+        # couldn't find a better way to check if the client is alive
         return self.supabase_client.auth_url is not None
 
-    def insert_tutorial(self, tutorial: CodeTutorial):
+    async def sign_in_with_oauth(self, provider: str, scopes: str = 'user'):
+        data = await self.supabase_client.auth.sign_in_with_oauth({
+            "provider": provider,
+            "options": {
+                "redirect_to": 'https://example.com/welcome',
+                "scopes": scopes
+            }
+        })
+        oauth_token = data.session.provider_token  # use to access provider API
+
+    async def create_bucket(self, bucket_name: str):
+        return await self.supabase_client.storage.create_bucket(bucket_name)
+
+    async def fetch_bucket(self, bucket_name: str):
+        return await self.supabase_client.storage().get_bucket(bucket_name)
+
+    async def all_buckets(self):
+        return await self.supabase_client.storage().list_buckets()
+
+    async def insert_tutorial(self, tutorial: CodeTutorial):
         pass
 
-    def get_context(self, uuid):
+    async def get_context(self, uuid):
         pass
 
-    def insert_question(self, tutorial_uuid, question):
+    async def insert_question(self, tutorial_uuid, question):
         pass

@@ -31,12 +31,6 @@ def protected(user: dict = Depends(get_current_user)):
     return {'user': user}  # todo: make an actual response
 
 
-@auth_router.post("/login")
-def login(email: str, password: str, supabase_client: SupabaseWrapperType):
-    return supabase_client.login(email, password)
-
-
-@auth_router.post("/register")
-def register(email: str, password: str, account_type: str, supabase_client: SupabaseWrapperType):
-    res = supabase_client.sign_up(email, password, account_type)
-    return res
+@auth_router.post("/login-via-github")
+def login_via_github(supabase_client: SupabaseWrapperType):
+    return supabase_client.sign_in_with_oauth('github')
