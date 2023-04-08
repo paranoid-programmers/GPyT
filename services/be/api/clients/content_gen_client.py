@@ -34,7 +34,7 @@ class ContentGenClient:
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{self.url}/generate-question",
-                json=GenerateQuestionRequest(context=context, concept=concept, max_token=max_token)
+                json=GenerateQuestionRequest(context=context, concept=concept, max_token=max_token).dict()
             )
             response.raise_for_status()
             return response.json()
@@ -45,7 +45,7 @@ class ContentGenClient:
             response = await client.post(
                 f"{self.url}/generate-hint",
                 json=GenerateCodeHintRequest(question=question, context=context, user_code=user_code,
-                                             max_token=max_token)
+                                             max_token=max_token).dict()
             )
             response.raise_for_status()
             return response.json()
@@ -56,7 +56,7 @@ class ContentGenClient:
             response = await client.post(
                 f"{self.url}/generate-give-up",
                 json=GenerateGiveUpRequest(question=question, context=context, user_code=user_code,
-                                           solution_code=solution_code, max_token=max_token)
+                                           solution_code=solution_code, max_token=max_token).dict()
             )
             response.raise_for_status()
             return response.json()
@@ -66,7 +66,7 @@ class ContentGenClient:
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{self.url}/generate-affirmation",
-                json=GenerateAffirmationRequest(context=context, attempts_taken=attempts_taken, max_token=max_token)
+                json=GenerateAffirmationRequest(context=context, attempts_taken=attempts_taken, max_token=max_token).dict()
             )
             response.raise_for_status()
             return response.json()
