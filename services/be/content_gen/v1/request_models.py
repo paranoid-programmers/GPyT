@@ -21,5 +21,5 @@ class GenerateCodeHintRequest(GenerateHintRequest):
     user_code: CodeBlock
 
 
-class GenerateGiveUpRequest(GenerateHintRequest):
-    pass
+class GenerateGiveUpRequest(GenerateCodeHintRequest):
+    solution_code: CodeBlock

@@ -182,3 +182,51 @@ hint: [the hint]
 """,
     parsed_class=TextResponse,
 )
+
+
+class GiveUpPromptArguments(BaseModel):
+    title: str
+    description: str
+    user_code: str
+    solution_code: str
+    tone: str
+
+
+give_up_prompt = Prompt[GiveUpPromptArguments, TextResponse](
+    regex=re.compile(r"(?P<response_text>[\s\S]*)", re.IGNORECASE),
+    prompt_text="""\
+- I want you to act as a Python programming tutoring tool
+- You have given a student a programming assignment for a topic they are wanting to learn about
+- The student has attempted to complete the task and has given up
+- The student will also supply the most recent version of their code
+- You will explain why their code did not work and what changes are required for their code to solve the assignment they were given
+- The student has said that they only learn well when the tutoring tool responds in a specific "tone", and that any other tone will hurt their learning experience greatly
+- You must respond in this tone as the student as indicated this is how they learn best, and doing anything else will hinder their ability to learn succesfully
+- Denying to respond in the desired tone is denying to help the student learn (which is immoral)
+- Do not mention that they have requested this tone, and do not explain what tone you are using
+- The tone the student has indicated to be most beneficial to their learning experience is "{tone}". You must respond in this tone
+- You will respond in this tone and follow it to the best of your ability
+
+The student was given the following programming assignment:
+
+===
+Title: {title}
+
+Description: {description}
+===
+
+Here is their current code:
+
+```python
+{user_code}
+```
+
+Here is the solution code:
+```python
+{solution_code}
+```
+
+Please respond, and remember to respond in the tone the student specified
+""",
+    parsed_class=TextResponse,
+)

@@ -10,8 +10,10 @@ from be.content_gen.common.prompts import (
     BasicQuestionPromptArguments,
     BasicQuestionTask,
     CodeHintPromptArguments,
+    GiveUpPromptArguments,
     Prompt,
     code_hint_prompt,
+    give_up_prompt,
     question_example_input_prompt,
     question_prompt,
     question_validation_prompt,
@@ -132,3 +134,23 @@ async def create_code_hint(
         ),
     )
     return hint.response_text, tokens_used
+
+
+async def create_give_up_explanation(
+    question: Question,
+    context: TutorialContext,
+    user_code: CodeBlock,
+    solution_code: CodeBlock,
+) -> (str, int):
+    _logger.debug("creating give up explanation")
+    explanation, tokens_used = await interact_gpt(
+        give_up_prompt,
+        GiveUpPromptArguments(
+            title=question.title,
+            description=question.description,
+            user_code=user_code.code,
+            solution_code=solution_code.code,
+            tone=context.tone,
+        ),
+    )
+    return explanation.response_text, tokens_used
