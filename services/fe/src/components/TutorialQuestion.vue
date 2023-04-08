@@ -5,6 +5,7 @@
         <code-section :value="question.skeleton_code.code" v-model="code" />
         <h3>Outputs:</h3>
         <terminal-output :output="output" />
+        <h3>{{ result }}</h3>
         <v-btn @click="runCode">Run Code</v-btn>
     </v-card>
 </template>
@@ -31,32 +32,51 @@ export default defineComponent({
         CodeSection,
         TerminalOutput,
     },
-    data(): { pyodide?: Pyodide, output: string, code: string } {
+    data(): { pyodide?: Pyodide, output: string, code: string, expected_output: string, result: string } {
         return {
-            pyodide: undefined,
             output: "",
             code: this.$props.question.skeleton_code.code,
+            expected_output: "",
+            result: "Run code to see result"
         }
     },
     methods: {
         async runCode() {
-            this.output = "";
             if (!this.pyodide) {
                 return
             }
+            // check if expected output is empty
+            if (this.expected_output == "") {
+                // run the solution code and set the expected output
+                this.expected_output = await runPythonIsolated(
+                    this.question.solution_code.code, this.pyodide
+                );
+            }
+
+            this.output = "";
             runPythonIsolated(this.code, this.pyodide).then((output) => {
                 this.output = output;
+            }).then(() => {
+                this.checkOutput();
             })
+
+
         },
         codeUpdated(code: string) {
             this.code = code;
+        },
+        checkOutput() {
+            // check if output is equal to expected output
+            if (this.output == this.expected_output) {
+                this.result = "Correct!"
+            } else {
+                this.result = `Incorrect: expected ${this.expected_output} but got ${this.output}`
+            }
         }
+
     },
-    setup(props) {
+    setup() {
         var pyodide = inject<Pyodide>("$pyodide");
-
-        props.question.solution_code.code
-
         return { pyodide }
     },
 });

@@ -12,7 +12,7 @@ import LoadScript from 'vue-plugin-load-script';
 
 const api = new mockApiWrapper()
 
-let app = createApp(App)
+const app = createApp(App)
 app.provide("$api", api)
 
 
