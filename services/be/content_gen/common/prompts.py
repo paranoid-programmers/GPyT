@@ -270,7 +270,7 @@ Please respond with the short congratulatory message, and remember to respond in
     conditionals=[
         lambda prompt, args: prompt.replace(
             "{ATTEMPTS_MESSAGE}",
-            f"The student took {args.attemmp_count} attempt{('s' if args.attemmp_count is not None and args.attempt_count > 1 else '')} to complete the assignment (you do not _need_ to mention this, but if you think it adds to the tone then do so)",
+            f"\n- The student took {args.attemmp_count} attempt{('s' if args.attemmp_count is not None and args.attempt_count > 1 else '')} to complete the assignment (you do not _need_ to mention this, but if you think it adds to the tone then do so)",
         ) if args.attempt_count is not None else prompt.replace("{ATTEMPTS_MESSAGE}", ""),
     ],
 )
