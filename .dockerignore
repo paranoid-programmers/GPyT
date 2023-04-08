@@ -1,0 +1,10 @@
+venv/
+scratch/
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+.env
+*.png
+node_modules/
+
+.idea/
