@@ -27,10 +27,10 @@ async def get_current_user(supabase_client: SupabaseWrapperType, token: str = He
 
 
 @auth_router.get("/protected")
-def protected(user: dict = Depends(get_current_user)):
+async def protected(user: dict = Depends(get_current_user)):
     return {'user': user}  # todo: make an actual response
 
 
 @auth_router.post("/login-via-github")
-def login_via_github(supabase_client: SupabaseWrapperType):
-    return supabase_client.sign_in_with_oauth('github')
+async def login_via_github(supabase_client: SupabaseWrapperType):
+    return await supabase_client.oauth_sign_in('github')
