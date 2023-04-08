@@ -41,3 +41,15 @@ export interface HintRequest {
 export interface HintResponse {
     hint_text: string;
 }
+
+export interface GiveUpRequest {
+    // context: TutorialContext??;
+    context: QuestionContext;
+    full_code: CodeBlock;
+}
+
+export interface GiveUpResponse {
+    example_solution: string;
+    explanation: string;
+    additional_info: string;
+}
