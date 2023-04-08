@@ -97,7 +97,10 @@ export default defineComponent({
                 this.result = "Correct!"
                 this.getPositiveAffirmation();
             } else {
-                this.result = `Incorrect: expected ${this.expected_output} but got: ${this.output}`
+                this.result = `
+                Incorrect: expected ${this.expected_output}
+                but got: ${this.output}
+                `
             }
         },
         getHint() {
