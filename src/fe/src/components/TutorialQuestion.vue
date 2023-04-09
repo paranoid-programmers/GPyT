@@ -14,7 +14,7 @@
         <v-card-title v-if="hints.length">Hints:</v-card-title>
         <v-card-text v-for="hint in hints" :key="hint">{{ hint }}</v-card-text>
         <give-up-explanation v-if="giveUpResponse" :giveUpResponse="giveUpResponse" />
-        <affirmation v-if="affirmation" :affirmationResponse="affirmation" />
+        <affirmation v-if="affirmationResp" :affirmationResponse="affirmationResp" />
     </v-card>
 </template>
 
@@ -60,7 +60,7 @@ export default defineComponent({
         has_run: boolean,
         hints: string[],
         giveUpResponse?: GiveUpResponse,
-        affirmation?: PositiveAffirmationResponse,
+        affirmationResp?: PositiveAffirmationResponse,
     } {
         return {
             output: "",
@@ -70,6 +70,7 @@ export default defineComponent({
             has_run: false,
             hints: [],
             giveUpResponse: undefined,
+            affirmationResp: undefined,
         }
     },
     methods: {
@@ -136,7 +137,7 @@ export default defineComponent({
                 attemptsTaken: 3,
                 tutorialUuid: this.tutorialUuid,
             }).then((response) => {
-                this.result = response.happyText;
+                this.affirmationResp = response;
             })
         }
     },
