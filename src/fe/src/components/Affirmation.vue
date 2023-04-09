@@ -1,21 +1,21 @@
 <template>
-    <markdown :source="affirmationResponse.happyText" />
+  <markdown :source="affirmationResponse.happyText" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { PositiveAffirmationResponse } from 'gpyt';
-import Markdown from './Markdown.vue';
+import { defineComponent } from 'vue'
+import { PositiveAffirmationResponse } from 'gpyt'
+import Markdown from './Markdown.vue'
 
 export default defineComponent({
-    components: {
-        Markdown,
+  components: {
+    Markdown,
+  },
+  props: {
+    affirmationResponse: {
+      type: Object as () => PositiveAffirmationResponse,
+      required: true,
     },
-    props: {
-        affirmationResponse: {
-            type: Object as () => PositiveAffirmationResponse,
-            required: true
-        },
-    },
-});
+  },
+})
 </script>

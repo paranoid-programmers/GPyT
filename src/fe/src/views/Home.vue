@@ -3,5 +3,5 @@
 </template>
 
 <script lang="ts" setup>
-import TutorialFeed from '@/components/TutorialFeed.vue';
+import TutorialFeed from '@/components/TutorialFeed.vue'
 </script>

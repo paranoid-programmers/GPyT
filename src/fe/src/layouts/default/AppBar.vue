@@ -16,9 +16,11 @@ export default defineComponent({
 
     return {
       theme,
-      toggleTheme: () => theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+      toggleTheme: () =>
+        (theme.global.name.value = theme.global.current.value.dark
+          ? 'light'
+          : 'dark'),
     }
-  }
+  },
 })
-
 </script>
