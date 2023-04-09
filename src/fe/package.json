@@ -22,6 +22,7 @@
     "vue-codemirror": "^6.1.1",
     "vue-plugin-load-script": "^2.1.1",
     "vue-router": "^4.0.0",
+    "vue-spinners": "^1.0.2",
     "vuetify": "^3.0.0",
     "webfontloader": "^1.0.0"
   },

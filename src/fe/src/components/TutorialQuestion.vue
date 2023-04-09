@@ -14,6 +14,7 @@
         <give-up-explanation v-if="giveUpResponse" :solution="question.solutionCode.code" :giveUpResponse="giveUpResponse"
             :correctAnswer="question.solutionCode.code" />
         <affirmation v-if="affirmationResp" :affirmationResponse="affirmationResp" />
+        <preloader :scale="loaderScale"></preloader>
     </v-card>
 </template>
 
@@ -24,7 +25,7 @@ import TerminalOutput from './TerminalOutput.vue';
 import GiveUpExplanation from './GiveUpExplanation.vue';
 import Affirmation from './Affirmation.vue';
 import Markdown from './Markdown.vue';
-
+import Preloader from './Preloader.vue'
 
 import { defineComponent, inject } from 'vue';
 import { Pyodide } from '@/types/pyodide';
@@ -54,6 +55,7 @@ export default defineComponent({
         Affirmation,
         Markdown,
         CodeOutput,
+        Preloader,
     },
     data(): {
         pyodide?: Pyodide,
@@ -67,6 +69,7 @@ export default defineComponent({
         affirmationResp?: PositiveAffirmationResponse,
         hintCount: number,
         attemptCount: number,
+        loaderScale: number,
     } {
         return {
             output: "",
@@ -79,6 +82,7 @@ export default defineComponent({
             affirmationResp: undefined,
             hintCount: 0,
             attemptCount: 0,
+            loaderScale: 0.5,
         }
     },
     methods: {
