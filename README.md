@@ -34,7 +34,29 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-### Running
+### node setup
+
+You'll need `nodejs` and `npm`.
+
+I have only tested with:
+* node version `v18.12.1`
+* npm version `8.19.2`
+
+```sh
+(
+    cd "./src/apiclient/"
+    npm install
+    npm run build
+)
+(
+    cd "./src/fe"
+    npm install
+    npm run build
+)
+```
+
+
+### Running (dev)
 
 API Server:
 
@@ -45,4 +67,20 @@ PYTHONPATH=./src/ uvicorn --reload src.be.api.main:app
 Content generation server:
 ```sh
 PYTHONPATH=./src/ uvicorn --reload src.be.content_gen.main:app
+```
+
+Frontend
+```sh
+cd "./src/fe"
+npm run dev
+```
+
+# Docker build / run
+
+You'll need `docker` and `docker-compose`
+
+From the project root:
+
+```sh
+docker-compose up -d --build
 ```

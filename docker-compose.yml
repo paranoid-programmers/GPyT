@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  fe:
+    # frontend
+    build:
+      context: .
+      dockerfile: ./docker/fe/Dockerfile
+    container_name: fe
+    ports:
+      - 8001:80
+    depends_on:
+      - api # backend
+    environment:
+      - BACKEND_URL=http://api:8000
+
+  api:
+    # backend
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+    container_name: api
+    environment:
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - CONTENT_GEN_KEY=${CONTENT_GEN_KEY}
+      - ENV_IS_DEV=${ENV_IS_DEV}
+      - CONTENT_GEN_URL=http://content-gen:8001/content_gen/v1
+
+  content-gen:
+    # content generator
+    build:
+      context: .
+      dockerfile: ./docker/content_gen/Dockerfile
+    container_name: content-gen
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
