@@ -11,7 +11,7 @@
         <code-output v-if="output" :output="output" :expected="expected_output" />
         <v-card-title v-if="hints.length">Hints:</v-card-title>
         <markdown v-for="hint in hints" :key="hint" :content="hint" />
-        <give-up-explanation v-if="giveUpResponse" :giveUpResponse="giveUpResponse"
+        <give-up-explanation v-if="giveUpResponse" :solution="question.solutionCode.code" :giveUpResponse="giveUpResponse"
             :correctAnswer="question.solutionCode.code" />
         <affirmation v-if="affirmationResp" :affirmationResponse="affirmationResp" />
     </v-card>
@@ -126,6 +126,7 @@ export default defineComponent({
                     language: "python",
                 }
             }).then((response) => {
+                console.log(response)
                 this.giveUpResponse = response;
             })
         },
