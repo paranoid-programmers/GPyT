@@ -14,13 +14,13 @@ import { python } from '@codemirror/lang-python'
 export default defineComponent({
     components: { Codemirror },
     props: {
-        value: {
+        source: {
             type: String,
             default: "",
         },
     },
     setup(props, { emit }) {
-        const code = ref(props.value);
+        const code = ref(props.source);
         const extensions = [python()]
         const editorOptions = {
             mode: "python",

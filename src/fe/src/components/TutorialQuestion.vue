@@ -1,18 +1,18 @@
 <template>
     <v-card>
         <v-card-title>{{ question.title }}</v-card-title>
-        <markdown :content="question.description" />
-        <code-section :value="question.skeletonCode.code" v-model="code" />
+        <markdown :source="question.description" />
+        <code-section :source="question.skeletonCode.code" v-model="code" />
         <v-btn-group>
             <v-btn @click="runCode">Run Code</v-btn>
             <v-btn @click="getHint">Hint</v-btn>
             <v-btn @click="giveUp">Give Up</v-btn>
         </v-btn-group>
-        <code-output v-if="output" :output="output" :expected="expected_output" />
+        <code-output v-if="output" :actual="output" :expected="expected_output" />
         <v-card-title v-if="hints.length">Hints:</v-card-title>
-        <markdown v-for="hint in hints" :key="hint" :content="hint" />
-        <give-up-explanation v-if="giveUpResponse" :solution="question.solutionCode.code" :giveUpResponse="giveUpResponse"
-            :correctAnswer="question.solutionCode.code" />
+        <markdown v-for="hint in hints" :key="hint" :source="hint" />
+        <give-up-explanation v-if="giveUpResponse" :solution="question.solutionCode.code"
+            :giveUpResponse="giveUpResponse" />
         <affirmation v-if="affirmationResp" :affirmationResponse="affirmationResp" />
         <preloader :scale="loaderScale"></preloader>
     </v-card>

@@ -1,12 +1,12 @@
 <template>
     <div class="give-up-explanation">
         <v-card-title>Answer:</v-card-title>
-        <markdown :content="giveUpResponse.explanation" />
+        <markdown :source="giveUpResponse.explanation" />
         <v-card-text>
             <b>Example solution:</b>
         </v-card-text>
-        <code-section :value="solution" />
-        <markdown v-if="giveUpResponse.additionalInfo" :content="giveUpResponse.additionalInfo" />
+        <code-section :source="solution" />
+        <markdown v-if="giveUpResponse.additionalInfo" :source="giveUpResponse.additionalInfo" />
     </div>
 </template>
 

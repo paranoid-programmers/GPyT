@@ -10,14 +10,14 @@ import DOMPurify from 'dompurify';
 
 export default defineComponent({
     props: {
-        content: {
+        source: {
             type: String,
             required: true
         },
     },
     computed: {
         compiledContent(): string {
-            let dirty = marked(this.$props.content);
+            let dirty = marked(this.$props.source);
             return DOMPurify.sanitize(dirty);
         }
     }

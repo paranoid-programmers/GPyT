@@ -1,5 +1,5 @@
 <template>
-    <markdown :content="affirmationResponse.happyText" />
+    <markdown :source="affirmationResponse.happyText" />
 </template>
 
 <script lang="ts">

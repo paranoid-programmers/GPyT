@@ -1,6 +1,6 @@
 <template>
     <v-card-text>Output:</v-card-text>
-    <terminal-output :output="output" />
+    <terminal-output :output="actual" />
     <v-card-text>Expected:</v-card-text>
     <terminal-output :output="expected" />
 </template>
@@ -15,7 +15,7 @@ export default defineComponent({
         TerminalOutput,
     },
     props: {
-        output: {
+        actual: {
             type: String,
             required: true
         },
