@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <GenerateTutorialInput @generate="generateTutorial" default-theme="Skyrim" default-topic="Lists" />
+        <GenerateTutorialInput @generate="generateTutorial" default-tone="Skyrim" default-topic="Lists" />
         <v-row v-for="question in questions" :key="question.uuid" class="mt-4">
             <v-col cols="12">
                 <TutorialQuestion :question="question.question" :uuid="question.uuid ?? 'NO-UUID'" :tutorial-uuid="uuid" />
@@ -20,7 +20,7 @@ import { defineComponent, inject, provide, shallowRef, Ref } from 'vue';
 import TutorialQuestion from './TutorialQuestion.vue';
 import GenerateTutorialInput from './GenerateTutorialInput.vue';
 
-import { CodeTutorialApi, NewCodeTutorialResponse, UniqueCodeQuestion } from 'gpyt';
+import { CodeTutorialApi, NewCodeTutorialResponse, NewTutorialRequest, UniqueCodeQuestion } from 'gpyt';
 import { Pyodide } from '@/types/pyodide';
 import { loadPyodide } from '@/pyodideLoader';
 
@@ -38,18 +38,14 @@ export default defineComponent({
         }
     },
     methods: {
-        generateTutorial(input: { topic: string, theme: string }) {
+        generateTutorial(input: NewTutorialRequest) {
             // check if api is defined
-            this.api?.newCodeTutorialApiV1CodeTutorialNewCodeTutorialPost({
-                concept: input.topic,
-                context: {
-                    interests: [input.theme],
-                    tone: "angry"
+            this.api?.newCodeTutorialApiV1CodeTutorialNewCodeTutorialPost(input).then(
+                (response: NewCodeTutorialResponse) => {
+                    this.uuid = response.tutorial.uuid ?? "NO-UUID";
+                    this.questions = response.tutorial.questions ?? [];
                 }
-            }).then((response: NewCodeTutorialResponse) => {
-                this.uuid = response.tutorial.uuid ?? "NO-UUID";
-                this.questions = response.tutorial.questions ?? [];
-            });
+            );
         },
         async loadPyodide() {
             loadPyodide(this.$loadScript).then((pyodide) => {
