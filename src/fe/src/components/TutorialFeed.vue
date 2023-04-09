@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <GenerateTutorialInput @generate="generateTutorial" default-tone="Skyrim" default-topic="Lists" />
+        <GenerateTutorialInput @generate="generateTutorial" default-tone="Sarcastic" default-topic="Lists" />
         <v-row v-for="question in questions" :key="question.uuid" class="mt-4">
             <v-col cols="12">
                 <TutorialQuestion :question="question.question" :uuid="question.uuid ?? 'NO-UUID'" :tutorial-uuid="uuid" />
