@@ -14,19 +14,15 @@
         />
       </v-col>
     </v-row>
+    <Preloader v-if="loadingQuestion" :scale="0.5" />
   </v-container>
 </template>
 
 <script lang="ts">
-declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
-    $loadScript: (url: string) => Promise<void>
-  }
-}
-
 import { defineComponent, inject, provide, shallowRef, Ref } from 'vue'
 import TutorialQuestion from './TutorialQuestion.vue'
 import GenerateTutorialInput from './GenerateTutorialInput.vue'
+import Preloader from './Preloader.vue'
 
 import {
   CodeTutorialApi,
@@ -42,19 +38,28 @@ export default defineComponent({
   components: {
     TutorialQuestion,
     GenerateTutorialInput,
+    Preloader,
   },
-  data(): { questions: UniqueCodeQuestion[]; uuid: string } {
+  data(): {
+    questions: UniqueCodeQuestion[]
+    uuid: string
+    loadingQuestion: boolean
+  } {
     return {
       questions: [],
       uuid: '',
+      loadingQuestion: false,
     }
   },
   methods: {
     generateTutorial(input: NewTutorialRequest) {
       // check if api is defined
+      this.questions = []
+      this.loadingQuestion = true
       this.api
         ?.newCodeTutorialApiV1CodeTutorialNewCodeTutorialPost(input)
         .then((response: NewCodeTutorialResponse) => {
+          this.loadingQuestion = false
           this.uuid = response.tutorial.uuid ?? 'NO-UUID'
           this.questions = response.tutorial.questions ?? []
         })

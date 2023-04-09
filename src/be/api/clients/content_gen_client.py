@@ -1,3 +1,4 @@
+import time
 from be.api.internal.settings import ContentGenSettings, get_environment_settings
 from be.content_gen.v1.request_models import GenerateQuestionRequest, GenerateGiveUpRequest, GenerateCodeHintRequest, \
     GenerateAffirmationRequest
@@ -98,6 +99,7 @@ def get_mock_content_gen_client():
 class MockContentGenClient(MagicMock):
     async def generate_question(self, context: TutorialContext, concept: str,
                                 max_token: int = 1000) -> GenerateCodeQuestionResponse:
+        time.sleep(3) # simulate a slow response
         return GenerateCodeQuestionResponse(
             code_question=CodeQuestion(
                 title=f"mock title about: {concept}, tone: {context.tone}",

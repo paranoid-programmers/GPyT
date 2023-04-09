@@ -5,3 +5,8 @@ declare global {
     loadPyodide: (options?: CreatePyodideOptions) => Promise<Pyodide>
   }
 }
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $loadScript: (url: string) => Promise<void>
+  }
+}

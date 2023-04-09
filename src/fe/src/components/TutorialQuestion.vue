@@ -20,7 +20,6 @@
       v-if="affirmationResp"
       :affirmationResponse="affirmationResp"
     />
-    <preloader :scale="loaderScale"></preloader>
   </v-card>
 </template>
 
@@ -31,7 +30,6 @@ import TerminalOutput from './TerminalOutput.vue'
 import GiveUpExplanation from './GiveUpExplanation.vue'
 import Affirmation from './Affirmation.vue'
 import Markdown from './Markdown.vue'
-import Preloader from './Preloader.vue'
 
 import { defineComponent, inject } from 'vue'
 import { Pyodide } from '@/types/pyodide'
@@ -66,7 +64,6 @@ export default defineComponent({
     Affirmation,
     Markdown,
     CodeOutput,
-    Preloader,
   },
   data(): {
     pyodide?: Pyodide
