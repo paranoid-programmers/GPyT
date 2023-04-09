@@ -65,6 +65,8 @@ export default defineComponent({
         hints: string[],
         giveUpResponse?: GiveUpResponse,
         affirmationResp?: PositiveAffirmationResponse,
+        hintCount: number,
+        attemptCount: number,
     } {
         return {
             output: "",
@@ -75,6 +77,8 @@ export default defineComponent({
             hints: [],
             giveUpResponse: undefined,
             affirmationResp: undefined,
+            hintCount: 0,
+            attemptCount: 0,
         }
     },
     methods: {
@@ -82,6 +86,7 @@ export default defineComponent({
             if (!this.pyodide) {
                 return
             }
+            this.attemptCount++;
             // check if expected output is empty
             if (this.expected_output == "") {
                 // run the solution code and set the expected output
@@ -114,6 +119,7 @@ export default defineComponent({
                     language: "python",
                 }
             }).then((response) => {
+                this.hintCount++;
                 this.hints.push(response.hintText);
             })
         },
@@ -132,7 +138,7 @@ export default defineComponent({
         },
         getPositiveAffirmation() {
             this.api?.affirmationApiV1CodeTutorialAffirmationPost({
-                attemptsTaken: 3,
+                attemptsTaken: this.attemptCount,
                 tutorialUuid: this.tutorialUuid,
             }).then((response) => {
                 this.affirmationResp = response;
