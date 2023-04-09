@@ -7,7 +7,9 @@
 <script lang="ts">
 export default {
     props: {
-        output: String,
+        output: {
+            type: String,
+        },
     },
 };
 </script>

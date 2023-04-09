@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-card-title>{{ question.title }}</v-card-title>
-        <v-card-text v-html="questionDescription" />
+        <markdown :content="question.description" />
         <code-section :value="question.skeletonCode.code" v-model="code" />
         <v-btn-group>
             <v-btn @click="runCode">Run Code</v-btn>
@@ -12,8 +12,9 @@
         <terminal-output :output="output" />
         <v-card-text>{{ result }}</v-card-text>
         <v-card-title v-if="hints.length">Hints:</v-card-title>
-        <v-card-text v-for="hint in hints" :key="hint">{{ hint }}</v-card-text>
-        <give-up-explanation v-if="giveUpResponse" :giveUpResponse="giveUpResponse" />
+        <markdown v-for="hint in hints" :key="hint" :content="hint" />
+        <give-up-explanation v-if="giveUpResponse" :giveUpResponse="giveUpResponse"
+            :correctAnswer="question.solutionCode.code" />
         <affirmation v-if="affirmationResp" :affirmationResponse="affirmationResp" />
     </v-card>
 </template>
@@ -23,13 +24,13 @@ import CodeSection from './CodeSection.vue';
 import TerminalOutput from './TerminalOutput.vue';
 import GiveUpExplanation from './GiveUpExplanation.vue';
 import Affirmation from './Affirmation.vue';
+import Markdown from './Markdown.vue';
 
 
 import { defineComponent, inject } from 'vue';
 import { Pyodide } from '@/types/pyodide';
 import { runPythonIsolated } from '@/pyodideLoader'
 import { CodeTutorialApi, CodeQuestion, GiveUpResponse, PositiveAffirmationResponse } from 'gpyt';
-import { marked } from 'marked';
 
 export default defineComponent({
     name: "TutorialQuestion",
@@ -52,6 +53,7 @@ export default defineComponent({
         TerminalOutput,
         GiveUpExplanation,
         Affirmation,
+        Markdown,
     },
     data(): {
         pyodide?: Pyodide,
@@ -73,11 +75,6 @@ export default defineComponent({
             hints: [],
             giveUpResponse: undefined,
             affirmationResp: undefined,
-        }
-    },
-    computed: {
-        questionDescription() {
-            return marked(this.question.description, { sanitize: true });
         }
     },
     methods: {

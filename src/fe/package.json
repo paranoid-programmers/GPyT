@@ -13,6 +13,7 @@
     "@mdi/font": "7.0.96",
     "codemirror": "^6.0.1",
     "core-js": "^3.8.3",
+    "dompurify": "^3.0.1",
     "gpyt": "file:../apiclient",
     "marked": "^4.3.0",
     "pyodide": "^0.23.0",
@@ -25,6 +26,7 @@
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
+    "@types/dompurify": "^3.0.1",
     "@types/marked": "^4.0.8",
     "@types/node": "^18.11.9",
     "@types/webfontloader": "^1.6.35",

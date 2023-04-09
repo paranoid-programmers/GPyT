@@ -1,14 +1,12 @@
 <template>
     <div class="give-up-explanation">
         <v-card-title>Answer:</v-card-title>
-        <v-card-text>
-            {{ giveUpResponse.explanation }}
-        </v-card-text>
+        <markdown :content="giveUpResponse.explanation" />
         <v-card-text>
             <b>Example solution:</b>
         </v-card-text>
         <terminal-output :output="giveUpResponse.exampleSolution" />
-        <v-card-text>{{ giveUpResponse.additionalInfo }}</v-card-text>
+        <markdown v-if="giveUpResponse.additionalInfo" :content="giveUpResponse.additionalInfo" />
     </div>
 </template>
 
@@ -17,10 +15,12 @@ import TerminalOutput from './TerminalOutput.vue';
 
 import { defineComponent } from 'vue';
 import { GiveUpResponse } from 'gpyt';
+import Markdown from './Markdown.vue';
 
 export default defineComponent({
     components: {
         TerminalOutput,
+        Markdown,
     },
     props: {
         giveUpResponse: {
