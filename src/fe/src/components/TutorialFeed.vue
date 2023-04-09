@@ -4,17 +4,19 @@
       @generate="generateTutorial"
       default-tone="Sarcastic"
       default-topic="Lists"
+      :loading-question="loadingQuestion"
     />
-    <v-row v-for="question in questions" :key="question.uuid" class="mt-4">
-      <v-col cols="12">
-        <TutorialQuestion
-          :question="question.question"
-          :uuid="question.uuid ?? 'NO-UUID'"
-          :tutorial-uuid="uuid"
-        />
-      </v-col>
-    </v-row>
-    <Preloader v-if="loadingQuestion" :scale="0.5" />
+    <LoadingComponent :loading="loadingQuestion" class="mt-4">
+      <v-row v-for="question in questions" :key="question.uuid">
+        <v-col cols="12">
+          <TutorialQuestion
+            :question="question.question"
+            :uuid="question.uuid ?? 'NO-UUID'"
+            :tutorial-uuid="uuid"
+          />
+        </v-col>
+      </v-row>
+    </LoadingComponent>
   </v-container>
 </template>
 
@@ -22,7 +24,7 @@
 import { defineComponent, inject, provide, shallowRef, Ref } from 'vue'
 import TutorialQuestion from './TutorialQuestion.vue'
 import GenerateTutorialInput from './GenerateTutorialInput.vue'
-import Preloader from './Preloader.vue'
+import LoadingCard from './LoadingComponent.vue'
 
 import {
   CodeTutorialApi,
@@ -38,7 +40,7 @@ export default defineComponent({
   components: {
     TutorialQuestion,
     GenerateTutorialInput,
-    Preloader,
+    LoadingComponent: LoadingCard,
   },
   data(): {
     questions: UniqueCodeQuestion[]

@@ -31,7 +31,9 @@
       label="Add a new interest"
       @keyup.enter="addChip"
     />
-    <v-btn type="submit" color="primary">Generate Tutorial</v-btn>
+    <v-btn type="submit" color="primary" :disabled="loadingQuestion"
+      >Generate Tutorial</v-btn
+    >
   </v-form>
 </template>
 
@@ -50,6 +52,10 @@ export default defineComponent({
     defaultTone: {
       type: String,
       default: '',
+    },
+    loadingQuestion: {
+      type: Boolean,
+      default: false,
     },
   },
   data(): {
