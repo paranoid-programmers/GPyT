@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-card-title>{{ question.title }}</v-card-title>
-        <v-card-text>{{ question.description }}</v-card-text>
+        <v-card-text v-html="questionDescription" />
         <code-section :value="question.skeletonCode.code" v-model="code" />
         <v-btn-group>
             <v-btn @click="runCode">Run Code</v-btn>
@@ -24,10 +24,12 @@ import TerminalOutput from './TerminalOutput.vue';
 import GiveUpExplanation from './GiveUpExplanation.vue';
 import Affirmation from './Affirmation.vue';
 
+
 import { defineComponent, inject } from 'vue';
 import { Pyodide } from '@/types/pyodide';
 import { runPythonIsolated } from '@/pyodideLoader'
 import { CodeTutorialApi, CodeQuestion, GiveUpResponse, PositiveAffirmationResponse } from 'gpyt';
+import { marked } from 'marked';
 
 export default defineComponent({
     name: "TutorialQuestion",
@@ -71,6 +73,11 @@ export default defineComponent({
             hints: [],
             giveUpResponse: undefined,
             affirmationResp: undefined,
+        }
+    },
+    computed: {
+        questionDescription() {
+            return marked(this.question.description, { sanitize: true });
         }
     },
     methods: {

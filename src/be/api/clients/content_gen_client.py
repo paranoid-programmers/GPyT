@@ -9,6 +9,24 @@ from unittest.mock import MagicMock
 import httpx
 
 
+_mock_description = """\
+This is an elaborate mock description that demonstrates `code` and **bold** text.
+
+It also has a link to [Google](https://www.google.com).
+
+And a code block:
+```python
+def foo():
+    return "bar"
+
+print(foo())
+```
+
+Interests:
+
+"""
+
+
 @lru_cache()
 def get_content_gen_settings():
     return ContentGenSettings()
@@ -80,14 +98,13 @@ def get_mock_content_gen_client():
 class MockContentGenClient(MagicMock):
     async def generate_question(self, context: TutorialContext, concept: str,
                                 max_token: int = 1000) -> GenerateCodeQuestionResponse:
-        mock_code_block = CodeBlock(code="print('Hello World!')", language="python")
         return GenerateCodeQuestionResponse(
             code_question=CodeQuestion(
-                title="mock title",
-                description="mock description",
+                title=f"mock title about: {concept}, tone: {context.tone}",
+                description=_mock_description + " - " + "\n   - ".join(context.interests),
                 concept=concept,
-                skeleton_code=mock_code_block,
-                solution_code=mock_code_block,
+                skeleton_code=CodeBlock(code="print('Hello __!')", language="python"),
+                solution_code=CodeBlock(code="print('Hello World!')", language="python"),
                 test_cases="[('garbage', 1)]"
             ),
             tokens_used=6969
