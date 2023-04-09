@@ -61,12 +61,12 @@ I have only tested with:
 API Server:
 
 ```sh
-PYTHONPATH=./src/ uvicorn --reload src.be.api.main:app
+PYTHONPATH=./src/ uvicorn --reload src.be.api.main:app --host 0.0.0.0
 ```
 
 Content generation server:
 ```sh
-PYTHONPATH=./src/ uvicorn --reload src.be.content_gen.main:app
+PYTHONPATH=./src/ uvicorn --reload src.be.content_gen.main:app --host 0.0.0.0
 ```
 
 Frontend
