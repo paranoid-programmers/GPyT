@@ -16,13 +16,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Preloader from './Preloader.vue'
 
 export default defineComponent({
   name: 'LoadingComponent',
-  components: {
-    Preloader,
-  },
+  components: {},
   props: {
     loading: {
       type: Boolean,
