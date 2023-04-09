@@ -5,12 +5,14 @@ import * as apiclient from "gpyt";
 const config = apiclient.createConfiguration({
     baseServer: {
         makeRequestContext: (endpoint: string, httpMethod: apiclient.HttpMethod) => {
+            const apiBaseUrl = `${window.location.protocol}//${window.location.host}`;
             return new apiclient.RequestContext(
-                `http://localhost:3000${endpoint}`,
-                httpMethod,
+                `${apiBaseUrl}${endpoint}`,
+                httpMethod
             );
-        }
-    }
-})
+        },
+    },
+});
+
 
 export const api = new apiclient.CodeTutorialApi(config)
