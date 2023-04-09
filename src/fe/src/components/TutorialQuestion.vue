@@ -8,9 +8,7 @@
             <v-btn @click="getHint">Hint</v-btn>
             <v-btn @click="giveUp">Give Up</v-btn>
         </v-btn-group>
-        <v-card-title>Outputs:</v-card-title>
-        <terminal-output :output="output" />
-        <v-card-text>{{ result }}</v-card-text>
+        <code-output v-if="output" :output="output" :expected="expected_output" />
         <v-card-title v-if="hints.length">Hints:</v-card-title>
         <markdown v-for="hint in hints" :key="hint" :content="hint" />
         <give-up-explanation v-if="giveUpResponse" :giveUpResponse="giveUpResponse"
@@ -21,6 +19,7 @@
 
 <script lang="ts">
 import CodeSection from './CodeSection.vue';
+import CodeOutput from './CodeOutput.vue';
 import TerminalOutput from './TerminalOutput.vue';
 import GiveUpExplanation from './GiveUpExplanation.vue';
 import Affirmation from './Affirmation.vue';
@@ -54,6 +53,7 @@ export default defineComponent({
         GiveUpExplanation,
         Affirmation,
         Markdown,
+        CodeOutput,
     },
     data(): {
         pyodide?: Pyodide,
@@ -101,15 +101,8 @@ export default defineComponent({
             this.code = code;
         },
         checkOutput() {
-            // check if output is equal to expected output
             if (this.output == this.expected_output) {
-                this.result = "Correct!"
                 this.getPositiveAffirmation();
-            } else {
-                this.result = `
-                Incorrect: expected ${this.expected_output}
-                but got: ${this.output}
-                `
             }
         },
         getHint() {
