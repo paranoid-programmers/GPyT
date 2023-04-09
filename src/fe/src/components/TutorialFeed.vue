@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <GenerateTutorialInput @generate="generateTutorial" />
+        <GenerateTutorialInput @generate="generateTutorial" default-theme="Skyrim" default-topic="Lists" />
         <v-row v-for="question in questions" :key="question.uuid" class="mt-4">
             <v-col cols="12">
                 <TutorialQuestion :question="question.question" :uuid="question.uuid ?? 'NO-UUID'" :tutorial-uuid="uuid" />
@@ -65,9 +65,6 @@ export default defineComponent({
     },
     mounted() {
         this.loadPyodide();
-
-        // TODO(j.swannack): remove this, only for testing
-        this.generateTutorial({ topic: "lists", theme: "skyrim" });
     },
 });
 </script>

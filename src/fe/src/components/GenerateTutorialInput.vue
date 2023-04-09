@@ -11,10 +11,21 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
     name: 'GenerateTutorialInput',
+    props: {
+        // defaults
+        defaultTopic: {
+            type: String,
+            default: ''
+        },
+        defaultTheme: {
+            type: String,
+            default: ''
+        }
+    },
     data(): { topic: string, theme: string } {
         return {
-            topic: '',
-            theme: ''
+            topic: this.$props.defaultTopic,
+            theme: this.$props.defaultTheme,
         }
     },
     methods: {
@@ -24,7 +35,6 @@ export default defineComponent({
                 return;
             }
             this.$emit('generate', { topic: this.topic, theme: this.theme });
-            this.topic = '';
         }
     }
 });
