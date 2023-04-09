@@ -6,7 +6,7 @@
       default-topic="Lists"
       :loading-question="loadingQuestion"
     />
-    <LoadingComponent :loading="loadingQuestion" class="mt-4">
+    <LoadingCard :loading="loadingQuestion" class="mt-4">
       <v-row v-for="question in questions" :key="question.uuid">
         <v-col cols="12">
           <TutorialQuestion
@@ -16,7 +16,7 @@
           />
         </v-col>
       </v-row>
-    </LoadingComponent>
+    </LoadingCard>
   </v-container>
 </template>
 
@@ -24,7 +24,7 @@
 import { defineComponent, inject, provide, shallowRef, Ref } from 'vue'
 import TutorialQuestion from './TutorialQuestion.vue'
 import GenerateTutorialInput from './GenerateTutorialInput.vue'
-import LoadingCard from './LoadingComponent.vue'
+import LoadingCard from './LoadingCard.vue'
 
 import {
   CodeTutorialApi,
@@ -40,7 +40,7 @@ export default defineComponent({
   components: {
     TutorialQuestion,
     GenerateTutorialInput,
-    LoadingComponent: LoadingCard,
+    LoadingCard,
   },
   data(): {
     questions: UniqueCodeQuestion[]

@@ -8,14 +8,18 @@
       <v-btn @click="getHint">Hint</v-btn>
       <v-btn @click="giveUp">Give Up</v-btn>
     </v-btn-group>
-    <code-output v-if="output" :actual="output" :expected="expected_output" />
+    <LoadingCard :loading="codeRunnng">
+      <code-output v-if="output" :actual="output" :expected="expected_output" />
+    </LoadingCard>
     <v-card-title v-if="hints.length">Hints:</v-card-title>
     <markdown v-for="hint in hints" :key="hint" :source="hint" />
-    <give-up-explanation
-      v-if="giveUpResponse"
-      :solution="question.solutionCode.code"
-      :giveUpResponse="giveUpResponse"
-    />
+    <LoadingCard :loading="giveUpLoading">
+      <give-up-explanation
+        v-if="giveUpResponse"
+        :solution="question.solutionCode.code"
+        :giveUpResponse="giveUpResponse"
+      />
+    </LoadingCard>
     <affirmation
       v-if="affirmationResp"
       :affirmationResponse="affirmationResp"
@@ -30,6 +34,7 @@ import TerminalOutput from './TerminalOutput.vue'
 import GiveUpExplanation from './GiveUpExplanation.vue'
 import Affirmation from './Affirmation.vue'
 import Markdown from './Markdown.vue'
+import LoadingCard from './LoadingCard.vue'
 
 import { defineComponent, inject } from 'vue'
 import { Pyodide } from '@/types/pyodide'
@@ -64,6 +69,7 @@ export default defineComponent({
     Affirmation,
     Markdown,
     CodeOutput,
+    LoadingCard,
   },
   data(): {
     pyodide?: Pyodide
@@ -78,6 +84,8 @@ export default defineComponent({
     hintCount: number
     attemptCount: number
     loaderScale: number
+    giveUpLoading: boolean
+    codeRunnng: boolean
   } {
     return {
       output: '',
@@ -91,6 +99,8 @@ export default defineComponent({
       hintCount: 0,
       attemptCount: 0,
       loaderScale: 0.5,
+      giveUpLoading: false,
+      codeRunnng: false,
     }
   },
   methods: {
@@ -98,6 +108,7 @@ export default defineComponent({
       if (!this.pyodide) {
         return
       }
+      this.codeRunnng = true
       this.attemptCount++
       // check if expected output is empty
       if (this.expected_output == '') {
@@ -115,6 +126,7 @@ export default defineComponent({
         })
         .then(() => {
           this.checkOutput()
+          this.codeRunnng = false
         })
     },
     codeUpdated(code: string) {
@@ -141,6 +153,7 @@ export default defineComponent({
         })
     },
     giveUp() {
+      this.giveUpLoading = true
       this.api
         ?.giveUpApiV1CodeTutorialGiveUpPost({
           questionUuid: this.uuid,
@@ -151,7 +164,7 @@ export default defineComponent({
           },
         })
         .then((response) => {
-          console.log(response)
+          this.giveUpLoading = false
           this.giveUpResponse = response
         })
     },
