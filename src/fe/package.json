@@ -18,7 +18,6 @@
     "roboto-fontface": "*",
     "vue": "^3.2.13",
     "vue-codemirror": "^6.1.1",
-    "vue-markdown": "^2.2.4",
     "vue-plugin-load-script": "^2.1.1",
     "vue-router": "^4.0.0",
     "vuetify": "^3.0.0",
@@ -26,7 +25,6 @@
   },
   "devDependencies": {
     "@types/node": "^18.11.9",
-    "@types/vue-markdown": "^2.2.1",
     "@types/webfontloader": "^1.6.35",
     "@vitejs/plugin-vue": "^3.0.3",
     "@vue/eslint-config-typescript": "^11.0.0",
