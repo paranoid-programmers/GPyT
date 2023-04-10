@@ -1,17 +1,17 @@
 <template>
   <v-card-text>Output:</v-card-text>
-  <terminal-output :output="actual" />
+  <code-output :output="actual" />
   <v-card-text>Expected:</v-card-text>
-  <terminal-output :output="expected" />
+  <code-output :output="expected" />
 </template>
 
 <script lang="ts">
-import TerminalOutput from './CodeOutput.vue'
+import CodeOutput from './CodeOutput.vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: {
-    TerminalOutput,
+    CodeOutput: CodeOutput,
   },
   props: {
     actual: {

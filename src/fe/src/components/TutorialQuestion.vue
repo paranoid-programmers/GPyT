@@ -9,10 +9,9 @@
       <v-btn @click="giveUp">Give Up</v-btn>
     </v-btn-group>
     <LoadingCard :loading="codeRunnng">
-      <code-output v-if="output" :actual="output" :expected="expected_output" />
+      <CodeResult v-if="output" :actual="output" :expected="expected_output" />
     </LoadingCard>
-    <v-card-title v-if="hints.length">Hints:</v-card-title>
-    <markdown v-for="hint in hints" :key="hint" :source="hint" />
+    <HintList :hints="hints" :hints-loading="hintsLoading" />
     <LoadingCard :loading="giveUpLoading">
       <give-up-explanation
         v-if="giveUpResponse"
@@ -29,12 +28,13 @@
 
 <script lang="ts">
 import CodeSection from './code/CodeSection.vue'
-import CodeOutput from './code/CodeResult.vue'
-import TerminalOutput from './code/CodeOutput.vue'
+import CodeResult from './code/CodeResult.vue'
+import CodeOutput from './code/CodeOutput.vue'
 import GiveUpExplanation from './feedback/GiveUpExplanation.vue'
 import Affirmation from './feedback/Affirmation.vue'
 import Markdown from './helpers/Markdown.vue'
 import LoadingCard from './helpers/LoadingCard.vue'
+import HintList from './feedback/HintList.vue'
 
 import { defineComponent, inject } from 'vue'
 import { Pyodide } from '@/types/pyodide'
@@ -64,12 +64,13 @@ export default defineComponent({
   },
   components: {
     CodeSection,
-    TerminalOutput,
+    TerminalOutput: CodeOutput,
     GiveUpExplanation,
     Affirmation,
     Markdown,
-    CodeOutput,
+    CodeResult,
     LoadingCard,
+    HintList,
   },
   data(): {
     pyodide?: Pyodide
@@ -79,9 +80,10 @@ export default defineComponent({
     result: string
     has_run: boolean
     hints: string[]
+    hintsLoading: boolean[]
+    hintCount: number
     giveUpResponse?: GiveUpResponse
     affirmationResp?: PositiveAffirmationResponse
-    hintCount: number
     attemptCount: number
     loaderScale: number
     giveUpLoading: boolean
@@ -94,9 +96,10 @@ export default defineComponent({
       result: 'Run code to see result',
       has_run: false,
       hints: [],
+      hintsLoading: [],
+      hintCount: 0,
       giveUpResponse: undefined,
       affirmationResp: undefined,
-      hintCount: 0,
       attemptCount: 0,
       loaderScale: 0.5,
       giveUpLoading: false,
@@ -138,6 +141,7 @@ export default defineComponent({
       }
     },
     getHint() {
+      let idx = this.hintsLoading.push(true) - 1
       this.api
         ?.hintApiV1CodeTutorialHintPost({
           questionUuid: this.uuid,
@@ -149,6 +153,7 @@ export default defineComponent({
         })
         .then((response) => {
           this.hintCount++
+          this.hintsLoading.splice(idx, 1, false)
           this.hints.push(response.hintText)
         })
     },
