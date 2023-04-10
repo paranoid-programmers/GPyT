@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { PositiveAffirmationResponse } from 'gpyt'
-import Markdown from './Markdown.vue'
+import Markdown from '../helpers/Markdown.vue'
 
 export default defineComponent({
   components: {

@@ -24,7 +24,7 @@
 import { defineComponent, inject, provide, shallowRef, Ref } from 'vue'
 import TutorialQuestion from './TutorialQuestion.vue'
 import GenerateTutorialInput from './GenerateTutorialInput.vue'
-import LoadingCard from './LoadingCard.vue'
+import LoadingCard from './helpers/LoadingCard.vue'
 
 import {
   CodeTutorialApi,

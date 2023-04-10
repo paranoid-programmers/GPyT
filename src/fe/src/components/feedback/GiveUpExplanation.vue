@@ -14,12 +14,12 @@
 </template>
 
 <script lang="ts">
-import TerminalOutput from './TerminalOutput.vue'
-import CodeSection from './CodeSection.vue'
+import TerminalOutput from '../code/CodeOutput.vue'
+import CodeSection from '../code/CodeSection.vue'
 
 import { defineComponent } from 'vue'
 import { GiveUpResponse } from 'gpyt'
-import Markdown from './Markdown.vue'
+import Markdown from '../helpers/Markdown.vue'
 
 export default defineComponent({
   components: {

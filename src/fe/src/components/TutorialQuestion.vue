@@ -28,13 +28,13 @@
 </template>
 
 <script lang="ts">
-import CodeSection from './CodeSection.vue'
-import CodeOutput from './CodeOutput.vue'
-import TerminalOutput from './TerminalOutput.vue'
-import GiveUpExplanation from './GiveUpExplanation.vue'
-import Affirmation from './Affirmation.vue'
-import Markdown from './Markdown.vue'
-import LoadingCard from './LoadingCard.vue'
+import CodeSection from './code/CodeSection.vue'
+import CodeOutput from './code/CodeResult.vue'
+import TerminalOutput from './code/CodeOutput.vue'
+import GiveUpExplanation from './feedback/GiveUpExplanation.vue'
+import Affirmation from './feedback/Affirmation.vue'
+import Markdown from './helpers/Markdown.vue'
+import LoadingCard from './helpers/LoadingCard.vue'
 
 import { defineComponent, inject } from 'vue'
 import { Pyodide } from '@/types/pyodide'

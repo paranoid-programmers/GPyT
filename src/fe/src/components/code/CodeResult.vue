@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import TerminalOutput from './TerminalOutput.vue'
+import TerminalOutput from './CodeOutput.vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
