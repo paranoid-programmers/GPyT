@@ -32,8 +32,6 @@ async function loadPyodideAndPackages() {
 let pyodideReadyPromise = loadPyodideAndPackages();
 
 self.onmessage = async (event) => {
-  console.log("hey");
-  console.log(JSON.stringify(event));
   // make sure loading is done
   await pyodideReadyPromise;
   // Don't bother yet with this line, suppose our API is built in such a way:
@@ -45,7 +43,6 @@ self.onmessage = async (event) => {
   // Now is the easy part, the one that is similar to working in the main thread:
   try {
     python = prepPythonCode(python);
-    console.log(python);
     await self.pyodide.loadPackagesFromImports(python);
     let results = await self.pyodide.runPythonAsync(python);
     self.postMessage({ results, id });
