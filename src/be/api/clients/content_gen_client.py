@@ -27,6 +27,13 @@ Interests:
 
 """
 
+_mock_skeleton_code = """\
+import time
+time.sleep(1)
+
+print("Hello, _!")
+"""
+
 
 @lru_cache()
 def get_content_gen_settings():
@@ -99,13 +106,13 @@ def get_mock_content_gen_client():
 class MockContentGenClient(MagicMock):
     async def generate_question(self, context: TutorialContext, concept: str,
                                 max_token: int = 1000) -> GenerateCodeQuestionResponse:
-        time.sleep(3) # simulate a slow response
+        time.sleep(0.4) # simulate a slow response
         return GenerateCodeQuestionResponse(
             code_question=CodeQuestion(
                 title=f"mock title about: {concept}, tone: {context.tone}",
                 description=_mock_description + " - " + "\n   - ".join(context.interests),
                 concept=concept,
-                skeleton_code=CodeBlock(code="print('Hello __!')", language="python"),
+                skeleton_code=CodeBlock(code=_mock_skeleton_code, language="python"),
                 solution_code=CodeBlock(code="print('Hello World!')", language="python"),
                 test_cases="[('garbage', 1)]"
             ),

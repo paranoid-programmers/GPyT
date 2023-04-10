@@ -121,16 +121,13 @@ export default defineComponent({
       }
       this.output = await runPython(this.code)
       this.has_run = true
-      this.checkOutput()
+      if (this.output == this.expected_output) {
+        this.getPositiveAffirmation()
+      }
       this.codeRunnng = false
     },
     codeUpdated(code: string) {
       this.code = code
-    },
-    checkOutput() {
-      if (this.output == this.expected_output) {
-        this.getPositiveAffirmation()
-      }
     },
     getHint() {
       let idx = this.hintsLoading.push(true) - 1
