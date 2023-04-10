@@ -40,7 +40,7 @@ import HintList from './feedback/HintList.vue'
 
 import { defineComponent, inject } from 'vue'
 import { Pyodide } from '@/types/pyodide'
-import { runPythonIsolated } from '@/pyodideLoader'
+import { runPython } from '@/py-worker'
 import {
   CodeTutorialApi,
   CodeQuestion,
@@ -112,29 +112,17 @@ export default defineComponent({
   },
   methods: {
     async runCode() {
-      if (!this.pyodide) {
-        return
-      }
       this.codeRunnng = true
       this.attemptCount++
       // check if expected output is empty
       if (this.expected_output == '') {
         // run the solution code and set the expected output
-        this.expected_output = await runPythonIsolated(
-          this.question.solutionCode.code,
-          this.pyodide,
-        )
+        this.expected_output = await runPython(this.question.solutionCode.code)
       }
-      this.output = ''
-      runPythonIsolated(this.code, this.pyodide)
-        .then((output) => {
-          this.output = output
-          this.has_run = true
-        })
-        .then(() => {
-          this.checkOutput()
-          this.codeRunnng = false
-        })
+      this.output = await runPython(this.code)
+      this.has_run = true
+      this.checkOutput()
+      this.codeRunnng = false
     },
     codeUpdated(code: string) {
       this.code = code
@@ -191,9 +179,8 @@ export default defineComponent({
     },
   },
   setup() {
-    var pyodide = inject<Pyodide>('$pyodide')
     var api = inject<CodeTutorialApi>('$api')
-    return { pyodide, api }
+    return { api }
   },
 })
 </script>
