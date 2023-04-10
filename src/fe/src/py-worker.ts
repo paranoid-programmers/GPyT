@@ -3,13 +3,13 @@ export const pyodideWorker = new Worker("/public/pyodideWorker.js");
 const callbacks: Record<number, Function> = {};
 
 pyodideWorker.onmessage = (event) => {
-  const { id, ...data } = event.data;
+  const { id, results } = event.data;
   const onSuccess = callbacks[id];
   delete callbacks[id];
-  onSuccess(data);
+  onSuccess(results);
 };
 
-const asyncRun = (() => {
+const runPython = (() => {
   let id = 0; // identify a Promise
   return (script: string, context?: any): Promise<string> => {
     // the id could be generated more carefully
@@ -25,4 +25,4 @@ const asyncRun = (() => {
   };
 })();
 
-export { asyncRun };
+export { runPython };

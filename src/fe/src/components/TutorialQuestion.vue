@@ -120,6 +120,7 @@ export default defineComponent({
         this.expected_output = await runPython(this.question.solutionCode.code)
       }
       this.output = await runPython(this.code)
+      console.log(this.output)
       this.has_run = true
       this.checkOutput()
       this.codeRunnng = false
