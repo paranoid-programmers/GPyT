@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar>
+  <v-app-bar app>
     <v-container>
       <v-switch label="Dark mode" @change="toggleTheme"></v-switch>
     </v-container>
