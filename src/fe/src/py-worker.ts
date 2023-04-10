@@ -1,4 +1,4 @@
-export const pyodideWorker = new Worker("/public/pyodideWorker.js");
+export const pyodideWorker = new Worker("/pyodideWorker.js");
 
 const callbacks: Record<number, Function> = {};
 
