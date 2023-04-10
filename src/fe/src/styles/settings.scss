@@ -8,3 +8,34 @@
 // @use 'vuetify' with (
 //   $color-pack: false
 // );
+.v-container {
+  max-width: 100%; /* Default value for extra-small screens */
+}
+
+/* Small screens */
+@media (min-width: 600px) {
+  .v-container {
+    max-width: 80%;
+  }
+}
+
+/* Medium screens */
+@media (min-width: 960px) {
+  .v-container {
+    max-width: 70%;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1264px) {
+  .v-container {
+    max-width: 60%;
+  }
+}
+
+/* Extra-large screens */
+@media (min-width: 1904px) {
+  .v-container {
+    max-width: 50%;
+  }
+}
