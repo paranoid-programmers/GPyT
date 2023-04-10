@@ -1,1 +1,6 @@
-{}
+{
+  "dependencies": {
+    "promise-worker": "^2.0.1",
+    "worker-loader": "^3.0.8"
+  }
+}

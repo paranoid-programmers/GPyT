@@ -6,6 +6,7 @@
       default-topic="Lists"
       :loading-question="loadingQuestion"
     />
+    <v-btn @click="testWorker"> worker test </v-btn>
     <LoadingCard :loading="loadingQuestion" class="mt-4">
       <v-row v-for="question in questions" :key="question.uuid">
         <v-col cols="12">
@@ -34,6 +35,7 @@ import {
 } from 'gpyt'
 import { Pyodide } from '@/types/pyodide'
 import { loadPyodide } from '@/pyodideLoader'
+import { worker } from '@/my-worker'
 
 export default defineComponent({
   name: 'TutorialFeed',
@@ -54,6 +56,12 @@ export default defineComponent({
     }
   },
   methods: {
+    async testWorker(): Promise<void> {
+      worker.postMessage('sending msg to worker')
+      worker.onmessage = (e) => {
+        console.log(e.data)
+      }
+    },
     generateTutorial(input: NewTutorialRequest) {
       // check if api is defined
       this.questions = []
