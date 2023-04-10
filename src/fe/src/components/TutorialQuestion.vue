@@ -19,10 +19,12 @@
         :giveUpResponse="giveUpResponse"
       />
     </LoadingCard>
-    <affirmation
-      v-if="affirmationResp"
-      :affirmationResponse="affirmationResp"
-    />
+    <LoadingCard :loading="affirmationLoading">
+      <affirmation
+        v-if="affirmationResp"
+        :affirmationResponse="affirmationResp"
+      />
+    </LoadingCard>
   </v-card>
 </template>
 
@@ -84,6 +86,7 @@ export default defineComponent({
     hintCount: number
     giveUpResponse?: GiveUpResponse
     affirmationResp?: PositiveAffirmationResponse
+    affirmationLoading: boolean
     attemptCount: number
     loaderScale: number
     giveUpLoading: boolean
@@ -100,6 +103,7 @@ export default defineComponent({
       hintCount: 0,
       giveUpResponse: undefined,
       affirmationResp: undefined,
+      affirmationLoading: false,
       attemptCount: 0,
       loaderScale: 0.5,
       giveUpLoading: false,
@@ -174,6 +178,7 @@ export default defineComponent({
         })
     },
     getPositiveAffirmation() {
+      this.affirmationLoading = true
       this.api
         ?.affirmationApiV1CodeTutorialAffirmationPost({
           attemptsTaken: this.attemptCount,
@@ -181,6 +186,7 @@ export default defineComponent({
         })
         .then((response) => {
           this.affirmationResp = response
+          this.affirmationLoading = false
         })
     },
   },
