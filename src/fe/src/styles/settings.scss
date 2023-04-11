@@ -8,39 +8,42 @@
 // @use 'vuetify' with (
 //   $color-pack: false
 // );
-.v-container {
-  max-width: 100%; /* Default value for extra-small screens */
+
+// tutorial-container  class
+.tutorial-container {
+  max-width: 100vw; /* Default value for extra-small screens */
+  margin: 0%;
 }
 
 .v-main {
-  max-width: 100%;
+  max-width: 100vw;
   max-height: 100vh;
 }
 
 /* Small screens */
 @media (min-width: 600px) {
-  .v-container {
+  .tutorial-container {
     max-width: 80%;
   }
 }
 
 /* Medium screens */
 @media (min-width: 960px) {
-  .v-container {
+  .tutorial-container {
     max-width: 70%;
   }
 }
 
 /* Large screens */
 @media (min-width: 1264px) {
-  .v-container {
+  .tutorial-container {
     max-width: 70%;
   }
 }
 
 /* Extra-large screens */
 @media (min-width: 1904px) {
-  .v-container {
+  .tutorial-container {
     max-width: 70%;
   }
 }
