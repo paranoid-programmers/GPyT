@@ -39,5 +39,5 @@ class ReportQuestionRequest(BaseModel):
     should_regenerate: bool
 
 
-class OAuthRequest(BaseModel):
-    pass
+class OAuthLoginRequest(BaseModel):
+    provider: str

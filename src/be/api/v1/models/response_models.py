@@ -29,6 +29,6 @@ class ReportQuestionResponse(BaseModel):
     new_question: CodeQuestion | None
 
 
-class OAuthResponseWrapper(BaseModel):
+class OAuthLoginResponse(BaseModel):
     provider: str
     url: str
