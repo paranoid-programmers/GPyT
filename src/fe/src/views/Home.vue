@@ -1,5 +1,5 @@
 <template>
-  <TutorialFeed></TutorialFeed>
+  <TutorialFeed class="mt-12" />
 </template>
 
 <script lang="ts" setup>
