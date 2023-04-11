@@ -29,6 +29,8 @@ models/MoreQuestionsRequest.ts
 models/MoreQuestionsResponse.ts
 models/NewCodeTutorialResponse.ts
 models/NewTutorialRequest.ts
+models/OAuthLoginRequest.ts
+models/OAuthLoginResponse.ts
 models/ObjectSerializer.ts
 models/PositiveAffirmationRequest.ts
 models/PositiveAffirmationResponse.ts

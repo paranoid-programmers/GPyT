@@ -11,6 +11,8 @@ export * from '../models/MoreQuestionsRequest';
 export * from '../models/MoreQuestionsResponse';
 export * from '../models/NewCodeTutorialResponse';
 export * from '../models/NewTutorialRequest';
+export * from '../models/OAuthLoginRequest';
+export * from '../models/OAuthLoginResponse';
 export * from '../models/PositiveAffirmationRequest';
 export * from '../models/PositiveAffirmationResponse';
 export * from '../models/ReportQuestionRequest';
@@ -32,6 +34,8 @@ import { MoreQuestionsRequest } from '../models/MoreQuestionsRequest';
 import { MoreQuestionsResponse } from '../models/MoreQuestionsResponse';
 import { NewCodeTutorialResponse } from '../models/NewCodeTutorialResponse';
 import { NewTutorialRequest } from '../models/NewTutorialRequest';
+import { OAuthLoginRequest } from '../models/OAuthLoginRequest';
+import { OAuthLoginResponse } from '../models/OAuthLoginResponse';
 import { PositiveAffirmationRequest } from '../models/PositiveAffirmationRequest';
 import { PositiveAffirmationResponse } from '../models/PositiveAffirmationResponse';
 import { ReportQuestionRequest } from '../models/ReportQuestionRequest';
@@ -76,6 +80,8 @@ let typeMap: {[index: string]: any} = {
     "MoreQuestionsResponse": MoreQuestionsResponse,
     "NewCodeTutorialResponse": NewCodeTutorialResponse,
     "NewTutorialRequest": NewTutorialRequest,
+    "OAuthLoginRequest": OAuthLoginRequest,
+    "OAuthLoginResponse": OAuthLoginResponse,
     "PositiveAffirmationRequest": PositiveAffirmationRequest,
     "PositiveAffirmationResponse": PositiveAffirmationResponse,
     "ReportQuestionRequest": ReportQuestionRequest,

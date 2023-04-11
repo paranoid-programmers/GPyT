@@ -15,6 +15,8 @@ import { MoreQuestionsRequest } from '../models/MoreQuestionsRequest';
 import { MoreQuestionsResponse } from '../models/MoreQuestionsResponse';
 import { NewCodeTutorialResponse } from '../models/NewCodeTutorialResponse';
 import { NewTutorialRequest } from '../models/NewTutorialRequest';
+import { OAuthLoginRequest } from '../models/OAuthLoginRequest';
+import { OAuthLoginResponse } from '../models/OAuthLoginResponse';
 import { PositiveAffirmationRequest } from '../models/PositiveAffirmationRequest';
 import { PositiveAffirmationResponse } from '../models/PositiveAffirmationResponse';
 import { ReportQuestionRequest } from '../models/ReportQuestionRequest';
@@ -40,10 +42,11 @@ export class ObservableAuthApi {
     }
 
     /**
-     * Login Via Github
+     * Login Via Oauth
+     * @param oAuthLoginRequest 
      */
-    public loginViaGithubApiV1AuthLoginViaGithubPost(_options?: Configuration): Observable<any> {
-        const requestContextPromise = this.requestFactory.loginViaGithubApiV1AuthLoginViaGithubPost(_options);
+    public loginViaOauthApiV1AuthLoginViaOauthPost(oAuthLoginRequest: OAuthLoginRequest, _options?: Configuration): Observable<OAuthLoginResponse> {
+        const requestContextPromise = this.requestFactory.loginViaOauthApiV1AuthLoginViaOauthPost(oAuthLoginRequest, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -57,7 +60,7 @@ export class ObservableAuthApi {
                 for (let middleware of this.configuration.middleware) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
-                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.loginViaGithubApiV1AuthLoginViaGithubPost(rsp)));
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.loginViaOauthApiV1AuthLoginViaOauthPost(rsp)));
             }));
     }
 

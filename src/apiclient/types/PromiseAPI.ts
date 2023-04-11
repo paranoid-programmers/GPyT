@@ -14,6 +14,8 @@ import { MoreQuestionsRequest } from '../models/MoreQuestionsRequest';
 import { MoreQuestionsResponse } from '../models/MoreQuestionsResponse';
 import { NewCodeTutorialResponse } from '../models/NewCodeTutorialResponse';
 import { NewTutorialRequest } from '../models/NewTutorialRequest';
+import { OAuthLoginRequest } from '../models/OAuthLoginRequest';
+import { OAuthLoginResponse } from '../models/OAuthLoginResponse';
 import { PositiveAffirmationRequest } from '../models/PositiveAffirmationRequest';
 import { PositiveAffirmationResponse } from '../models/PositiveAffirmationResponse';
 import { ReportQuestionRequest } from '../models/ReportQuestionRequest';
@@ -36,10 +38,11 @@ export class PromiseAuthApi {
     }
 
     /**
-     * Login Via Github
+     * Login Via Oauth
+     * @param oAuthLoginRequest 
      */
-    public loginViaGithubApiV1AuthLoginViaGithubPost(_options?: Configuration): Promise<any> {
-        const result = this.api.loginViaGithubApiV1AuthLoginViaGithubPost(_options);
+    public loginViaOauthApiV1AuthLoginViaOauthPost(oAuthLoginRequest: OAuthLoginRequest, _options?: Configuration): Promise<OAuthLoginResponse> {
+        const result = this.api.loginViaOauthApiV1AuthLoginViaOauthPost(oAuthLoginRequest, _options);
         return result.toPromise();
     }
 

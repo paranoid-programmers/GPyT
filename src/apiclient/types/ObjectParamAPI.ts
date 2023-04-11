@@ -14,6 +14,8 @@ import { MoreQuestionsRequest } from '../models/MoreQuestionsRequest';
 import { MoreQuestionsResponse } from '../models/MoreQuestionsResponse';
 import { NewCodeTutorialResponse } from '../models/NewCodeTutorialResponse';
 import { NewTutorialRequest } from '../models/NewTutorialRequest';
+import { OAuthLoginRequest } from '../models/OAuthLoginRequest';
+import { OAuthLoginResponse } from '../models/OAuthLoginResponse';
 import { PositiveAffirmationRequest } from '../models/PositiveAffirmationRequest';
 import { PositiveAffirmationResponse } from '../models/PositiveAffirmationResponse';
 import { ReportQuestionRequest } from '../models/ReportQuestionRequest';
@@ -25,7 +27,13 @@ import { ValidationError } from '../models/ValidationError';
 import { ObservableAuthApi } from "./ObservableAPI";
 import { AuthApiRequestFactory, AuthApiResponseProcessor} from "../apis/AuthApi";
 
-export interface AuthApiLoginViaGithubApiV1AuthLoginViaGithubPostRequest {
+export interface AuthApiLoginViaOauthApiV1AuthLoginViaOauthPostRequest {
+    /**
+     * 
+     * @type OAuthLoginRequest
+     * @memberof AuthApiloginViaOauthApiV1AuthLoginViaOauthPost
+     */
+    oAuthLoginRequest: OAuthLoginRequest
 }
 
 export interface AuthApiProtectedApiV1AuthProtectedGetRequest {
@@ -45,11 +53,11 @@ export class ObjectAuthApi {
     }
 
     /**
-     * Login Via Github
+     * Login Via Oauth
      * @param param the request object
      */
-    public loginViaGithubApiV1AuthLoginViaGithubPost(param: AuthApiLoginViaGithubApiV1AuthLoginViaGithubPostRequest = {}, options?: Configuration): Promise<any> {
-        return this.api.loginViaGithubApiV1AuthLoginViaGithubPost( options).toPromise();
+    public loginViaOauthApiV1AuthLoginViaOauthPost(param: AuthApiLoginViaOauthApiV1AuthLoginViaOauthPostRequest, options?: Configuration): Promise<OAuthLoginResponse> {
+        return this.api.loginViaOauthApiV1AuthLoginViaOauthPost(param.oAuthLoginRequest,  options).toPromise();
     }
 
     /**

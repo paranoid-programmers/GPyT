@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**loginViaGithubApiV1AuthLoginViaGithubPost**](AuthApi.md#loginViaGithubApiV1AuthLoginViaGithubPost) | **POST** /api/v1/auth/login-via-github | Login Via Github
+[**loginViaOauthApiV1AuthLoginViaOauthPost**](AuthApi.md#loginViaOauthApiV1AuthLoginViaOauthPost) | **POST** /api/v1/auth/login-via-oauth | Login Via Oauth
 [**protectedApiV1AuthProtectedGet**](AuthApi.md#protectedApiV1AuthProtectedGet) | **GET** /api/v1/auth/protected | Protected
 
 
-# **loginViaGithubApiV1AuthLoginViaGithubPost**
-> any loginViaGithubApiV1AuthLoginViaGithubPost()
+# **loginViaOauthApiV1AuthLoginViaOauthPost**
+> OAuthLoginResponse loginViaOauthApiV1AuthLoginViaOauthPost(oAuthLoginRequest)
 
 
 ### Example
@@ -22,21 +22,29 @@ import * as fs from 'fs';
 const configuration = .createConfiguration();
 const apiInstance = new .AuthApi(configuration);
 
-let body:any = {};
+let body:.AuthApiLoginViaOauthApiV1AuthLoginViaOauthPostRequest = {
+  // OAuthLoginRequest
+  oAuthLoginRequest: {
+    provider: "provider_example",
+  },
+};
 
-apiInstance.loginViaGithubApiV1AuthLoginViaGithubPost(body).then((data:any) => {
+apiInstance.loginViaOauthApiV1AuthLoginViaOauthPost(body).then((data:any) => {
   console.log('API called successfully. Returned data: ' + data);
 }).catch((error:any) => console.error(error));
 ```
 
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **oAuthLoginRequest** | **OAuthLoginRequest**|  |
 
 
 ### Return type
 
-**any**
+**OAuthLoginResponse**
 
 ### Authorization
 
@@ -44,7 +52,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 
@@ -52,6 +60,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
