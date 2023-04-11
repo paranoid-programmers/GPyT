@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container style="overflow-y: scroll" class="ma-12">
     <GenerateTutorialInput
       @generate="generateTutorial"
       default-tone="Sarcastic"

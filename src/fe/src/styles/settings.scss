@@ -12,6 +12,11 @@
   max-width: 100%; /* Default value for extra-small screens */
 }
 
+.v-main {
+  max-width: 100%;
+  max-height: 100vh;
+}
+
 /* Small screens */
 @media (min-width: 600px) {
   .v-container {
@@ -29,13 +34,13 @@
 /* Large screens */
 @media (min-width: 1264px) {
   .v-container {
-    max-width: 60%;
+    max-width: 70%;
   }
 }
 
 /* Extra-large screens */
 @media (min-width: 1904px) {
   .v-container {
-    max-width: 50%;
+    max-width: 70%;
   }
 }

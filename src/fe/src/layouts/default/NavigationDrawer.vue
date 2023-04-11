@@ -1,6 +1,6 @@
 <template>
-  <v-navigation-drawer permanent app>
-    <v-list nav density="compact">
+  <v-navigation-drawer app absolute>
+    <v-list nav>
       <v-list-item
         prepend-icon="mdi-view-dashboard"
         title="Dashboard"
@@ -17,6 +17,7 @@
       <!-- centered div -->
       <div class="pa-2">
         <v-switch
+          class="ma-2"
           :label="$vuetify.theme.current.dark ? 'Light mode' : 'Dark mode'"
           @change="toggleTheme"
         ></v-switch>
