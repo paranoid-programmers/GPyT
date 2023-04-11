@@ -11,7 +11,7 @@
         title="Account"
         value="home"
       />
-      <v-list-item prepend-icon="mdi-gavel" title="Admin"></v-list-item>
+      <v-list-item prepend-icon="mdi-gavel" title="Admin" value="admin" />
     </v-list>
     <template v-slot:append>
       <!-- centered div -->

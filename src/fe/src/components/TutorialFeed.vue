@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, provide, shallowRef, Ref } from 'vue'
+import { defineComponent, inject } from 'vue'
 import TutorialQuestion from './TutorialQuestion.vue'
 import GenerateTutorialInput from './GenerateTutorialInput.vue'
 import LoadingCard from './helpers/LoadingCard.vue'
@@ -32,7 +32,6 @@ import {
   NewTutorialRequest,
   UniqueCodeQuestion,
 } from 'gpyt'
-import { Pyodide } from '@/types/pyodide'
 
 export default defineComponent({
   name: 'TutorialFeed',
@@ -68,9 +67,7 @@ export default defineComponent({
   },
   setup() {
     var api = inject<CodeTutorialApi>('$api')
-    var pyodide = shallowRef<Pyodide>()
-    provide<Ref<Pyodide | undefined>>('$pyodide', pyodide)
-    return { api, pyodide }
+    return { api }
   },
 })
 </script>
