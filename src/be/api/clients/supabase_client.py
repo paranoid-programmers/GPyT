@@ -31,7 +31,7 @@ class SupabaseWrapper:
         data = await asyncio.to_thread(lambda: self.supabase_client.auth.sign_in_with_oauth({
             "provider": provider,
             "options": {
-                "redirect_to": 'https://example.com/welcome',
+                "redirect_to": 'https://gpyt.ai/', # todo: remove hardcoded url
                 "scopes": scopes
             }
         }))

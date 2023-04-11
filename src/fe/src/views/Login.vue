@@ -66,6 +66,7 @@
               @click="handleLoginUsingGoogle"
               append-icon="mdi-google"
               variant="outlined"
+              disabled
             >
               Login with Google
             </v-btn>
@@ -74,6 +75,7 @@
               @click="handleLoginUsingGithub"
               append-icon="mdi-github"
               variant="outlined"
+              disabled
             >
               Login with GitHub
             </v-btn>
@@ -149,19 +151,21 @@ export default defineComponent({
     },
 
     async handleLoginUsingGithub() {
-      this.api
-      ?.loginViaOAuthApiV1AuthLoginViaOAuthPost({
-        redirectUrl: 'http://localhost:3000',
-
+      this.api?.loginViaOAuthApiV1AuthLoginViaOAuthPost({
+        provider: 'github',
       })
-      .then((response) => {
-        this.affirmationResp = response
-        this.affirmationLoading = false
+      .then((response: any) => {
+        console.log(response);
       })
     },
 
     async handleLoginUsingGoogle() {
-
+      this.api?.loginViaOAuthApiV1AuthLoginViaOAuthPost({
+        provider: 'google',
+      })
+      .then((response: any) => {
+        console.log(response);
+      })
     }
   },
   setup() {
