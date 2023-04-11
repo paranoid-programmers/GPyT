@@ -13,9 +13,12 @@
       outlined
       required
       placeholder="i.e. Lists"
-    ></v-text-field>
+    />
     <v-card-title>Interests</v-card-title>
-    <v-chip-group column v-model="selectedChips">
+    <v-chip-group
+      column
+      v-model="selectedChips"
+    >
       <v-chip
         v-for="(chip, index) in chips"
         :key="chip"
@@ -31,9 +34,13 @@
       label="Add a new interest"
       @keyup.enter="addChip"
     />
-    <v-btn type="submit" color="primary" :disabled="loadingQuestion"
-      >Generate Tutorial</v-btn
+    <v-btn
+      type="submit"
+      color="primary"
+      :disabled="loadingQuestion"
     >
+      Generate Tutorial
+    </v-btn>
   </v-form>
 </template>
 

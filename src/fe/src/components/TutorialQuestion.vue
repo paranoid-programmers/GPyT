@@ -2,27 +2,43 @@
   <v-card>
     <v-card-title>{{ question.title }}</v-card-title>
     <markdown :source="question.description" />
-    <code-section :source="question.skeletonCode.code" v-model="code" />
+    <code-section
+      :source="question.skeletonCode.code"
+      v-model="code"
+    />
     <v-btn-group>
-      <v-btn @click="runCode">Run Code</v-btn>
-      <v-btn @click="getHint">Hint</v-btn>
-      <v-btn @click="giveUp">Give Up</v-btn>
+      <v-btn @click="runCode">
+        Run Code
+      </v-btn>
+      <v-btn @click="getHint">
+        Hint
+      </v-btn>
+      <v-btn @click="giveUp">
+        Give Up
+      </v-btn>
     </v-btn-group>
     <LoadingCard :loading="codeRunnng">
-      <CodeResult v-if="output" :actual="output" :expected="expected_output" />
+      <CodeResult
+        v-if="output"
+        :actual="output"
+        :expected="expected_output"
+      />
     </LoadingCard>
-    <HintList :hints="hints" :hints-loading="hintsLoading" />
+    <HintList
+      :hints="hints"
+      :hints-loading="hintsLoading"
+    />
     <LoadingCard :loading="giveUpLoading">
       <give-up-explanation
         v-if="giveUpResponse"
         :solution="question.solutionCode.code"
-        :giveUpResponse="giveUpResponse"
+        :give-up-response="giveUpResponse"
       />
     </LoadingCard>
     <LoadingCard :loading="affirmationLoading">
       <affirmation
         v-if="affirmationResp"
-        :affirmationResponse="affirmationResp"
+        :affirmation-response="affirmationResp"
       />
     </LoadingCard>
   </v-card>
@@ -66,7 +82,6 @@ export default defineComponent({
   },
   components: {
     CodeSection,
-    TerminalOutput: CodeOutput,
     GiveUpExplanation,
     Affirmation,
     Markdown,

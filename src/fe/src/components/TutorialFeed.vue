@@ -1,13 +1,22 @@
 <template>
-  <v-container style="overflow-y: scroll" class="tutorial-container">
+  <v-container
+    style="overflow-y: scroll"
+    class="tutorial-container"
+  >
     <GenerateTutorialInput
       @generate="generateTutorial"
       default-tone="Sarcastic"
       default-topic="Lists"
       :loading-question="loadingQuestion"
     />
-    <LoadingCard :loading="loadingQuestion" class="mt-4">
-      <v-row v-for="question in questions" :key="question.uuid">
+    <LoadingCard
+      :loading="loadingQuestion"
+      class="mt-4"
+    >
+      <v-row
+        v-for="question in questions"
+        :key="question.uuid"
+      >
         <v-col cols="12">
           <TutorialQuestion
             :question="question.question"
