@@ -11,6 +11,7 @@
   "dependencies": {
     "@codemirror/lang-python": "^6.1.2",
     "@mdi/font": "7.0.96",
+    "@supabase/supabase-js": "^2.18.0",
     "codemirror": "^6.0.1",
     "core-js": "^3.8.3",
     "dompurify": "^3.0.1",
