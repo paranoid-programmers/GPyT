@@ -15,8 +15,7 @@ def extract_function_signature_and_docstring(code: str) -> str:
             # Build the function signature using the function name and arguments
             signature = f"def {node.name}("
             signature += ", ".join(
-                f"{arg.arg}: {ast.unparse(arg.annotation)}"
-                for arg in node.args.args
+                f"{arg.arg}: {ast.unparse(arg.annotation)}" for arg in node.args.args
             )
             # Append the return type if specified
             if node.returns:

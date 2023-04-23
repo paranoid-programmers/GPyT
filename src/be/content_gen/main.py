@@ -10,6 +10,10 @@ root_router.include_router(api_v1_router)
 app.include_router(root_router)
 
 
-@app.get("/alive", response_model=bool, description="Check if the service is alive, always returns true")
+@app.get(
+    "/alive",
+    response_model=bool,
+    description="Check if the service is alive, always returns true",
+)
 async def alive() -> bool:
     return True

@@ -48,7 +48,11 @@ class Prompt(Generic[_T, _K]):
         if not isinstance(arguments, dict) and not isinstance(arguments, BaseModel):
             raise TypeError("Arguments must be a dict or BaseModel")
         if isinstance(arguments, BaseModel):
-            arguments = {k: v for k, v in arguments.dict().items() if not k.startswith("_conditional_")}
+            arguments = {
+                k: v
+                for k, v in arguments.dict().items()
+                if not k.startswith("_conditional_")
+            }
         return temp_prompt.format(**arguments)
 
     def parse(self, response: str, strip: bool = True) -> _K:

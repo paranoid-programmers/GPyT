@@ -12,7 +12,9 @@ _logger = logging.getLogger(__name__)
 SupabaseWrapperType = Annotated[SupabaseWrapper, Depends(get_supabase_client)]
 
 
-async def get_current_user(supabase_client: SupabaseWrapperType, token: str = Header(...)) -> dict:
+async def get_current_user(
+    supabase_client: SupabaseWrapperType, token: str = Header(...)
+) -> dict:
     pass
     # try:
     #     payload = JWT.decode(token, get_supabase_client()._api_key)
@@ -29,9 +31,11 @@ async def get_current_user(supabase_client: SupabaseWrapperType, token: str = He
 
 @auth_router.get("/protected")
 async def protected(user: dict = Depends(get_current_user)):
-    return {'user': user}  # todo: make an actual response
+    return {"user": user}  # todo: make an actual response
 
 
 @auth_router.post("/login-via-oauth")
-async def login_via_oauth(request: OAuthLoginRequest, supabase_client: SupabaseWrapperType) -> OAuthLoginResponse:
+async def login_via_oauth(
+    request: OAuthLoginRequest, supabase_client: SupabaseWrapperType
+) -> OAuthLoginResponse:
     return await supabase_client.oauth_sign_in(request.provider)

@@ -113,8 +113,12 @@ async def create_full_question(
                     title=basic_question.title,
                     description=basic_question.description,
                     concept=concept,
-                    skeleton_code=CodeBlock(code=extract_function_signature_and_docstring(basic_question.solution_code),
-                                            language="python"),
+                    skeleton_code=CodeBlock(
+                        code=extract_function_signature_and_docstring(
+                            basic_question.solution_code
+                        ),
+                        language="python",
+                    ),
                     solution_code=CodeBlock(
                         code=basic_question.solution_code, language="python"
                     ),
